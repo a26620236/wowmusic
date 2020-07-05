@@ -23,12 +23,16 @@ body {
             .header {
                 display: flex;
                 justify-content: space-between;
-                div {
-                    &:nth-child(1) {
-                        display: flex;
-                    }
-                }
                 color: #ffffff;
+                div {
+                    display: flex;
+                }
+                a {
+                    display: block;
+                    margin-left: 10px;
+                    text-decoration: none;
+                    color: #ffffff;
+                }
             }
             .body {
                 padding: 16px 20px;

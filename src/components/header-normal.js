@@ -12,15 +12,37 @@ class Header extends React.Component {
     super(props)
   }
   render() {
-    return (
-      <div className='header'>
-        <div>
-          <div>上一頁</div>
-          <div>下一頁</div>
+    let isLogin = this.props.isLogin
+    let isAdmin = this.props.isAdmin
+    if (isLogin == true && isAdmin == true) {
+      return (
+        <div className='header'>
+          <div>
+            <div>上一頁</div>
+            <div>下一頁</div>
+          </div>
+          <div>
+            <div>使用者</div>
+            <Link to='/admin'>
+              admin
+          </Link>
+          </div>
         </div>
-        <div>使用者</div>
-      </div>
-    )
+      )
+    }
+    if (isLogin == true) {
+      return (
+        <div className='header'>
+          <div>
+            <div>上一頁</div>
+            <div>下一頁</div>
+          </div>
+          <div>
+            <div>使用者</div>
+          </div>
+        </div>
+      )
+    }
   }
 }
 

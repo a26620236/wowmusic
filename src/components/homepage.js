@@ -13,6 +13,7 @@ import MusicPlayer from './musicplayer'
 import Search from './search'
 import MyMusic from './mymusic'
 import { Playlist } from './playlist';
+import Admin from './admin';
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -27,16 +28,19 @@ class Homepage extends React.Component {
             <div className='content'>
               <Switch>
                 <Route path='/search'>
-                  <Search />
+                  <Search isLogin={this.props.isLogin}/>
                 </Route>
                 <Route path='/mymusic'>
-                  <MyMusic />
+                  <MyMusic isLogin={this.props.isLogin}/>
                 </Route>
                 <Route path='/album/1'>
-                  <Playlist />
+                  <Playlist isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
+                </Route>
+                <Route path='/admin'>
+                  <Admin isLogin={this.props.isLogin}/>
                 </Route>
                 <Route path='/'>
-                  <Header />
+                  <Header isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
                   <div className='body'>
                     <AlbumList />
                     <AlbumList />

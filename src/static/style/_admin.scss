@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.admin {
+  padding: 0 0 90px;
+  background-color: #121212;
+  width: 100%;
+  overflow-y: auto;
+  .albums {
+    margin: 20px;
+    .list-header {
+      font-size: 30px;
+      color: white;
+    }
+    .list-body {
+      color: white;
+      .wrapper {
+        .album-inform {
+          .inputbox {
+            margin: 10px 0;
+            input {
+              margin: 0 10px;
+              outline: none;
+            }
+          }
+          .submit {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #949494;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+  .songs {
+    margin: 20px;
+    .list-header {
+      font-size: 30px;
+      color: white;
+    }
+    .list-body {
+      margin: 30px 0;
+      color: white;
+      .inputbox {
+        margin: 10px 0;
+        input {
+          margin: 0 10px;
+          outline: none;
+        }
+      }
+      .submit {
+        display: inline-block;
+        padding: 4px 12px;
+        background-color: #949494;
+        border-radius: 4px;
+      }
+    }
+  }
+}

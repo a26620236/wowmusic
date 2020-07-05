@@ -9,10 +9,13 @@ import {
 import Header from './header-normal'
 
 class Playlist extends React.Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <div className='playlist'>
-        <Header/>
+        <Header isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
         <div className='wrapper'>
           <Album/>
           <div className='btns'>

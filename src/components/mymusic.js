@@ -6,15 +6,19 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import HeaderSearch from './header-search'
-import CategoryList from './categoryList'
-import MusicPlayer from './musicplayer'
+import Header from './header-normal'
+import AlbumList from './albumList'
 
 class MyMusic extends React.Component {
   render() {
     return (
       <div className='mymusic'>
-        
+        <Header />
+        <div className='mymusic-body'>
+          <AlbumList />
+          <AlbumList />
+          <AlbumList />
+        </div>
       </div>
     )
   }
