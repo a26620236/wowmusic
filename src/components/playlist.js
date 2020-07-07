@@ -7,6 +7,7 @@ import {
   Link
 } from "react-router-dom";
 import Header from './header-normal'
+import { db, firebase, storage } from '../static/js/firebase'
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -69,7 +70,10 @@ class SongList extends React.Component {
 class Song extends React.Component {
   constructor(props){
     super(props)
-  }
+    this.state = {
+      songs: [],
+    }
+  } 
   render() {
     return (
       <div className='song'>
@@ -80,7 +84,7 @@ class Song extends React.Component {
             <div className='singer'>
               <div>周杰倫</div>
               <div>．</div>
-              <div>依然范特西</div>
+              <div>BENSOUND</div>
             </div>
           </div>
         </div>

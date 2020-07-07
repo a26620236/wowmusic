@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { db, firebase } from '../static/js/firebase'
+import { db, firebase, storage } from '../static/js/firebase'
 
 class Admin extends React.Component {
   constructor(props) {
@@ -15,11 +15,12 @@ class Admin extends React.Component {
       album__name:'',
       album__category:'',
       album__desc:'',
-      album__photo:'',
+      photo__file:'',
       select__album:'',
       song__name:'',
       song__singer:'',
       song__length:'',
+      song__file:'',
     }
   }
   render() {
@@ -44,7 +45,7 @@ class Admin extends React.Component {
                 </div>
                 <div className='inputbox'>
                   封面相片:
-                  <input data-field='album__photo' onChange={this.handleInput.bind(this)}></input>
+                  <input type='file' data-field='photo__file' onChange={this.handleInputFile.bind(this)}></input>
                 </div>
                 <div className='submit' onClick={this.addAlbum.bind(this)}>送出</div>
               </div>
@@ -70,6 +71,10 @@ class Admin extends React.Component {
               歌曲長度:
               <input data-field='song__length' onChange={this.handleInput.bind(this)}></input>
             </div>
+            <div className='inputbox'>
+              檔案:
+              <input type='file' data-field='song__file' onChange={this.handleInputFile.bind(this)} ></input>
+            </div>
             <div className='submit' onClick={this.addSong.bind(this)}>送出</div>
           </div>
         </div>
@@ -86,27 +91,44 @@ class Admin extends React.Component {
       }
       return newState;
     })
+  } 
+  handleInputFile(e) {
+    let field = e.target.getAttribute('data-field')
+    let file = e.target.files
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        [field]: file
+      }
+      return newState;
+    })
   }
   addAlbum() {
     let name = this.state.album__name
     let category = this.state.album__category
     let desc = this.state.album__desc
-    let photo = this.state.album__photo
-    console.log(name)
+    let upload = this.state.photo__file[0]
+    let storageRef = firebase.storage().ref('photo/' + name)
+    let photoUrl = ''
     db.collection('albums').doc(name).get().then((doc) => {
       if (doc.exists) {
         alert('此專輯已存在!')
       }
       else {
-        db.collection('albums').doc(name).set({
-          name,
-          category,
-          desc,
-          photo,
-          songs: []
-        }).then(() => {
-          alert('新增成功!')
-        })
+        storageRef.put(upload).then(() => {
+          storageRef.getDownloadURL().then(function (photo__url) {
+            photoUrl = photo__url
+            db.collection('albums').doc(name).set({
+              name,
+              category,
+              desc,
+              photoUrl,
+              songs: []
+            }).then(() => {
+              alert('新增成功!')
+            })
+          })
+        })  
       }
     })
   }
@@ -115,21 +137,31 @@ class Admin extends React.Component {
     let name = this.state.song__name
     let singer = this.state.song__singer
     let length = this.state.song__length
-    db.collection('albums').doc(select).get().then((doc) => {
-      if (doc.exists) {
-        let { songs } = doc.data()
-        let newSong = {
-          name,
-          singer,
-          length,
-        }
-        songs.push(newSong)
-        db.collection('albums').doc(select).update({
-          songs,
-        }).then(() => {
-          alert('添加成功!')
+    let upload = this.state.song__file[0]
+    let storageRef = firebase.storage().ref('mp3/' + name)
+    let songUrl = ''
+    storageRef.put(upload).then(() => {
+      storageRef.getDownloadURL().then(function (song__url) {
+        songUrl = song__url
+        db.collection('albums').doc(select).get().then((doc) => {
+          if (doc.exists) {
+            let { songs } = doc.data()
+            let newSong = {
+              name,
+              singer,
+              length,
+              songUrl,
+            }
+            console.log(newSong)
+            songs.push(newSong)
+            db.collection('albums').doc(select).update({
+              songs,
+            }).then(() => {
+              alert('添加成功!')
+            })
+          }
         })
-      }
+      })
     })
   }
 }
