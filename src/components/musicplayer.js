@@ -13,7 +13,17 @@ class MusicPlayer extends React.Component {
   }
   render() {
     return (
-      <div></div>
+      <div className='musicplayer'>
+        <div className='now-playing-bar'>
+          <div className='now-playing-bar__left'>
+            <div className='container'>
+              <div className='album'></div>
+              <div className='song'></div>
+              <div className='singer'></div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }

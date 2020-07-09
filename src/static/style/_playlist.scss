@@ -3,7 +3,15 @@ body {
   padding: 0;
 }
 .playlist {
-  background-color: #121212;
+  background: rgb(15, 9, 5);
+  background: linear-gradient(
+    0deg,
+    rgba(15, 9, 5, 1) 7%,
+    rgba(11, 6, 4, 1) 68%,
+    rgba(48, 27, 16, 1) 87%,
+    rgba(55, 31, 18, 1) 95%
+  );
+  font-family: Microsoft JhengHei;
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -22,12 +30,20 @@ body {
       padding: 40px;
       height: 230px;
       display: flex;
-      background-color: #60959b;
+      background: rgb(88, 48, 26);
+      background: linear-gradient(
+        0deg,
+        rgba(88, 48, 26, 1) 0%,
+        rgba(108, 61, 34, 1) 18%,
+        rgba(126, 72, 42, 1) 42%,
+        rgba(148, 83, 46, 1) 75%
+      );
       div {
         &:nth-child(1) {
           img {
             width: 230px;
             height: 230px;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
           }
         }
       }
@@ -54,33 +70,47 @@ body {
         }
       }
     }
-    .btns {
-      padding: 20px 40px;
-      color: white;
-      display: flex;
-    }
-    .list {
-      .song {
-        padding: 10px 40px;
+    .wrapper__background {
+      background: rgb(15, 9, 5);
+      background: linear-gradient(
+        0deg,
+        rgba(15, 9, 5, 1) 7%,
+        rgba(11, 6, 4, 1) 68%,
+        rgba(48, 27, 16, 1) 87%,
+        rgba(55, 31, 18, 1) 95%
+      );
+      .btns {
+        padding: 20px 40px;
+        color: white;
         display: flex;
-        justify-content: space-between;
-        .song-left {
+      }
+      .list {
+        .song {
+          padding: 10px 40px;
           display: flex;
-          .play-btn {
-            color: white;
-          }
-          .song-inform {
-            margin: 0 20px;
-            color: white;
-            div {
-              &:nth-child(2) {
-                display: flex;
+          justify-content: space-between;
+          .song-left {
+            display: flex;
+            .play-btn {
+              color: white;
+              audio {
+                width: 400px;
+                height: 50px;
+              }
+            }
+            .song-inform {
+              margin: 0 20px;
+              color: white;
+              div {
+                &:nth-child(2) {
+                  display: flex;
+                }
               }
             }
           }
-        }
-        .song-right {
-          color: white;
+          .song-right {
+            color: white;
+          }
         }
       }
     }

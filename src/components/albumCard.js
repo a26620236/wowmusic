@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { db, firebase } from '../static/js/firebase'
 
 class AlbumCard extends React.Component {
   constructor(props) {
@@ -14,11 +15,11 @@ class AlbumCard extends React.Component {
   render() {
     return (
       <div className='itembox'>
-        <Link to='/album/1'>
-          <img src='https://i.scdn.co/image/ab67706f00000002e8011b2b5c418de7bbea3e47' />
+        <Link to={'/album/' + this.props.data.name}>
+          <img src={this.props.data.photoUrl} />
         </Link>
-        <div className='headline'>煙幕</div>
-        <div className='inform'>陳忻玥</div>
+        <div className='headline'>{this.props.data.name}</div>
+        <div className='inform'>{this.props.data.desc}</div>
       </div>
     )
   }

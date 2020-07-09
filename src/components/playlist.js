@@ -14,16 +14,19 @@ class Playlist extends React.Component {
     super(props)
   }
   render() {
+    let { isLogin, isAdmin, data } = this.props
     return (
       <div className='playlist'>
-        <Header isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
+        <Header isLogin={isLogin} isAdmin={isAdmin}/>
         <div className='wrapper'>
-          <Album/>
-          <div className='btns'>
-            <div>播放</div>
-            <div>收藏</div>
+          <Album data={data}/>
+          <div className='wrapper__background'>
+            <div className='btns'>
+              <div>播放</div>
+              <div>收藏</div>
+            </div>
+            <SongList data={data.songs} />
           </div>
-          <SongList/>
         </div>
       </div>
     )
@@ -33,20 +36,52 @@ class Playlist extends React.Component {
 class Album extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      totalLength: '',
+    }
+  }
+  componentDidMount() {
+    this.timeStamp()
   }
   render() {
+    let time = this.state.totalLength
+    let { data } = this.props
     return (
       <div className='album-cover'>
         <div>
-          <img src='https://dailymix-images.scdn.co/v1/img/0e2625a74c704f5c7d8cfe3c8b744afa6d966445/1/zh/default'></img>
+          <img src={data.photoUrl}></img>
         </div>
         <div className='inform'>
           <div>播放清單</div>
-          <div>抒情好歌</div>
-          <div>1小時30分</div>
+          <div>{data.name}</div>
+          <div>{time}</div>
         </div>
       </div>
     )
+  }
+  timeStamp() {
+    let { data } = this.props
+    let time = 0
+    for (let index in data.songs) {
+      let length = data.songs[index].length.split(':')
+      time = time + parseInt(length[0]) * 60 + parseInt(length[1])
+    }
+    let totalLength = 0
+    let second = time % 60
+    let minute = Math.floor(time / 60)
+    let hour = 0
+    if (minute >= 60) {
+      hour = Math.floor(minute / 60)
+      totalLength = hour + '小時' + minute + '分'
+    }
+    totalLength = minute + '分' + second + '秒'
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        totalLength,
+      }
+      return newState
+    })
   }
 }
 class SongList extends React.Component {
@@ -54,15 +89,12 @@ class SongList extends React.Component {
     super(props)
   }
   render() {
+    let songs = this.props.data
     return(
       <div className='list'>
-        <Song />
-        <Song />
-        <Song />
-        <Song />
-        <Song />
-        <Song />
-        <Song />
+        {songs.map((e, index) => {
+          return <Song data={e} key={index}/>
+        })}
       </div>
     )
   }
@@ -70,26 +102,24 @@ class SongList extends React.Component {
 class Song extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      songs: [],
-    }
   } 
   render() {
+    let song = this.props.data
     return (
       <div className='song'>
         <div className='song-left'>
-          <div className='play-btn'>*</div>
+          <div className='play-btn'><audio controls src={song.songUrl}></audio></div>
           <div className='song-inform'>
-            <div className='song-name'>夜曲</div>
+            <div className='song-name'>{song.name}</div>
             <div className='singer'>
-              <div>周杰倫</div>
+              <div>{song.singer}</div>
               <div>．</div>
-              <div>BENSOUND</div>
+              <div>{song.album}</div>
             </div>
           </div>
         </div>
         <div className='song-right'>
-          3:43
+          {song.length}
         </div>
       </div>
     )

@@ -7,20 +7,33 @@ import {
   Link
 } from "react-router-dom";
 import AlbumCard from './albumCard'
+import { db, firebase } from '../static/js/firebase'
 
 class Albumlist extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    return (
-      <div className='list'>
-        <div className='title'>排行榜</div>
-        <div className='items'>
-          <AlbumCard />
+    let { data } = this.props
+    if (data.length > 0) {
+      return (
+        <div>
+          {data.map((e, index) => {
+            return <div className='list' key={index}>
+              <div className='title'>{e.category}</div>
+              <div className='items'>
+                <AlbumCard data={e} />
+              </div>
+            </div>
+          })}
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
 }
 

@@ -12,11 +12,12 @@ class Admin extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      album__name:'',
-      album__category:'',
-      album__desc:'',
+      playlist__name:'',
+      playlist__category:'',
+      playlist__desc:'',
       photo__file:'',
-      select__album:'',
+      select__playlist:'',
+      song__album:'',
       song__name:'',
       song__singer:'',
       song__length:'',
@@ -32,16 +33,16 @@ class Admin extends React.Component {
             <div className='wrapper'>
               <div className='album-inform'>
                 <div className='inputbox'>
-                  專輯名稱:
-                  <input data-field='album__name' onChange={this.handleInput.bind(this)}></input>
+                  歌單名稱:
+                  <input data-field='playlist__name' onChange={this.handleInput.bind(this)}></input>
                 </div>
                 <div className='inputbox'>
                   分類:
-                  <input data-field='album__category' onChange={this.handleInput.bind(this)}></input>
+                  <input data-field='playlist__category' onChange={this.handleInput.bind(this)}></input>
                 </div>
                 <div className='inputbox'>
                   介紹:
-                  <input data-field='album__desc' onChange={this.handleInput.bind(this)}></input>
+                  <input data-field='playlist__desc' onChange={this.handleInput.bind(this)}></input>
                 </div>
                 <div className='inputbox'>
                   封面相片:
@@ -56,8 +57,8 @@ class Admin extends React.Component {
           <div className='list-header'>新增歌曲</div>
           <div className='list-body'>
             <div className='inputbox'>
-              專輯名稱:
-              <input data-field='select__album' onChange={this.handleInput.bind(this)}></input>
+              歌單名稱:
+              <input data-field='select__playlist' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
               歌曲一:
@@ -66,6 +67,10 @@ class Admin extends React.Component {
             <div className='inputbox'>
               演唱者:
               <input data-field='song__singer' onChange={this.handleInput.bind(this)}></input>
+            </div>
+            <div className='inputbox'>
+              專輯名稱:
+              <input data-field='song__album' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
               歌曲長度:
@@ -104,9 +109,9 @@ class Admin extends React.Component {
     })
   }
   addAlbum() {
-    let name = this.state.album__name
-    let category = this.state.album__category
-    let desc = this.state.album__desc
+    let name = this.state.playlist__name
+    let category = this.state.playlist__category
+    let desc = this.state.playlist__desc
     let upload = this.state.photo__file[0]
     let storageRef = firebase.storage().ref('photo/' + name)
     let photoUrl = ''
@@ -133,7 +138,8 @@ class Admin extends React.Component {
     })
   }
   addSong() {
-    let select = this.state.select__album
+    let select = this.state.select__playlist
+    let album = this.state.song__album
     let name = this.state.song__name
     let singer = this.state.song__singer
     let length = this.state.song__length
@@ -151,6 +157,7 @@ class Admin extends React.Component {
               singer,
               length,
               songUrl,
+              album,
             }
             console.log(newSong)
             songs.push(newSong)

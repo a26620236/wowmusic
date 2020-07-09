@@ -14,12 +14,46 @@ import Search from './search'
 import MyMusic from './mymusic'
 import { Playlist } from './playlist';
 import Admin from './admin';
+import { db, firebase } from '../static/js/firebase'
 
 class Homepage extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      data: []
+    }
+  }
+  componentDidMount() {
+    let data = []
+    db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        data.push(doc.data())
+      });
+      return db.collection("albums").where('category', '==', '古典樂').get()
+    }).then((querySnapshot) => {
+      querySnapshot.forEach(function (doc) {
+        data.push(doc.data())
+      });
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          data,
+        }
+        return newState
+      })
+    });
   }
   render() {
+    let { data } = this.state
+    let { isLogin, isAdmin } = this.props
+    let innerArr = []
+    
+    for (let i=0; i<data.length; i++){
+      let arr = <Route path={'/album/' + data[i].name} key={i}>
+        <Playlist isLogin={isLogin} isAdmin={isAdmin} data={data[i]} />
+      </Route>
+      innerArr.push(arr)
+    }
     return (
       <Router>
         <div className='homepage'>
@@ -28,23 +62,19 @@ class Homepage extends React.Component {
             <div className='content'>
               <Switch>
                 <Route path='/search'>
-                  <Search isLogin={this.props.isLogin}/>
+                  <Search isLogin={isLogin}/>
                 </Route>
                 <Route path='/mymusic'>
-                  <MyMusic isLogin={this.props.isLogin}/>
+                  <MyMusic isLogin={isLogin}/>
                 </Route>
-                <Route path='/album/1'>
-                  <Playlist isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
-                </Route>
+                {innerArr}
                 <Route path='/admin'>
-                  <Admin isLogin={this.props.isLogin}/>
+                  <Admin isLogin={isLogin}/>
                 </Route>
                 <Route path='/'>
-                  <Header isLogin={this.props.isLogin} isAdmin={this.props.isAdmin}/>
+                  <Header isLogin={isLogin} isAdmin={isAdmin}/>
                   <div className='body'>
-                    <AlbumList />
-                    <AlbumList />
-                    <AlbumList />
+                    <AlbumList data={data}/>
                   </div>
                 </Route>
               </Switch>
