@@ -55,36 +55,34 @@ class Homepage extends React.Component {
       innerArr.push(arr)
     }
     return (
-      <Router>
-        <div className='homepage'>
-          <div className='body'>
-            <Navbar />
-            <div className='content'>
-              <Switch>
-                <Route path='/search'>
-                  <Search isLogin={isLogin}/>
-                </Route>
-                <Route path='/mymusic'>
-                  <MyMusic isLogin={isLogin}/>
-                </Route>
-                {innerArr}
-                <Route path='/admin'>
-                  <Admin isLogin={isLogin}/>
-                </Route>
-                <Route path='/'>
-                  <Header isLogin={isLogin} isAdmin={isAdmin}/>
-                  <div className='body'>
-                    <AlbumList data={data}/>
-                  </div>
-                </Route>
-              </Switch>
-            </div>
-          </div>
-          <div className='footer'>
-            <MusicPlayer />
+      <div className='homepage'>
+        <div className='body'>
+          <Navbar />
+          <div className='content'>
+            <Switch>
+              <Route path='/search'>
+                <Search isLogin={isLogin}/>
+              </Route>
+              <Route path='/mymusic'>
+                <MyMusic isLogin={isLogin}/>
+              </Route>
+              {innerArr}
+              <Route path='/admin'>
+                <Admin isLogin={isLogin}/>
+              </Route>
+              <Route path='/'>
+                <Header isLogin={isLogin} isAdmin={isAdmin}/>
+                <div className='body'>
+                  <AlbumList data={data}/>
+                </div>
+              </Route>
+            </Switch>
           </div>
         </div>
-      </Router>
+        <div className='footer'>
+          <MusicPlayer />
+        </div>
+      </div>
     )
   }
 }

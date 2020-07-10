@@ -21,10 +21,21 @@ body {
             width: 100%;
             overflow-y: auto;
             .header {
+                padding: 15px 30px;
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
                 color: #ffffff;
-                div {
+                .page-btns {
+                    display: flex;
+                    font-size: 24px;
+                    div {
+                        &:nth-child(1) {
+                            margin-right: 20px;
+                        }
+                    }
+                }
+                .users {
                     display: flex;
                 }
                 a {
@@ -80,9 +91,7 @@ body {
     }
     .footer {
         width: 100%;
-        height: 90px;
         background-color: #282828;
-        color: red;
         position: fixed;
         bottom: 0;
     }

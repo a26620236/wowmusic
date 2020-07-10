@@ -102,7 +102,10 @@ class SongList extends React.Component {
 class Song extends React.Component {
   constructor(props){
     super(props)
-  } 
+    this.state = {
+      currentTime: 0
+    }
+  }
   render() {
     let song = this.props.data
     return (
@@ -124,5 +127,8 @@ class Song extends React.Component {
       </div>
     )
   }
+  ontimeupdate() {
+
+  } 
 }
 export { Playlist }

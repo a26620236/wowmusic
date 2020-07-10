@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import { db, firebase } from '../static/js/firebase'
 
@@ -17,21 +18,29 @@ class SignIn extends React.Component {
     }
   }
   render() {
-    return (
-      <div className='signin'>
-        <div className='wrapper'>
-          <div className='header'>WOWMUSIC</div>
-          <div className='fb-login'></div>
-          <div className='cuttingline'></div>
-          <div className='inform'>
-            <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)}/></div>
-            <div><input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)}/></div>
-            <div onClick={this.onSubmit.bind(this)}>登入</div>
+    let { isLogin } = this.props
+    if (!isLogin) {
+      return (
+        <div className='signin'>
+          <div className='wrapper'>
+            <div className='header'>WOWMUSIC</div>
+            <div className='fb-login'></div>
+            <div className='cuttingline'></div>
+            <div className='inform'>
+              <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} /></div>
+              <div><input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)} /></div>
+              <div onClick={this.onSubmit.bind(this)}>登入</div>
+            </div>
+            <div className='footer'><Link to='/signup'>還沒有 wowmusic 帳號 ?</Link></div>
           </div>
-          <div className='footer'><Link to='/signup'>還沒有 wowmusic 帳號 ?</Link></div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <Redirect push to='/homepage'></Redirect>
+      )
+    }
   }
   handleInput(e) {
     let field = e.target.getAttribute('data-field')

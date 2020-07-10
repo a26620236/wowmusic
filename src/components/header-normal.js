@@ -17,11 +17,11 @@ class Header extends React.Component {
     if (isLogin == true && isAdmin == true) {
       return (
         <div className='header'>
-          <div>
-            <div>上一頁</div>
-            <div>下一頁</div>
+          <div className='page-btns'>
+            <div>&#10094;</div>
+            <div>&#10095;</div>
           </div>
-          <div>
+          <div className='users'>
             <div>使用者</div>
             <Link to='/admin'>
               admin

@@ -17,40 +17,42 @@ class App extends React.Component {
     }
   }
   render() {
-    if (this.state.isLogin == false){
-      return (
-        <main>
-          <Router>
-            <Switch>
-              <Route path='/signup'>
-                <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} />
-              </Route>
-              <Route path='/'>
-                <SignIn changeLoginStatus={this.changeLoginStatus.bind(this)} checkIsAdmin={this.checkIsAdmin.bind(this)}/>
-              </Route>
-            </Switch>
-          </Router>
-        </main>
-      )
-    }else {
-      return (
-        <main>
-          <Homepage isLogin={this.state.isLogin} isAdmin={this.state.isAdmin}/>
-        </main>
-      )
-    }
+    let { isLogin, isAdmin } = this.state
+    return (
+      <main>
+        <Router>
+          <Switch>
+            <Route path='/'>
+              <Homepage isLogin={isLogin} isAdmin={isAdmin} />
+            </Route>
+            <Route path='/signup'>
+              <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} isLogin={isLogin}/>
+            </Route>
+            <Route path='/'>
+              <SignIn changeLoginStatus={this.changeLoginStatus.bind(this)} checkIsAdmin={this.checkIsAdmin.bind(this)} isLogin={isLogin}/>
+            </Route>
+          </Switch>
+        </Router>
+      </main>
+    )
   }
   changeLoginStatus() {
-    this.setState((currentState) => ({
-      ...currentState,
-      isLogin: true
-    }))
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        isLogin: true
+      }
+      return newState
+    })
   }
   checkIsAdmin() {
-    this.setState((currentState) => ({
-      ...currentState,
-      isAdmin: true
-    }))
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        isAdmin: true
+      }
+      return newState
+    })
   }
 }
 export { App }
