@@ -16,8 +16,8 @@ class HeaderSearch extends React.Component {
     return (
       <div className='search-header'>
         <div>
-          <div>上一頁</div>
-          <div>下一頁</div>
+          <div>&#10094;</div>
+          <div>&#10095;</div>
           <input placeholder='搜尋藝人或歌曲' />
         </div>
         <div>使用者</div>

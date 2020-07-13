@@ -3,6 +3,7 @@ body {
   padding: 0;
 }
 .musicplayer {
+  user-select: none;
   .now-playing-bar {
     padding: 0 16px;
     color: white;
@@ -27,6 +28,7 @@ body {
           flex-direction: column;
           justify-content: center;
           .singer {
+            margin-top: 4px;
             color: rgb(180, 180, 180);
             font-size: 12px;
           }
@@ -79,25 +81,16 @@ body {
                 background-color: #535353;
                 border-radius: 2px;
                 display: flex;
+                align-items: center;
+                position: relative;
                 .handle {
                   width: 12px;
                   height: 12px;
                   border-radius: 50%;
-                  margin-top: 1px;
                   background: #fff;
+                  position: absolute;
+                  left: -6px;
                 }
-              }
-              button {
-                background-color: #fff;
-                border: 0;
-                border-radius: 50%;
-                width: 12px;
-                height: 12px;
-                margin-left: -6px;
-                margin-top: -5px;
-                z-index: 100;
-                position: absolute;
-                left: 0;
               }
             }
           }
@@ -107,6 +100,12 @@ body {
     .now-playing-bar__right {
       .container {
         display: flex;
+        .waiting-list {
+          a {
+            text-decoration: none;
+            color: white;
+          }
+        }
         .volume-bar {
           margin-left: 18px;
           display: flex;
@@ -116,26 +115,23 @@ body {
             position: relative;
             .container {
               display: flex;
-              .progress-bar__left {
+              .volume {
                 width: 84px;
                 height: 4px;
                 background-color: #535353;
                 border-radius: 2px;
                 display: flex;
+                align-items: center;
+                position: relative;
               }
-              button {
-                background-color: #fff;
-                border: 0;
-                border-radius: 50%;
-                width: 12px;
-                height: 12px;
-                margin-left: -6px;
-                margin-top: -5px;
-                z-index: 100;
-                position: absolute;
-                left: 0;
-                display: none;
-              }
+              .handle__volume {
+                  width: 12px;
+                  height: 12px;
+                  border-radius: 50%;
+                  background: #fff;
+                  position: absolute;
+                  right: -6px;
+                }
             }
           }
         }

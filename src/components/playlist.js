@@ -22,14 +22,23 @@ class Playlist extends React.Component {
           <Album data={data}/>
           <div className='wrapper__background'>
             <div className='btns'>
-              <div>播放</div>
-              <div>收藏</div>
+              <div className='btns-play' onClick={this.play.bind(this)}><i className="far fa-play-circle"></i></div>
+              <div className='btns-favorite'><i className="far fa-heart"></i></div>
             </div>
             <SongList data={data.songs} />
           </div>
         </div>
       </div>
     )
+  }
+  play() {
+    let { songs, name } = this.props.data
+    let { changePlaylist } = this.props
+    db.collection('playlist').doc('queue').set({
+      name,
+      songs,
+    })
+    changePlaylist()
   }
 }
 
@@ -102,16 +111,15 @@ class SongList extends React.Component {
 class Song extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      currentTime: 0
-    }
   }
   render() {
     let song = this.props.data
     return (
       <div className='song'>
         <div className='song-left'>
-          <div className='play-btn'><audio controls src={song.songUrl}></audio></div>
+          <div className='play-btn'>
+            <i className="fas fa-music"></i>
+          </div>
           <div className='song-inform'>
             <div className='song-name'>{song.name}</div>
             <div className='singer'>
@@ -127,8 +135,5 @@ class Song extends React.Component {
       </div>
     )
   }
-  ontimeupdate() {
-
-  } 
 }
-export { Playlist }
+export { Playlist, SongList, Song }

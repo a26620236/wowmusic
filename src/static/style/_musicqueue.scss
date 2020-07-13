@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.musicqueue {
+  .queue-wrapper {
+    padding: 15px 30px;
+    .queue-title {
+      margin: 16px 0;
+      font-family: Microsoft JhengHei;
+      font-size: 28px;
+      font-weight: 600;
+      color: white;
+    }
+    .now-playing {
+      .now-playing-header {
+        margin: 16px 0;
+        font-size: 20px;
+        color: white;
+      }
+      .now-playing-body {
+        .song {
+          padding: 10px 40px;
+          display: flex;
+          justify-content: space-between;
+          .song-left {
+            display: flex;
+            .play-btn {
+              color: white;
+              audio {
+                width: 400px;
+                height: 50px;
+              }
+            }
+            .song-inform {
+              margin: 0 20px;
+              color: white;
+              div {
+                &:nth-child(2) {
+                  display: flex;
+                }
+              }
+            }
+          }
+          .song-right {
+            color: white;
+          }
+        }
+      }
+    }
+    .next {
+      .next-header {
+        margin: 16px 0;
+        font-size: 20px;
+        color: white;
+      }
+      .next-body {
+        .list {
+          .song {
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            .song-left {
+              display: flex;
+              .play-btn {
+                color: white;
+                audio {
+                  width: 400px;
+                  height: 50px;
+                }
+              }
+              .song-inform {
+                margin: 0 20px;
+                color: white;
+                div {
+                  &:nth-child(2) {
+                    display: flex;
+                  }
+                }
+              }
+            }
+            .song-right {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

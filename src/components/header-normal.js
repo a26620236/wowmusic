@@ -34,8 +34,8 @@ class Header extends React.Component {
       return (
         <div className='header'>
           <div>
-            <div>上一頁</div>
-            <div>下一頁</div>
+            <div>&#10094;</div>
+            <div>&#10095;</div>
           </div>
           <div>
             <div>使用者</div>

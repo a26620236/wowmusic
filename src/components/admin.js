@@ -159,7 +159,6 @@ class Admin extends React.Component {
               songUrl,
               album,
             }
-            console.log(newSong)
             songs.push(newSong)
             db.collection('albums').doc(select).update({
               songs,
