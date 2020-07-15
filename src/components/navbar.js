@@ -16,7 +16,7 @@ class Navbar extends React.Component {
       <div className='nav'>
         <div className='logo'>WOWMUSIC</div>
         <div className='link'>
-          <Link to='/'>
+          <Link to='/homepage'>
             <div>首頁</div>
           </Link>
         </div>

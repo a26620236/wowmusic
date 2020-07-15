@@ -31,6 +31,7 @@ class MusicPlayer extends React.Component {
     let audio = this.audio.current
     let timeline = this.timeline.current
     let timelineLeft = timeline.getBoundingClientRect()
+    let { playNext } = this.props
     audio.addEventListener("timeupdate", () => {
       let ratio = audio.currentTime / audio.duration;
       let position = (timeline.offsetWidth * ratio) + timelineLeft.left;
@@ -44,9 +45,13 @@ class MusicPlayer extends React.Component {
       })
     });
     audio.addEventListener("ended", () => {
-      if (this.props.ended) {
-        this.props.ended();
-      }
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          play: false
+        }
+        return newState
+      })
     });
   }
   render() {
@@ -54,7 +59,7 @@ class MusicPlayer extends React.Component {
     if (audio == null) {
       return (
         <div className='musicplayer'>
-          <audio src='https://firebasestorage.googleapis.com/v0/b/wowmusic-310c5.appspot.com/o/mp3%2F%E9%82%A3%E5%A5%B3%E5%AD%A9%E5%B0%8D%E6%88%91%E8%AA%AA?alt=media&token=330c3824-9bbc-4f05-a876-2904f4666121' ref={this.audio} />
+          <audio src='' ref={this.audio} />
           <div className='now-playing-bar'>
             <div className='now-playing-bar__left'>
               <div className='container'>
@@ -76,7 +81,7 @@ class MusicPlayer extends React.Component {
                   <div><i className="fas fa-random"></i></div>
                   <div><i className="fas fa-step-backward"></i></div>
                   <div onClick={this.play.bind(this)}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                  <div><i className="fas fa-step-forward"></i></div>
+                  <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
                   <div><i className="fas fa-retweet"></i></div>
                 </div>
                 <div className='playback-bar'>
@@ -86,7 +91,6 @@ class MusicPlayer extends React.Component {
                       <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
                         <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
                       </div>
-                      {/* <button></button> */}
                     </div>
                   </div>
                   <div className='song-length'>4:22</div>
@@ -120,6 +124,8 @@ class MusicPlayer extends React.Component {
     }
     else {
       let { currentTime, duration } = this.state
+      let { playlist } = this.props
+      let { songs, playIndex } = playlist[0]
       if (currentTime === 0) {
         currentTime = '0:00'
       }
@@ -136,7 +142,7 @@ class MusicPlayer extends React.Component {
       }
       return (
         <div className='musicplayer'>
-          <audio src='https://firebasestorage.googleapis.com/v0/b/wowmusic-310c5.appspot.com/o/mp3%2F%E9%82%A3%E5%A5%B3%E5%AD%A9%E5%B0%8D%E6%88%91%E8%AA%AA?alt=media&token=330c3824-9bbc-4f05-a876-2904f4666121' ref={this.audio} />
+          <audio src={songs[playIndex].songUrl} ref={this.audio} />
           <div className='now-playing-bar'>
             <div className='now-playing-bar__left'>
               <div className='container'>
@@ -158,7 +164,7 @@ class MusicPlayer extends React.Component {
                   <div><i className="fas fa-random"></i></div>
                   <div><i className="fas fa-step-backward"></i></div>
                   <div onClick={this.play.bind(this)}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                  <div><i className="fas fa-step-forward"></i></div>
+                  <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
                   <div><i className="fas fa-retweet"></i></div>
                 </div>
                 <div className='playback-bar'>
@@ -168,7 +174,6 @@ class MusicPlayer extends React.Component {
                       <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
                         <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
                       </div>
-                      {/* <button></button> */}
                     </div>
                   </div>
                   <div className='song-length'>4:22</div>
@@ -293,6 +298,10 @@ class MusicPlayer extends React.Component {
   mouseDownVolume(e) {
     window.addEventListener('mousemove', this.volumeMove);
     window.addEventListener('mouseup', this.mouseUpVolume);
+  }
+  clickNext() {
+    let { playNext } = this.props
+    playNext()
   }
 }
 

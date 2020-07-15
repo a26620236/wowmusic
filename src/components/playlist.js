@@ -32,13 +32,17 @@ class Playlist extends React.Component {
     )
   }
   play() {
-    let { songs, name } = this.props.data
-    let { changePlaylist } = this.props
-    db.collection('playlist').doc('queue').set({
-      name,
+    let { songs, name, photoUrl } = this.props.data
+    let { changePlaylist, user } = this.props
+    let { uid } = user
+    db.collection('users').doc(uid).collection('playlist').doc('queue').set({
       songs,
+      name,
+      playIndex: 0,
+      photoUrl,
+    }).then(() => {
+      changePlaylist()
     })
-    changePlaylist()
   }
 }
 

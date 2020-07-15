@@ -3,8 +3,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
+import { db, firebase } from './static/js/firebase'
 import { Homepage } from './components/homepage'
 import { SignUp, SignIn } from './components/login'
 
@@ -12,24 +14,42 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLogin: true,
-      isAdmin: true,
+      isLogin: false,
+      isAdmin: false,
+      user: null,
+      hots: []
     }
   }
+  componentDidMount() {
+    let hots = []
+    db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        hots.push(doc.data())
+      });
+    }).then(() => {
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          hots,
+        }
+        return newState
+      })
+    })
+  }
   render() {
-    let { isLogin, isAdmin } = this.state
+    let { isLogin, isAdmin, user, hots } = this.state
     return (
       <main>
         <Router>
           <Switch>
-            <Route path='/'>
-              <Homepage isLogin={isLogin} isAdmin={isAdmin} />
-            </Route>
             <Route path='/signup'>
-              <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} isLogin={isLogin}/>
+              <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} isLogin={isLogin} data={hots}/>
+            </Route>
+            <Route path='/signin'>
+              <SignIn changeLoginStatus={this.changeLoginStatus.bind(this)} checkIsAdmin={this.checkIsAdmin.bind(this)} isLogin={isLogin}/>
             </Route>
             <Route path='/'>
-              <SignIn changeLoginStatus={this.changeLoginStatus.bind(this)} checkIsAdmin={this.checkIsAdmin.bind(this)} isLogin={isLogin}/>
+              <Homepage isLogin={isLogin} isAdmin={isAdmin} user={user}/>
             </Route>
           </Switch>
         </Router>
@@ -37,10 +57,12 @@ class App extends React.Component {
     )
   }
   changeLoginStatus() {
+    let user = JSON.parse(localStorage.getItem('user'))
     this.setState((currentState) => {
       let newState = {
         ...currentState,
-        isLogin: true
+        isLogin: true,
+        user,
       }
       return newState
     })

@@ -64,9 +64,24 @@ class SignIn extends React.Component {
           if (user) {
             db.collection('users').where('email', '==', email).get().then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
-                let isAdmin = doc.data().isAdmin
+                let { isAdmin, email, username } = doc.data()
                 if (isAdmin) {
+                  let User = {
+                    email,
+                    username,
+                    uid: user.uid,
+                  }
+                  localStorage.setItem('user', JSON.stringify(User))
                   checkIsAdmin()
+                  changeLoginStatus()
+                }
+                else {
+                  let User = {
+                    email,
+                    username,
+                    uid: user.uid
+                  }
+                  localStorage.setItem('user', JSON.stringify(User))
                   changeLoginStatus()
                 }
               })
@@ -98,33 +113,41 @@ class SignUp extends React.Component {
     }
   }
   render() {
-    return (
-      <div className='signup'>
-        <div className='wrapper'>
-          <div className='head'>註冊 WOWMUSIC</div>
-          <div className='inform'>
-            <div>
-              <input data-field='email' placeholder='example@mail.com' onChange={this.handleInput.bind(this)}></input>
+    let { isLogin } = this.props
+    if (!isLogin) {
+      return (
+        <div className='signup'>
+          <div className='wrapper'>
+            <div className='head'>註冊 WOWMUSIC</div>
+            <div className='inform'>
+              <div>
+                <input data-field='email' placeholder='example@mail.com' onChange={this.handleInput.bind(this)}></input>
+              </div>
+              <div>
+                <input data-field='name' placeholder='真實姓名' onChange={this.handleInput.bind(this)}></input>
+              </div>
+              <div>
+                <input data-field='username' placeholder='暱稱' onChange={this.handleInput.bind(this)}></input>
+              </div>
+              <div>
+                <input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)}></input>
+              </div>
+              <div>
+                <input data-field='checkpassword' placeholder='確定密碼'></input>
+              </div>
+              <div onClick={this.onSubmit.bind(this)}>註冊</div>
             </div>
-            <div>
-              <input data-field='name' placeholder='真實姓名' onChange={this.handleInput.bind(this)}></input>
-            </div>
-            <div>
-              <input data-field='username' placeholder='暱稱' onChange={this.handleInput.bind(this)}></input>
-            </div>
-            <div>
-              <input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)}></input>
-            </div>
-            <div>
-              <input data-field='checkpassword' placeholder='確定密碼'></input>
-            </div>
-            <div onClick={this.onSubmit.bind(this)}>註冊</div>
+            <div className='footer'>
+              當您按下「建立帳號」按鈕，代表您已經閱讀並同意 wowmusic服務條款 及 訂閱電子報</div>
           </div>
-          <div className='footer'>
-            當您按下「建立帳號」按鈕，代表您已經閱讀並同意 wowmusic服務條款 及 訂閱電子報</div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <Redirect push to='/homepage'></Redirect>
+      )
+    }
   }
   handleInput(e) {
     let field = e.target.getAttribute('data-field')
@@ -138,13 +161,10 @@ class SignUp extends React.Component {
     })
   }
   onSubmit() {
-    let email = this.state.email
-    let password = this.state.password
-    let name = this.state.name
-    let username = this.state.username
-    let isAdmin = this.state.isAdmin
-    let changeLoginStatus = this.props.changeLoginStatus
-    
+    let { email, password, name, username, isAdmin } = this.state
+    let { changeLoginStatus, data } = this.props
+    let { songs, photoUrl } = data[0]
+    let album = data[0].name
     firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
       let user = firebase.auth().currentUser;
 
@@ -160,6 +180,19 @@ class SignUp extends React.Component {
         })
         .then(function () {
           console.log("Document successfully written!");
+          return db.collection('users').doc(user.uid).collection('playlist').doc('queue').set({
+            songs,
+            name: album,
+            playIndex: 0,
+            photoUrl,
+          })
+        }).then(() => {
+          let User = {
+            email,
+            username,
+            uid: user.uid,
+          }
+          localStorage.setItem('user', JSON.stringify(User))
           changeLoginStatus()
         })
         .catch(function (error) {
