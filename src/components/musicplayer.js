@@ -12,8 +12,10 @@ class MusicPlayer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      play: false,
+      play: true,
       currentTime: 0,
+      playMode: 'normal',
+      randomIndex: 0,
     }
     this.audio = React.createRef()
     this.timeline = React.createRef()
@@ -26,15 +28,19 @@ class MusicPlayer extends React.Component {
     this.volumeMove = this.volumeMove.bind(this)
     this.mouseUpVolume = this.mouseUpVolume.bind(this)
     this.mouseDownVolume = this.mouseDownVolume.bind(this)
+    this.play = this.play.bind(this)
+    this.setRamdomState = this.setRamdomState.bind(this)
+    this.setNormalState = this.setNormalState.bind(this)
   }
   componentDidMount() {
     let audio = this.audio.current
     let timeline = this.timeline.current
     let timelineLeft = timeline.getBoundingClientRect()
-    let { playNext } = this.props
+    
     audio.addEventListener("timeupdate", () => {
       let ratio = audio.currentTime / audio.duration;
       let position = (timeline.offsetWidth * ratio) + timelineLeft.left;
+
       this.positionHandle(position);
       this.setState((currentState) => {
         let newState = {
@@ -45,13 +51,30 @@ class MusicPlayer extends React.Component {
       })
     });
     audio.addEventListener("ended", () => {
-      this.setState((currentState) => {
-        let newState = {
-          ...currentState,
-          play: false
-        }
-        return newState
-      })
+      let { songs, playIndex } = this.props.playlist[0]
+      let { playLoop } = this.props
+      let { playMode } = this.state
+
+      if (playIndex == (songs.length - 1) && playMode === 'normal') {
+        this.setState((currentState) => {
+          let newState = {
+            ...currentState,
+            play: false
+          }
+          return newState
+        })
+      }
+      if (playIndex < (songs.length - 1) && playMode === 'normal') {
+        this.clickNext()
+      }
+      if (playIndex < (songs.length - 1) && playMode === 'loop') {
+        this.clickNext()
+        return
+      }
+      if (playIndex == (songs.length - 1) && playMode === 'loop') {
+        playLoop()
+        return
+      }
     });
   }
   render() {
@@ -80,7 +103,7 @@ class MusicPlayer extends React.Component {
                 <div className='player-controls__btns'>
                   <div><i className="fas fa-random"></i></div>
                   <div><i className="fas fa-step-backward"></i></div>
-                  <div onClick={this.play.bind(this)}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
+                  <div onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
                   <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
                   <div><i className="fas fa-retweet"></i></div>
                 </div>
@@ -123,7 +146,7 @@ class MusicPlayer extends React.Component {
       )
     }
     else {
-      let { currentTime, duration } = this.state
+      let { currentTime, playMode, randomIndex } = this.state
       let { playlist } = this.props
       let { songs, playIndex } = playlist[0]
       if (currentTime === 0) {
@@ -142,7 +165,7 @@ class MusicPlayer extends React.Component {
       }
       return (
         <div className='musicplayer'>
-          <audio src={songs[playIndex].songUrl} ref={this.audio} />
+          <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={true} />
           <div className='now-playing-bar'>
             <div className='now-playing-bar__left'>
               <div className='container'>
@@ -161,11 +184,11 @@ class MusicPlayer extends React.Component {
             <div className='now-playing-bar__center'>
               <div className='container'>
                 <div className='player-controls__btns'>
-                  <div><i className="fas fa-random"></i></div>
-                  <div><i className="fas fa-step-backward"></i></div>
-                  <div onClick={this.play.bind(this)}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
+                  <div onClick={this.clickRamdom.bind(this)}><i className="fas fa-random"></i></div>
+                  <div onClick={this.clickPrevious.bind(this)}><i className="fas fa-step-backward"></i></div>
+                  <div onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
                   <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
-                  <div><i className="fas fa-retweet"></i></div>
+                  <div onClick={this.clickLoop.bind(this)}><i className="fas fa-retweet"></i></div>
                 </div>
                 <div className='playback-bar'>
                   <div className='progress-time'>{currentTime}</div>
@@ -302,6 +325,70 @@ class MusicPlayer extends React.Component {
   clickNext() {
     let { playNext } = this.props
     playNext()
+  }
+  clickPrevious() {
+    let { playPrevious } = this.props
+    playPrevious()
+  }
+  clickLoop() {
+    let { playMode } = this.state
+    let audio = this.audio.current
+    if (playMode !== 'loop') {
+      audio.removeEventListener("ended", this.setNormalState)
+      audio.removeEventListener("ended", this.setRamdomState)
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          playMode: 'loop',
+          randomIndex: 0
+        }
+        return newState
+      })
+    }
+    if (playMode === 'loop') {
+      audio.addEventListener("ended", this.setNormalState)
+    }
+  }
+  clickRamdom() {
+    let { playMode } = this.state
+    let audio = this.audio.current
+
+    if (playMode !== 'random') {
+      audio.removeEventListener("ended", this.setNormalState)
+      audio.addEventListener("ended", this.setRamdomState)
+    }
+    if (playMode === 'random') {
+      audio.removeEventListener("ended", this.setRamdomState)
+      audio.addEventListener("ended", this.setNormalState)
+    }
+  }
+  setRamdomState() {
+    let { songs } = this.props.playlist[0]
+    let { randomIndex } = this.state
+    let setIndex = Math.floor(Math.random() * songs.length)
+
+    while (setIndex == randomIndex) {
+      setIndex = Math.floor(Math.random() * songs.length)
+    }
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        playMode: 'random',
+        randomIndex: setIndex,
+        play: true,
+      }
+      return newState
+    })
+  }
+  setNormalState() {
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        playMode: 'normal',
+        randomIndex: 0
+      }
+      return newState
+    })
   }
 }
 

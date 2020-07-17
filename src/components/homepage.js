@@ -25,6 +25,7 @@ class Homepage extends React.Component {
       data: [],
       playlist: [],
     }
+    this.playNext = this.playNext.bind(this)
   }
   componentDidMount() {
     let { isLogin } = this.props
@@ -97,7 +98,7 @@ class Homepage extends React.Component {
             </div>
           </div>
           <div className='footer'>
-            <MusicPlayer playlist={playlist} playNext={this.playNext.bind(this)}/>
+            <MusicPlayer playlist={playlist} playNext={() => this.playNext(1)} playPrevious={() => this.playNext(-1)} playLoop={this.playLoop.bind(this)}/>
           </div>
         </div>
       )
@@ -124,7 +125,7 @@ class Homepage extends React.Component {
       })
     })
   }
-  playNext() {
+  playNext(num) {
     let newPlaylist = []
     let { user } = this.props
     let { playlist } = this.state
@@ -132,7 +133,7 @@ class Homepage extends React.Component {
     let { uid } = user
     if (playIndex < songs.length) {
       db.collection('users').doc(uid).collection('playlist').doc('queue').update({
-        playIndex: playIndex + 1
+        playIndex: playIndex + num
       }).then(() => {
         return db.collection('users').doc(uid).collection('playlist').doc('queue').get()
       }).then((doc) => {
@@ -146,6 +147,11 @@ class Homepage extends React.Component {
         })
       })
     }
+  }
+  playLoop() {
+    let { songs } = this.state.playlist[0]
+    let reset = -(songs.length - 1)
+    this.playNext(reset)
   }
 }
 
