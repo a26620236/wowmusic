@@ -16,6 +16,7 @@ import MyMusic from './mymusic'
 import { Playlist } from './playlist'
 import Admin from './admin'
 import MusicQueue from './musicQueue'
+import Category from './category'
 import { db, firebase } from '../static/js/firebase'
 
 class Homepage extends React.Component {
@@ -24,6 +25,7 @@ class Homepage extends React.Component {
     this.state = {
       data: [],
       playlist: [],
+      category: [],
     }
     this.playNext = this.playNext.bind(this)
   }
@@ -34,6 +36,7 @@ class Homepage extends React.Component {
       let { uid } = user
       let data = []
       let playlist = []
+      let category = []
       db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           data.push(doc.data())
@@ -46,11 +49,17 @@ class Homepage extends React.Component {
         return db.collection('users').doc(uid).collection('playlist').doc('queue').get()
       }).then((doc) => {
         playlist.push(doc.data())
+        return db.collection("category").get()
+      }).then((querySnapshot) => {
+        querySnapshot.forEach(function (doc) {
+          category.push(doc.data())
+        });
         this.setState((currentState) => {
           let newState = {
             ...currentState,
             data,
             playlist,
+            category
           }
           return newState
         })
@@ -58,15 +67,22 @@ class Homepage extends React.Component {
     }
   }
   render() {
-    let { data, playlist } = this.state
+    let { data, playlist, category } = this.state
     let { isLogin, isAdmin, user } = this.props
     let innerArr = []
+    let innerArr1 = []
     
     for (let i=0; i<data.length; i++){
       let arr = <Route path={'/album/' + data[i].name} key={i}>
         <Playlist isLogin={isLogin} isAdmin={isAdmin} data={data[i]} changePlaylist={this.changePlaylist.bind(this)} user={user}/>
       </Route>
       innerArr.push(arr)
+    }
+    for (let i=0; i<category.length; i++) {
+      let arr = <Route path={'/category/' + category[i].category} key={i}>
+        <Category category={category[i].category} isLogin={isLogin} isAdmin={isAdmin}/>
+      </Route>
+      innerArr1.push(arr)
     }
     if (isLogin) {
       return (
@@ -82,6 +98,7 @@ class Homepage extends React.Component {
                   <MyMusic isLogin={isLogin} />
                 </Route>
                 {innerArr}
+                {innerArr1}
                 <Route path='/admin'>
                   <Admin isLogin={isLogin} />
                 </Route>

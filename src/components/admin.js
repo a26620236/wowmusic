@@ -22,6 +22,8 @@ class Admin extends React.Component {
       song__singer:'',
       song__length:'',
       song__file:'',
+      select__category:'',
+      category__file:'',
     }
   }
   render() {
@@ -81,6 +83,20 @@ class Admin extends React.Component {
               <input type='file' data-field='song__file' onChange={this.handleInputFile.bind(this)} ></input>
             </div>
             <div className='submit' onClick={this.addSong.bind(this)}>送出</div>
+          </div>
+        </div>
+        <div className='categories'>
+          <div className='list-header'>新增分類</div>
+          <div className='list-body'>
+            <div className='inputbox'>
+              分類名稱:
+              <input data-field='select__category' onChange={this.handleInput.bind(this)}></input>
+            </div>
+            <div className='inputbox'>
+              封面照片:
+              <input type='file' data-field='category__file' onChange={this.handleInputFile.bind(this)} ></input>
+            </div>
+            <div className='submit' onClick={this.addCategory.bind(this)}>送出</div>
           </div>
         </div>
       </div>
@@ -166,6 +182,23 @@ class Admin extends React.Component {
               alert('添加成功!')
             })
           }
+        })
+      })
+    })
+  }
+  addCategory() {
+    let category = this.state.select__category
+    let upload = this.state.category__file[0]
+    let storageRef = firebase.storage().ref('category/' + category)
+    let categoryUrl = ''
+    storageRef.put(upload).then(() => {
+      storageRef.getDownloadURL().then(function (category__url) {
+        categoryUrl = category__url
+        db.collection('category').doc(category).set({
+          category,
+          categoryUrl,
+        }).then(() => {
+          alert('新增成功')
         })
       })
     })

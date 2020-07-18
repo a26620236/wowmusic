@@ -12,10 +12,15 @@ class CategoryCard extends React.Component {
     super(props)
   }
   render() {
+    let { data } = this.props
+    let { category, categoryUrl } = data
     return (
-      <div className='itembox'>
-        <div className='category'>居家生活</div>
-      </div>
+      <Link to={'/category/' + category}>
+        <div className='itembox'>
+          <img src={categoryUrl}></img>
+          <div className='category'>{category}</div>
+        </div>
+      </Link>
     )
   }
 }
