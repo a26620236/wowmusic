@@ -7,6 +7,7 @@ body {
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  font-weight: bold;
   .header {
     background-color: #92522D;
     display: flex;
@@ -20,7 +21,7 @@ body {
   }
   .wrapper {
     .album-cover {
-      padding: 40px;
+      padding: 30px;
       height: 230px;
       display: flex;
       background: rgb(88, 48, 26);
@@ -64,6 +65,7 @@ body {
       }
     }
     .wrapper__background {
+      padding: 0 0 300px;
       background: rgb(15, 9, 5);
       background: linear-gradient(
         0deg,
@@ -80,10 +82,18 @@ body {
         .btns-play {
           font-size: 40px;
           color: green;
+          &:hover {
+            cursor: pointer;
+          }
         }
         .btns-favorite {
           margin-left: 20px;
           font-size: 24px;
+        }
+        .btns-favorite-added {
+          margin-left: 20px;
+          font-size: 24px;
+          color: green;
         }
       }
       .list {

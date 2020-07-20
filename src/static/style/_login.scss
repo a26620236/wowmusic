@@ -18,7 +18,7 @@ body {
     .wrapper {
         margin-top: -80px;
         padding: 40px 30px 0;
-        width: 400px;
+        width: 360px;
         box-sizing: border-box;
         background-color: #fff;
         display: flex;
@@ -28,14 +28,8 @@ body {
             margin-top: 30px;
             text-align: center;
             color: #00afd6;
-            font-size: 30px;
-            font-weight: 400;
-        }
-        .fb-login {
-            margin: 20px 40px;
-            height: 66px;
-            background-color: rgb(84, 84, 177);
-            border-radius: 8px;
+            font-size: 36px;
+            font-weight: bold;
         }
         .cuttingline {
             width: 100%;
@@ -43,7 +37,7 @@ body {
             border-top: 1px solid rgb(218, 218, 218);
         }
         .inform {
-            margin-bottom: 60px;
+            margin-bottom: 120px;
             div {
                 margin: 12px 0;
                 display: flex;
@@ -59,10 +53,11 @@ body {
                     height: 30px;
                 }
                 &:nth-child(3) {
-                    margin: 0 40px;
+                    margin: 0 20px;
                     color: #fff;
                     background-color: #0fabd1;
                     border-radius: 3px;
+                    box-sizing: border-box;
                     border: 1px solid #b5b5b5;
                     padding: 8px 10px;
                     white-space: nowrap;
@@ -86,7 +81,7 @@ body {
     }
 }
 .signup {
-    padding: 0 25%;
+    padding: 0 22%;
     background: url(https://play.kkbox.com/assets/images/tw_landing01.jpg) no-repeat;
     background-size: cover;
     background-position: center center;
@@ -110,7 +105,7 @@ body {
         .head {
             color: #00afd6;
             font-size: 30px;
-            font-weight: 400;
+            font-weight: bold;
         }
         .inform {
             div {

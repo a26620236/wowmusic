@@ -12,9 +12,8 @@ class Header extends React.Component {
     super(props)
   }
   render() {
-    let isLogin = this.props.isLogin
-    let isAdmin = this.props.isAdmin
-    if (isLogin == true && isAdmin == true) {
+    let { isLogin, isAdmin, user } = this.props
+    if (isLogin == true && isAdmin == true && user.username) {
       return (
         <div className='header'>
           <div className='page-btns'>
@@ -22,7 +21,7 @@ class Header extends React.Component {
             <div>&#10095;</div>
           </div>
           <div className='users'>
-            <div>使用者</div>
+            <div>{user.username}</div>
             <Link to='/admin'>
               admin
           </Link>
@@ -30,7 +29,12 @@ class Header extends React.Component {
         </div>
       )
     }
-    if (isLogin == true) {
+    else {
+      return(
+        <div>isLoading</div>
+      )
+    }
+    if (isLogin == true && user.username) {
       return (
         <div className='header'>
           <div>
@@ -38,9 +42,14 @@ class Header extends React.Component {
             <div>&#10095;</div>
           </div>
           <div>
-            <div>使用者</div>
+            <div>{user.username}</div>
           </div>
         </div>
+      )
+    }
+    else {
+      return(
+        <div>isLoading</div>
       )
     }
   }

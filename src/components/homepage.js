@@ -26,6 +26,9 @@ class Homepage extends React.Component {
       data: [],
       playlist: [],
       category: [],
+      allAlbums: [],
+      favorite: [],
+      changePlaylist: false,
     }
     this.playNext = this.playNext.bind(this)
   }
@@ -37,6 +40,8 @@ class Homepage extends React.Component {
       let data = []
       let playlist = []
       let category = []
+      let allAlbums = []
+      let favorite = []
       db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           data.push(doc.data())
@@ -49,38 +54,51 @@ class Homepage extends React.Component {
         return db.collection('users').doc(uid).collection('playlist').doc('queue').get()
       }).then((doc) => {
         playlist.push(doc.data())
+        return db.collection('users').doc(uid).collection('favorite').get()
+      }).then((querySnapshot) => {
+        querySnapshot.forEach(function (doc) {
+          favorite.push(doc.data().album.name)
+        })
         return db.collection("category").get()
       }).then((querySnapshot) => {
         querySnapshot.forEach(function (doc) {
           category.push(doc.data())
+        })
+        return db.collection('allAlbums').get()
+      }).then((querySnapshot) => {
+        querySnapshot.forEach(function (doc) {
+          allAlbums.push(doc.data())
         });
         this.setState((currentState) => {
           let newState = {
             ...currentState,
             data,
             playlist,
-            category
+            category,
+            allAlbums,
+            favorite,
           }
           return newState
         })
-      })
+      });
     }
   }
   render() {
-    let { data, playlist, category } = this.state
+    let { data, playlist, category, allAlbums, favorite } = this.state
     let { isLogin, isAdmin, user } = this.props
     let innerArr = []
     let innerArr1 = []
     
-    for (let i=0; i<data.length; i++){
-      let arr = <Route path={'/album/' + data[i].name} key={i}>
-        <Playlist isLogin={isLogin} isAdmin={isAdmin} data={data[i]} changePlaylist={this.changePlaylist.bind(this)} user={user}/>
+    for (let i = 0; i < allAlbums.length; i++){
+      console.log(allAlbums[i].name)
+      let arr = <Route path={'/album/' + allAlbums[i].name} key={i}>
+        <Playlist isLogin={isLogin} isAdmin={isAdmin} albumName={allAlbums[i].name} changePlaylist={this.changePlaylist.bind(this)} user={user} favorite={favorite}/>
       </Route>
       innerArr.push(arr)
     }
     for (let i=0; i<category.length; i++) {
       let arr = <Route path={'/category/' + category[i].category} key={i}>
-        <Category category={category[i].category} isLogin={isLogin} isAdmin={isAdmin}/>
+        <Category category={category[i].category} isLogin={isLogin} isAdmin={isAdmin} user={user}/>
       </Route>
       innerArr1.push(arr)
     }
@@ -92,21 +110,21 @@ class Homepage extends React.Component {
             <div className='content'>
               <Switch>
                 <Route path='/search'>
-                  <Search isLogin={isLogin} />
+                  <Search isLogin={isLogin} isAdmin={isAdmin} user={user}/>
                 </Route>
                 <Route path='/mymusic'>
-                  <MyMusic isLogin={isLogin} />
+                  <MyMusic isLogin={isLogin} isAdmin={isAdmin} user={user}/>
                 </Route>
                 {innerArr}
                 {innerArr1}
                 <Route path='/admin'>
-                  <Admin isLogin={isLogin} />
+                  <Admin isLogin={isLogin} user={user}/>
                 </Route>
                 <Route path='/musicqueue'>
-                  <MusicQueue isLogin={isLogin} isAdmin={isAdmin} playlist={playlist} />
+                  <MusicQueue isLogin={isLogin} isAdmin={isAdmin} playlist={playlist} user={user}/>
                 </Route>
                 <Route path='/homepage'>
-                  <Header isLogin={isLogin} isAdmin={isAdmin} />
+                  <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
                   <div className='body'>
                     <AlbumList data={data} />
                   </div>
@@ -131,12 +149,12 @@ class Homepage extends React.Component {
     let { user } = this.props
     let { uid } = user
     db.collection('users').doc(uid).collection('playlist').doc('queue').get().then((doc) => {
-      console.log(doc.data())
       playlist.push(doc.data())
       this.setState((currentState) => {
         let newState = {
           ...currentState,
           playlist,
+          changePlaylist: true
         }
         return newState
       })

@@ -14,13 +14,13 @@ class AlbumCard extends React.Component {
   }
   render() {
     return (
-      <div className='itembox'>
-        <Link to={'/album/' + this.props.data.name}>
+      <Link className='itembox' to={'/album/' + this.props.data.name}>
+        <div className='album-img'>
           <img src={this.props.data.photoUrl} />
-        </Link>
+        </div>
         <div className='headline'>{this.props.data.name}</div>
         <div className='inform'>{this.props.data.desc}</div>
-      </div>
+      </Link>
     )
   }
 }

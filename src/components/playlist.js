@@ -12,27 +12,62 @@ import { db, firebase, storage } from '../static/js/firebase'
 class Playlist extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      data: [],
+      myFavorite: false
+    }
+  }
+  componentDidMount() {
+    let data = []
+    let { albumName, favorite } = this.props
+    db.collection('albums').doc(albumName).get().then((doc) => {
+      data.push(doc.data())
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          data,
+        }
+        return newState
+      })
+    })
+    if (favorite.indexOf(albumName) !== -1) {
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          myFavorite: true
+        }
+        return newState
+      })
+    }
   }
   render() {
-    let { isLogin, isAdmin, data } = this.props
-    return (
-      <div className='playlist'>
-        <Header isLogin={isLogin} isAdmin={isAdmin}/>
-        <div className='wrapper'>
-          <Album data={data}/>
-          <div className='wrapper__background'>
-            <div className='btns'>
-              <div className='btns-play' onClick={this.play.bind(this)}><i className="far fa-play-circle"></i></div>
-              <div className='btns-favorite'><i className="far fa-heart"></i></div>
+    let { isLogin, isAdmin, user } = this.props
+    let { data, myFavorite } = this.state
+    if (data.length > 0) {
+      return (
+        <div className='playlist'>
+          <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
+          <div className='wrapper'>
+            <Album data={data[0]} />
+            <div className='wrapper__background'>
+              <div className='btns'>
+                <div className='btns-play' onClick={this.play.bind(this)}><i className="far fa-play-circle"></i></div>
+                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}><i className="fas fa-heart"></i></div>
+              </div>
+              <SongList data={data[0].songs} />
             </div>
-            <SongList data={data.songs} />
           </div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
   play() {
-    let { songs, name, photoUrl } = this.props.data
+    let { songs, name, photoUrl } = this.state.data[0]
     let { changePlaylist, user } = this.props
     let { uid } = user
     db.collection('users').doc(uid).collection('playlist').doc('queue').set({
@@ -42,6 +77,15 @@ class Playlist extends React.Component {
       photoUrl,
     }).then(() => {
       changePlaylist()
+    })
+  }
+  addFavorite() {
+    let { data } = this.state
+    let { user } = this.props
+    db.collection('users').doc(user.uid).collection('favorite').doc(data[0].name).set({
+      album: data[0]
+    }).then(() => {
+      alert('收藏成功')
     })
   }
 }
@@ -59,18 +103,25 @@ class Album extends React.Component {
   render() {
     let time = this.state.totalLength
     let { data } = this.props
-    return (
-      <div className='album-cover'>
-        <div>
-          <img src={data.photoUrl}></img>
+    if (data) {
+      return (
+        <div className='album-cover'>
+          <div>
+            <img src={data.photoUrl}></img>
+          </div>
+          <div className='inform'>
+            <div>播放清單</div>
+            <div>{data.name}</div>
+            <div>{time}</div>
+          </div>
         </div>
-        <div className='inform'>
-          <div>播放清單</div>
-          <div>{data.name}</div>
-          <div>{time}</div>
-        </div>
-      </div>
-    )
+      )
+    } 
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
   timeStamp() {
     let { data } = this.props
@@ -103,13 +154,20 @@ class SongList extends React.Component {
   }
   render() {
     let songs = this.props.data
-    return(
-      <div className='list'>
-        {songs.map((e, index) => {
-          return <Song data={e} key={index}/>
-        })}
-      </div>
-    )
+    if (songs.length > 0) {
+      return (
+        <div className='list'>
+          {songs.map((e, index) => {
+            return <Song data={e} key={index} />
+          })}
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
 }
 class Song extends React.Component {
@@ -118,26 +176,33 @@ class Song extends React.Component {
   }
   render() {
     let song = this.props.data
-    return (
-      <div className='song'>
-        <div className='song-left'>
-          <div className='play-btn'>
-            <i className="fas fa-music"></i>
-          </div>
-          <div className='song-inform'>
-            <div className='song-name'>{song.name}</div>
-            <div className='singer'>
-              <div>{song.singer}</div>
-              <div>．</div>
-              <div>{song.album}</div>
+    if (song.name) {
+      return (
+        <div className='song'>
+          <div className='song-left'>
+            <div className='play-btn'>
+              <i className="fas fa-music"></i>
+            </div>
+            <div className='song-inform'>
+              <div className='song-name'>{song.name}</div>
+              <div className='singer'>
+                <div>{song.singer}</div>
+                <div>．</div>
+                <div>{song.album}</div>
+              </div>
             </div>
           </div>
+          <div className='song-right'>
+            {song.length}
+          </div>
         </div>
-        <div className='song-right'>
-          {song.length}
-        </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
 }
 export { Playlist, SongList, Song }

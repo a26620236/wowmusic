@@ -15,23 +15,24 @@ class MusicQueue extends React.Component {
     super(props)
   }
   render() {
-    let { isLogin, isAdmin, playlist} = this.props
+    let { isLogin, isAdmin, playlist, user } = this.props
+    let { playIndex } = playlist[0]
     return (
       <div className='musicqueue'>
-        <Header isLogin={isLogin} isAdmin={isAdmin} />
+        <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
         <div className='queue-wrapper'>
-          <div className='queue-title'>播放柱列</div>
+          <div className='queue-title'>播放佇列</div>
           <div className='now-playing'>
             <div className='now-playing-header'>
               現在播放
             </div>
             <div className='now-playing-body'>
-              <Song data={playlist[0].songs[0]}></Song>
+              <Song data={playlist[0].songs[playIndex]}></Song>
             </div>
           </div>
           <div className='next'>
             <div className='next-header'>
-              接下來
+              播放專輯 : {playlist[0].name}
             </div>
             <div className='next-body'>
               <SongList data={playlist[0].songs} />

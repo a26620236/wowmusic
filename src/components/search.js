@@ -36,9 +36,10 @@ class Search extends React.Component {
   }
   render() {
     let { category } = this.state
+    let { isLogin, isAdmin, user } = this.props
     return (
       <div className='search'>
-        <HeaderSearch/>
+        <HeaderSearch isLogin={isLogin} isAdmin={isAdmin} user={user}/>
         <div className='search-body'>
           <CategoryList category={category}/>
         </div>

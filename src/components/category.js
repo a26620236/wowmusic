@@ -35,17 +35,20 @@ class Category extends React.Component {
   }
   render() {
     let { data } = this.state
-    let { isLogin, isAdmin } = this.props
+    let { isLogin, isAdmin, user , category } = this.props
     if (data.length > 0) {
       return (
         <div className='category'>
-          <Header isLogin={isLogin} isAdmin={isAdmin} />
-          <div className='wrapper'>
-            <div className='header'>古典樂</div>
+          <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
+          <div className='category-wrapper'>
+            <div className='header'>{category}</div>
             <div className='wrapper__background'>
-              {data.map((e, index) => {
-                return <AlbumCard data={e} key={index} />
-              })}
+              <div className='title'>熱門播放清單</div>
+              <div className='items'>
+                {data.map((e, index) => {
+                  return <AlbumCard data={e} key={index} />
+                })}
+              </div>
             </div>
           </div>
         </div>

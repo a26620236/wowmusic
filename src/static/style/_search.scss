@@ -11,15 +11,20 @@ body {
     text-decoration: none;
   }
   .search-header {
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
-    div {
-      margin: 0 10px;
-      &:nth-child(1) {
-        display: flex;
-        align-items: center;
+    color: #ffffff;
+    .page-btns {
+      display: flex;
+      font-size: 24px;
+      div {
+        &:nth-child(1) {
+          margin-right: 20px;
+        }
       }
       input {
+        margin: 0 15px;
         width: 270px;
         height: 28px;
         padding: 6px 40px;
@@ -29,10 +34,20 @@ body {
         font-size: 14px;
       }
     }
-    color: #ffffff;
+    .users {
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      a {
+        display: block;
+        margin-left: 10px;
+        text-decoration: none;
+        color: #ffffff;
+      }
+    }
   }
   .search-body {
-    padding: 16px 20px;
+    padding: 16px 20px 650px;
     .list {
       .title {
         margin: 10px;

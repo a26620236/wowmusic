@@ -77,6 +77,17 @@ class MusicPlayer extends React.Component {
       }
     });
   }
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          play: true
+        }
+        return newState
+      })
+    }
+  }
   render() {
     let audio = this.audio.current
     if (audio == null) {
@@ -148,7 +159,7 @@ class MusicPlayer extends React.Component {
     else {
       let { currentTime, playMode, randomIndex } = this.state
       let { playlist } = this.props
-      let { songs, playIndex } = playlist[0]
+      let { songs, playIndex, photoUrl } = playlist[0]
       if (currentTime === 0) {
         currentTime = '0:00'
       }
@@ -170,11 +181,11 @@ class MusicPlayer extends React.Component {
             <div className='now-playing-bar__left'>
               <div className='container'>
                 <div className='album'>
-                  <img src="https://i.scdn.co/image/ab67616d000048513d0ffcf6ee624625158fa352" />
+                  <img src={photoUrl} />
                 </div>
                 <div className='song-inform'>
-                  <div className='name'>太陽</div>
-                  <div className='singer'>邱振哲</div>
+                  <div className='name'>{songs[playIndex].name}</div>
+                  <div className='singer'>{songs[playIndex].singer}</div>
                 </div>
                 <div className='like-btn'>
                   <i className="far fa-heart"></i>
@@ -199,7 +210,7 @@ class MusicPlayer extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className='song-length'>4:22</div>
+                  <div className='song-length'>{songs[playIndex].length}</div>
                 </div>
               </div>
             </div>
@@ -324,11 +335,33 @@ class MusicPlayer extends React.Component {
   }
   clickNext() {
     let { playNext } = this.props
-    playNext()
+    let { playMode } = this.state
+    let { songs, playIndex } = this.props.playlist[0]
+    if (playMode === 'normal' && playIndex < (songs.length - 1)) {
+      playNext()
+    }
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        play: true
+      }
+      return newState
+    })
   }
   clickPrevious() {
     let { playPrevious } = this.props
-    playPrevious()
+    let { playMode } = this.state
+    let { playIndex } = this.props.playlist[0]
+    if (playMode === 'normal' && playIndex > 0) {
+      playPrevious()
+    }
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        play: true
+      }
+      return newState
+    })
   }
   clickLoop() {
     let { playMode } = this.state

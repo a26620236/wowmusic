@@ -146,6 +146,9 @@ class Admin extends React.Component {
               photoUrl,
               songs: []
             }).then(() => {
+              db.collection('allAlbums').doc(name).set({
+                name,
+              })
               alert('新增成功!')
             })
           })

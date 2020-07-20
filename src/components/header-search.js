@@ -13,16 +13,29 @@ class HeaderSearch extends React.Component {
     super(props)
   }
   render() {
-    return (
-      <div className='search-header'>
-        <div>
-          <div>&#10094;</div>
-          <div>&#10095;</div>
-          <input placeholder='搜尋藝人或歌曲' />
+    let { isLogin, isAdmin, user } = this.props
+    if (isLogin == true && isAdmin == true && user.username) {
+      return (
+        <div className='search-header'>
+          <div className='page-btns'>
+            <div>&#10094;</div>
+            <div>&#10095;</div>
+            <input placeholder='搜尋藝人或歌曲' />
+          </div>
+          <div className='users'>
+            <div>{user.username}</div>
+            <Link to='/admin'>
+              admin
+          </Link>
+          </div>
         </div>
-        <div>使用者</div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <div>isLoading</div>
+      )
+    }
   }
 }
 

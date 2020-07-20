@@ -18,31 +18,46 @@ body {
     }
     color: #ffffff;
   }
-  .wrapper {
+  .category-wrapper {
+    padding: 0 0 450px;
+    .header {
+      font-size: 90px;
+      padding: 40px;
+      font-weight: 900;
+    }
     .wrapper__background {
-      .itembox {
+      padding: 16px 20px;
+      .title {
         margin: 10px;
+        font-size: 22px;
+        font-weight: bolder;
         color: #ffffff;
-        padding: 20px;
-        background-color: #272727;
-        border-radius: 10px;
-        a {
+      }
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        .itembox {
+          margin: 10px;
+          color: #ffffff;
+          padding: 20px;
+          background-color: #272727;
+          border-radius: 10px;
           text-decoration: none;
-          color: black;
-          display: inline-block;
-          img {
-            width: 150px;
-            height: 150px;
+          .album-img {
+            img {
+              width: 150px;
+              height: 150px;
+            }
           }
-        }
-        .headline {
-          width: 150px;
-          margin: 10px 0;
-          font-size: 16px;
-        }
-        .inform {
-          width: 150px;
-          font-size: 12px;
+          .headline {
+            width: 150px;
+            margin: 10px 0;
+            font-size: 16px;
+          }
+          .inform {
+            width: 150px;
+            font-size: 12px;
+          }
         }
       }
     }

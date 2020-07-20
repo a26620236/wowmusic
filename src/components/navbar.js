@@ -14,20 +14,36 @@ class Navbar extends React.Component {
   render() {
     return (
       <div className='nav'>
-        <div className='logo'>WOWMUSIC</div>
+        <div className='logo'>
+          <div className='logo__icon'><i className="fab fa-spotify"></i></div>
+          <div className='logo__text'>WOWMUSIC</div>
+        </div>
         <div className='link'>
           <Link to='/homepage'>
-            <div>首頁</div>
+              <div className='homepage__icon'>
+                <i className="fas fa-home"></i>
+              </div>
+              <div className='homepage__text'>
+                首頁
+              </div>
           </Link>
         </div>
         <div className='link'>
           <Link to='/search'>
-            <div>搜尋</div>
+            <div className='search__icon'>
+              <i className="fas fa-stream"></i>
+            </div>
+            <div className='search__text'>瀏覽</div>
           </Link>
         </div>
         <div className='link'>
           <Link to='/mymusic'>
-            <div>我的音樂庫</div>
+            <div className='mymusic__icon'>
+              <i className="fas fa-music"></i>
+            </div>
+            <div className='mymusic__text'>
+              我的音樂庫
+            </div>
           </Link>
         </div>
       </div>
