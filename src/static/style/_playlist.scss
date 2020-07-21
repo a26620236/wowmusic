@@ -9,7 +9,6 @@ body {
   overflow-y: auto;
   font-weight: bold;
   .header {
-    background-color: #92522D;
     display: flex;
     justify-content: space-between;
     div {
@@ -21,7 +20,7 @@ body {
   }
   .wrapper {
     .album-cover {
-      padding: 30px;
+      padding: 70px 30px 30px 30px;
       height: 230px;
       display: flex;
       background: rgb(88, 48, 26);

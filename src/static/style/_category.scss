@@ -8,7 +8,6 @@ body {
   height: 100%;
   overflow-y: auto;
   .header {
-    background-color: #92522d;
     display: flex;
     justify-content: space-between;
     div {
@@ -20,10 +19,19 @@ body {
   }
   .category-wrapper {
     padding: 0 0 450px;
-    .header {
+    .banner {
+      background: rgb(15, 9, 5);
+      background: linear-gradient(
+        0deg,
+        rgba(15, 9, 5, 1) 7%,
+        rgba(11, 6, 4, 1) 68%,
+        rgba(48, 27, 16, 1) 87%,
+        rgba(55, 31, 18, 1) 95%
+      );
       font-size: 90px;
-      padding: 40px;
+      padding:70px 30px 40px;
       font-weight: 900;
+      color: #ffffff;
     }
     .wrapper__background {
       padding: 16px 20px;

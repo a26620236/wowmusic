@@ -41,7 +41,9 @@ class Category extends React.Component {
         <div className='category'>
           <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
           <div className='category-wrapper'>
-            <div className='header'>{category}</div>
+            <div className='banner'>
+              {category}
+            </div>
             <div className='wrapper__background'>
               <div className='title'>熱門播放清單</div>
               <div className='items'>

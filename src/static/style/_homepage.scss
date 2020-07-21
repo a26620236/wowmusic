@@ -3,6 +3,7 @@ body {
     padding: 0;
 }
 .homepage {
+    font-family: Microsoft JhengHei;
     .body {
         display: flex;
         .nav {
@@ -13,6 +14,7 @@ body {
             a {
                 text-decoration: none;
                 color: #ffffff;
+                font-weight: bold;
             }
             .logo {
                 display: flex;
@@ -61,12 +63,24 @@ body {
                 justify-content: space-between;
                 align-items: center;
                 color: #ffffff;
+                position: fixed;
+                top: 0;
                 .page-btns {
                     display: flex;
                     font-size: 24px;
                     div {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 50%;
+                        background-color: rgba(0, 0, 0, 0.7);
                         &:nth-child(1) {
                             margin-right: 20px;
+                        }
+                        &:hover {
+                            cursor: pointer;
                         }
                     }
                 }
@@ -81,7 +95,7 @@ body {
                 }
             }
             .body {
-                padding: 16px 20px 500px;
+                padding: 60px 30px 500px;
                 display: flex;
                 flex-direction: column;
                 .list {
@@ -127,5 +141,150 @@ body {
         background-color: #282828;
         position: fixed;
         bottom: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .homepage {
+        font-family: Microsoft JhengHei;
+        .body {
+            display: flex;
+            .nav {
+                padding: 24px 24px 90px;
+                width: 230px;
+                background-color: #040404;
+                color: #ffffff;
+                a {
+                    text-decoration: none;
+                    color: #ffffff;
+                    font-weight: bold;
+                }
+                .logo {
+                    display: flex;
+                    align-items: center;
+                    .logo__icon {
+                        margin-right: 8px;
+                        font-size: 42px;
+                        color: white;
+                    }
+                    .logo__text {
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+                }
+                .link {
+                    a {
+                        margin: 20px 0;
+                        display: flex;
+                        align-items: center;
+                        color: #b3b3b3;
+                        &:hover {
+                            color: #ffffff;
+                        }
+                        .homepage__icon {
+                            margin-right: 20px;
+                            font-size: 24px;
+                        }
+                        .search__icon {
+                            margin-right: 20px;
+                            font-size: 24px;
+                        }
+                        .mymusic__icon {
+                            margin-right: 20px;
+                            font-size: 24px;
+                        }
+                    }
+                }
+            }
+            .content {
+                background-color: #121212;
+                width: 100%;
+                overflow-y: auto;
+                .header {
+                    padding: 15px 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: #ffffff;
+                    position: fixed;
+                    top: 0;
+                    .page-btns {
+                        display: flex;
+                        font-size: 24px;
+                        div {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 36px;
+                            height: 36px;
+                            border-radius: 50%;
+                            background-color: rgba(0, 0, 0, 0.7);
+                            &:nth-child(1) {
+                                margin-right: 20px;
+                            }
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    .users {
+                        display: flex;
+                    }
+                    a {
+                        display: block;
+                        margin-left: 10px;
+                        text-decoration: none;
+                        color: #ffffff;
+                    }
+                }
+                .body {
+                    padding: 60px 30px 500px;
+                    display: flex;
+                    flex-direction: column;
+                    .list {
+                        .title {
+                            margin: 10px;
+                            font-size: 22px;
+                            font-weight: bolder;
+                            color: #ffffff;
+                        }
+                        .items {
+                            display: flex;
+                            flex-wrap: wrap;
+                            .itembox {
+                                margin: 10px;
+                                color: #ffffff;
+                                padding: 20px;
+                                background-color: #272727;
+                                border-radius: 10px;
+                                text-decoration: none;
+                                .album-img {
+                                    img {
+                                        width: 150px;
+                                        height: 150px;
+                                    }
+                                }
+                                .headline {
+                                    width: 150px;
+                                    margin: 10px 0;
+                                    font-size: 16px;
+                                }
+                                .inform {
+                                    width: 150px;
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .footer {
+            display: none;
+        }
     }
 }

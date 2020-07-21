@@ -3,6 +3,7 @@ body {
   padding: 0;
 }
 .musicplayer {
+  font-family: Microsoft JhengHei;
   user-select: none;
   .now-playing-bar {
     padding: 0 16px;
@@ -39,12 +40,17 @@ body {
           align-items: center;
           font-size: 24px;
           i {
+            color: #b3b3b3;
             font-size: 16px;
+            &:hover {
+              color: #ffffff;
+            }
           }
         }
       }
     }
     .now-playing-bar__center {
+      color: #b3b3b3;
       .container {
         .player-controls__btns {
           margin-bottom: 12px;
@@ -53,12 +59,19 @@ body {
           align-items: center;
           div {
             margin: 0 18px;
+            &:hover {
+              cursor: pointer;
+              color: #ffffff;
+            }
             i {
               font-size: 15px;
             }
             &:nth-child(3) {
               i {
                 font-size: 30px;
+                &:hover {
+                  transform: scale(1.06);
+                }
               }
             }
           }
@@ -87,7 +100,7 @@ body {
                   width: 12px;
                   height: 12px;
                   border-radius: 50%;
-                  background: #fff;
+                  background-color: #b3b3b3;
                   position: absolute;
                   left: -6px;
                 }
@@ -98,18 +111,26 @@ body {
       }
     }
     .now-playing-bar__right {
+      color: #b3b3b3;
       .container {
         display: flex;
         .waiting-list {
           a {
             text-decoration: none;
-            color: white;
+            color: #b3b3b3;
+            &:hover {
+              color: #ffffff;
+            }
           }
         }
         .volume-bar {
           margin-left: 18px;
           display: flex;
           align-items: center;
+          .volume-btn {
+            cursor: pointer;
+            color: #ffffff;
+          }
           .progress-bar {
             margin-left: 10px;
             position: relative;
@@ -128,9 +149,9 @@ body {
                   width: 12px;
                   height: 12px;
                   border-radius: 50%;
-                  background: #fff;
                   position: absolute;
                   right: -6px;
+                  background-color: #b3b3b3;
                 }
             }
           }

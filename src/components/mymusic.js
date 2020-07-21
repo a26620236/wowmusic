@@ -43,7 +43,7 @@ class MyMusic extends React.Component {
         <div className='mymusic'>
           <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
           <div className='mymusic-wrapper'>
-            <div className='header'>我的收藏</div>
+            <div className='banner'>我的收藏</div>
             <div className='wrapper__background'>
               <div className='title'>播放清單</div>
               <div className='items'>

@@ -197,7 +197,7 @@ class MusicPlayer extends React.Component {
                 <div className='player-controls__btns'>
                   <div onClick={this.clickRamdom.bind(this)}><i className="fas fa-random"></i></div>
                   <div onClick={this.clickPrevious.bind(this)}><i className="fas fa-step-backward"></i></div>
-                  <div onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
+                  <div className='play-btn' onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
                   <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
                   <div onClick={this.clickLoop.bind(this)}><i className="fas fa-retweet"></i></div>
                 </div>
