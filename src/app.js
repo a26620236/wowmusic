@@ -21,29 +21,28 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    let hots = []
-    db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        hots.push(doc.data())
-      });
-    }).then(() => {
+    let { user } = this.state
+    let getUser = JSON.parse(localStorage.getItem('user'))
+    if (user == null && getUser) {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
-          hots,
+          user: getUser,
+          isLogin: true,
+          isAdmin: true,
         }
         return newState
       })
-    })
+    }
   }
   render() {
-    let { isLogin, isAdmin, user, hots } = this.state
+    let { isLogin, isAdmin, user } = this.state
     return (
       <main>
         <Router>
           <Switch>
             <Route path='/signup'>
-              <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} isLogin={isLogin} data={hots}/>
+              <SignUp changeLoginStatus={this.changeLoginStatus.bind(this)} isLogin={isLogin}/>
             </Route>
             <Route path='/signin'>
               <SignIn changeLoginStatus={this.changeLoginStatus.bind(this)} checkIsAdmin={this.checkIsAdmin.bind(this)} isLogin={isLogin}/>

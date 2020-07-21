@@ -90,7 +90,6 @@ class Homepage extends React.Component {
     let innerArr1 = []
     
     for (let i = 0; i < allAlbums.length; i++){
-      console.log(allAlbums[i].name)
       let arr = <Route path={'/album/' + allAlbums[i].name} key={i}>
         <Playlist isLogin={isLogin} isAdmin={isAdmin} albumName={allAlbums[i].name} changePlaylist={this.changePlaylist.bind(this)} user={user} favorite={favorite}/>
       </Route>
