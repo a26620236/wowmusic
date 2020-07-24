@@ -158,7 +158,7 @@
             flex-direction: column;
             .nav {
                 order: 2;
-                padding: 4px 20px;
+                padding: 8px 40px 4px;
                 background-color: #040404;
                 color: #ffffff;
                 display: flex;
@@ -167,6 +167,7 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
+                z-index: 10;
                 a {
                     text-decoration: none;
                     color: #ffffff;
@@ -177,6 +178,7 @@
                 }
                 .link {
                     a {
+                        font-size: 14px;
                         margin: 0;
                         display: block;
                         &:hover {
@@ -185,17 +187,14 @@
                         .homepage__icon {
                             display: flex;
                             justify-content: center;
-                            font-size: 24px;
                         }
                         .search__icon {
                             display: flex;
                             justify-content: center;
-                            font-size: 24px;
                         }
                         .mymusic__icon {
                             display: flex;
                             justify-content: center;
-                            font-size: 24px;
                         }
                     }
                 }
@@ -208,7 +207,7 @@
                     display: none;
                 }
                 .body {
-                    padding: 60px 30px 130px;
+                    padding: 50px 10px 130px;
                     display: flex;
                     flex-direction: column;
                     .list {
@@ -225,19 +224,20 @@
                                 margin: 10px;
                                 color: #ffffff;
                                 text-decoration: none;
+                                padding: 16px;
+                                background-color: #272727;
                                 .album-img {
                                     img {
-                                        width: 150px;
-                                        height: 150px;
+                                        width: 120px;
+                                        height: 120px;
                                     }
                                 }
                                 .headline {
-                                    width: 150px;
                                     margin: 10px 0;
                                     font-size: 16px;
                                 }
                                 .inform {
-                                    display: none;
+                                    font-size: 12px;
                                 }
                             }
                         }
@@ -246,7 +246,7 @@
             }
         }
         .footer {
-            display: none;
+            width: 100%;
         }
     }
 }
