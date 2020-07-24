@@ -33,7 +33,7 @@ body {
       }
       input {
         margin: 0 15px;
-        width: 270px;
+        width: 100px;
         height: 28px;
         padding: 6px 40px;
         border-radius: 500px;
@@ -69,8 +69,8 @@ body {
         flex-wrap: wrap;
         .itembox {
           margin: 10px;
-          width: 186px;
-          height: 186px;
+          width: 160px;
+          height: 160px;
           border-radius: 8px;
           background: rgb(77, 77, 77);
           background: linear-gradient(0deg, rgba(77, 77, 77, 1) 12%, rgba(74, 74, 74, 1) 40%, rgba(42, 42, 42, 1) 75%);
