@@ -14,6 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      
       isLogin: false,
       isAdmin: false,
       user: null,
@@ -23,7 +24,7 @@ class App extends React.Component {
   componentDidMount() {
     let { user } = this.state
     let getUser = JSON.parse(localStorage.getItem('user'))
-    if (user == null && getUser) {
+    if (getUser) {
       this.setState((currentState) => {
         let newState = {
           ...currentState,

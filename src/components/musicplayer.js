@@ -170,9 +170,7 @@ class MusicPlayer extends React.Component {
       let { currentTime, playMode, randomIndex, mobilePlayerState, mobileBarState } = this.state
       let { playlist } = this.props
       let { songs, playIndex, photoUrl } = playlist[0]
-      let bckStyle = {
-        backgroundImage: "url(" +  photoUrl  + ")",
-      }
+
       if (currentTime === 0) {
         currentTime = '0:00'
       }
