@@ -152,7 +152,7 @@
     }
     .wrapper {
       .album-cover {
-        padding: 20px 10px 10px;
+        padding: 20px 10px 30px;
         background: rgb(88, 48, 26);
         background: linear-gradient(
           0deg,
@@ -197,7 +197,7 @@
         }
       }
       .wrapper__background {
-        padding: 0 0 300px;
+        padding: 0 0 100px;
         background: rgb(15, 9, 5);
         background: linear-gradient(
           0deg,
@@ -207,25 +207,49 @@
           rgba(55, 31, 18, 1) 95%
         );
         .btns {
-          padding: 20px 40px;
+          padding: 2px 20px;
           color: white;
           display: flex;
           align-items: center;
+          justify-content: space-around;
+          background-color: gray;
+          border-radius: 50px;
+          width: 50%;
+          margin: 0 auto;
+          position: relative;
+          top: -20px;
+          font-weight: bold;
           .btns-play {
-            font-size: 40px;
-            color: green;
+            display: flex;
+            font-size: 16px;
+            color: white;
+            .btns-play-text {
+              margin-left: 10px;
+            }
             &:hover {
               cursor: pointer;
             }
           }
+          .btns-middleline {
+            width: 2px;
+            height: 37px;
+            background-color: #686868;
+          }
           .btns-favorite {
-            margin-left: 20px;
-            font-size: 24px;
+            display: flex;
+            font-size: 16px;
+            color: white;
+            .btns-favorite-text {
+              margin-left: 10px;
+            }
           }
           .btns-favorite-added {
-            margin-left: 20px;
-            font-size: 24px;
-            color: green;
+            display: flex;
+            font-size: 16px;
+            color: rgb(51, 51, 51);
+            .btns-favorite-text {
+              margin-left: 10px;
+            }
           }
         }
         .list {
@@ -233,6 +257,7 @@
             padding: 10px 40px;
             display: flex;
             justify-content: space-between;
+            font-size: 14px;
             .song-left {
               display: flex;
               .play-btn {

@@ -51,8 +51,15 @@ class Playlist extends React.Component {
             <Album data={data[0]} />
             <div className='wrapper__background'>
               <div className='btns'>
-                <div className='btns-play' onClick={this.play.bind(this)}><i className="far fa-play-circle"></i></div>
-                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}><i className="fas fa-heart"></i></div>
+                <div className='btns-play' onClick={this.play.bind(this)}>
+                  <div className='btns-play-icon'><i class="fas fa-play"></i></div>
+                  <div className='btns-play-text'>播放</div>
+                </div>
+                <div className='btns-middleline'></div>
+                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}>
+                  <div className='btns-favorite-icon'><i class="fas fa-heart"></i></div>
+                  <div className='btns-favorite-text'>收藏</div>
+                </div>
               </div>
               <SongList data={data[0].songs} />
             </div>
