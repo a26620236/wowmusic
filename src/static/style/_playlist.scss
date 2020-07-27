@@ -21,7 +21,7 @@
     }
     .wrapper {
       .album-cover {
-        padding: 70px 30px 30px 30px;
+        padding: 30px;
         height: 230px;
         display: flex;
         background: rgb(88, 48, 26);
@@ -95,6 +95,9 @@
             font-size: 24px;
             color: green;
           }
+        }
+        .mobile-btns {
+          display: none;
         }
         .list {
           .song {
@@ -207,6 +210,9 @@
           rgba(55, 31, 18, 1) 95%
         );
         .btns {
+          display: none;
+        }
+        .mobile-btns {
           padding: 2px 20px;
           color: white;
           display: flex;

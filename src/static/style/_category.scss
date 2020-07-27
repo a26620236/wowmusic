@@ -20,16 +20,9 @@ body {
   .category-wrapper {
     padding: 0 0 450px;
     .banner {
-      background: rgb(15, 9, 5);
-      background: linear-gradient(
-        0deg,
-        rgba(15, 9, 5, 1) 7%,
-        rgba(11, 6, 4, 1) 68%,
-        rgba(48, 27, 16, 1) 87%,
-        rgba(55, 31, 18, 1) 95%
-      );
+      background: linear-gradient(-180deg, #4d4d4d 12%, #4a4a4a 40%, #2a2a2a 75%);
       font-size: 70px;
-      padding:50px 30px 40px;
+      padding: 50px 30px 40px;
       font-weight: 900;
       color: #ffffff;
     }

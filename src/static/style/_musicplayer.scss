@@ -134,11 +134,17 @@
               align-items: center;
               .volume-btn {
                 cursor: pointer;
-                color: #ffffff;
+                color: #b3b3b3;
+                &:hover {
+                  color: #ffffff;
+                }
               }
               .progress-bar {
                 margin-left: 10px;
                 position: relative;
+                &:hover {
+                  color: #ffffff;
+                }
                 .container {
                   display: flex;
                   .volume {

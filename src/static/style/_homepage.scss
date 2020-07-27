@@ -40,7 +40,7 @@
                             color: #ffffff;
                         }
                         .homepage__icon {
-                            margin-right: 20px;
+                            margin-right: 18px;
                             font-size: 24px;
                         }
                         .search__icon {
@@ -64,8 +64,8 @@
                     justify-content: space-between;
                     align-items: center;
                     color: #ffffff;
-                    position: fixed;
-                    top: 0;
+                    opacity: 0.8;
+                    background-color: #2b2b2b;
                     .page-btns {
                         display: flex;
                         font-size: 24px;
@@ -96,7 +96,7 @@
                     }
                 }
                 .body {
-                    padding: 60px 30px 500px;
+                    padding: 30px 30px 500px;
                     display: flex;
                     flex-direction: column;
                     .list {

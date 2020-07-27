@@ -52,12 +52,20 @@ class Playlist extends React.Component {
             <div className='wrapper__background'>
               <div className='btns'>
                 <div className='btns-play' onClick={this.play.bind(this)}>
-                  <div className='btns-play-icon'><i class="fas fa-play"></i></div>
+                  <div className='btns-play-icon'><i className="far fa-play-circle"></i></div>
+                </div>
+                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}>
+                  <div className='btns-favorite-icon'><i className="fas fa-heart"></i></div>
+                </div>
+              </div>
+              <div className='mobile-btns'>
+                <div className='btns-play' onClick={this.play.bind(this)}>
+                  <div className='btns-play-icon'><i className="fas fa-play"></i></div>
                   <div className='btns-play-text'>播放</div>
                 </div>
                 <div className='btns-middleline'></div>
                 <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}>
-                  <div className='btns-favorite-icon'><i class="fas fa-heart"></i></div>
+                  <div className='btns-favorite-icon'><i className="fas fa-heart"></i></div>
                   <div className='btns-favorite-text'>收藏</div>
                 </div>
               </div>
