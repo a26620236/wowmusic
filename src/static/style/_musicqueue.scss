@@ -1,67 +1,32 @@
-body {
-  margin: 0;
-  padding: 0;
-}
-.musicqueue {
-  font-family: Microsoft JhengHei;
-  .queue-wrapper {
-    padding: 15px 30px 450px;
-    background-color: #2e2e2e;
-    .queue-title {
-      margin: 16px 0;
-      font-family: Microsoft JhengHei;
-      font-size: 28px;
-      font-weight: 600;
-      color: white;
-    }
-    .now-playing {
-      .now-playing-header {
+@media (min-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .musicqueue {
+    font-family: Microsoft JhengHei;
+    .queue-wrapper {
+      padding: 15px 30px 450px;
+      background-color: #2e2e2e;
+      .queue-title {
         margin: 16px 0;
-        font-size: 20px;
+        font-family: Microsoft JhengHei;
+        font-size: 32px;
+        font-weight: 600;
         color: white;
       }
-      .now-playing-body {
-        .song {
-          padding: 10px 40px;
-          display: flex;
-          justify-content: space-between;
-          .song-left {
-            display: flex;
-            .play-btn {
-              color: white;
-              audio {
-                width: 400px;
-                height: 50px;
-              }
-            }
-            .song-inform {
-              margin: 0 20px;
-              color: white;
-              div {
-                &:nth-child(2) {
-                  display: flex;
-                }
-              }
-            }
-          }
-          .song-right {
-            color: white;
-          }
+      .now-playing {
+        .now-playing-header {
+          margin: 16px 0;
+          font-size: 24px;
+          color: white;
         }
-      }
-    }
-    .next {
-      .next-header {
-        margin: 16px 0;
-        font-size: 20px;
-        color: white;
-      }
-      .next-body {
-        .list {
+        .now-playing-body {
           .song {
-            padding: 10px 40px;
+            padding: 10px 0;
             display: flex;
             justify-content: space-between;
+            font-size: 16px;
             .song-left {
               display: flex;
               .play-btn {
@@ -83,6 +48,141 @@ body {
             }
             .song-right {
               color: white;
+            }
+          }
+        }
+      }
+      .next {
+        .next-header {
+          margin: 16px 0;
+          font-size: 24px;
+          color: white;
+        }
+        .next-body {
+          .list {
+            .song {
+              padding: 10px 0;
+              display: flex;
+              justify-content: space-between;
+              font-size: 16px;
+              .song-left {
+                display: flex;
+                .play-btn {
+                  color: white;
+                  audio {
+                    width: 400px;
+                    height: 50px;
+                  }
+                }
+                .song-inform {
+                  margin: 0 20px;
+                  color: white;
+                  div {
+                    &:nth-child(2) {
+                      display: flex;
+                    }
+                  }
+                }
+              }
+              .song-right {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .musicqueue {
+    font-family: Microsoft JhengHei;
+    .queue-wrapper {
+      padding: 15px 30px 350px;
+      background-color: #2e2e2e;
+      .queue-title {
+        margin: 16px 0;
+        font-family: Microsoft JhengHei;
+        font-size: 28px;
+        font-weight: 600;
+        color: white;
+      }
+      .now-playing {
+        .now-playing-header {
+          margin: 16px 0;
+          font-size: 20px;
+          color: white;
+        }
+        .now-playing-body {
+          .song {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            .song-left {
+              display: flex;
+              .play-btn {
+                color: white;
+                audio {
+                  width: 400px;
+                  height: 50px;
+                }
+              }
+              .song-inform {
+                margin: 0 20px;
+                color: white;
+                div {
+                  &:nth-child(2) {
+                    display: flex;
+                  }
+                }
+              }
+            }
+            .song-right {
+              color: white;
+            }
+          }
+        }
+      }
+      .next {
+        .next-header {
+          margin: 16px 0;
+          font-size: 20px;
+          color: white;
+        }
+        .next-body {
+          .list {
+            .song {
+              padding: 10px 0;
+              display: flex;
+              justify-content: space-between;
+              font-size: 14px;
+              .song-left {
+                display: flex;
+                .play-btn {
+                  color: white;
+                  audio {
+                    width: 400px;
+                    height: 50px;
+                  }
+                }
+                .song-inform {
+                  margin: 0 20px;
+                  color: white;
+                  div {
+                    &:nth-child(2) {
+                      display: flex;
+                    }
+                  }
+                }
+              }
+              .song-right {
+                color: white;
+              }
             }
           }
         }

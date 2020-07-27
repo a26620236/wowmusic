@@ -116,9 +116,9 @@ class MusicPlayer extends React.Component {
           <audio src='' ref={this.audio} />
           <div className='player-container'>
             <div className='mobile-bar'>
-              <div className='show'><i className="fas fa-angle-left"></i></div>
+              <div className='show' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-left"></i></div>
               <div className='playing'><i className="fas fa-music"></i></div>
-              <div className='hide'><i className="fas fa-angle-right"></i></div>
+              <div className='hide' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-right"></i></div>
             </div>
             <div className='now-playing-bar'>
               <div className='now-playing-bar__left'>
@@ -273,11 +273,11 @@ class MusicPlayer extends React.Component {
       return (
         <div className='musicplayer'>
           <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={true} />
-          <div className={mobileBarState? 'player-container' : 'player-container-closed'}>
-            <div className='mobile-bar' onTouchMove={this.clickMobilebar.bind(this)}>
-              <div className='show'><i className="fas fa-angle-left"></i></div>
+          <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
+            <div className='mobile-bar'>
+              <div className='show' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-left"></i></div>
               <div className='playing'><i className="fas fa-music"></i></div>
-              <div className='hide'><i className="fas fa-angle-right"></i></div>
+              <div className='hide' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-right"></i></div>
             </div>
             <div className='now-playing-bar'>
               <div className='now-playing-bar__left' onClick={this.clickMobilePlayer.bind(this)}>

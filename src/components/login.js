@@ -28,7 +28,7 @@ class SignIn extends React.Component {
             <div className='cuttingline'></div>
             <div className='inform'>
               <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} /></div>
-              <div><input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)} /></div>
+              <div><input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)} /></div>
               <div onClick={this.onSubmit.bind(this)}>登入</div>
             </div>
             <div className='footer'><Link to='/signup'>還沒有 wowmusic 帳號 ?</Link></div>
@@ -130,15 +130,15 @@ class SignUp extends React.Component {
                 <input data-field='username' placeholder='暱稱' onChange={this.handleInput.bind(this)}></input>
               </div>
               <div>
-                <input data-field='password' placeholder='密碼' onChange={this.handleInput.bind(this)}></input>
+                <input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)}></input>
               </div>
               <div>
-                <input data-field='checkpassword' placeholder='確定密碼'></input>
+                <input data-field='checkpassword' placeholder='確定密碼' type='password'></input>
               </div>
               <div onClick={this.onSubmit.bind(this)}>註冊</div>
             </div>
             <div className='footer'>
-              當您按下「建立帳號」按鈕，代表您已經閱讀並同意 wowmusic服務條款 及 訂閱電子報</div>
+              當您按下「建立帳號」按鈕，代表您已經閱讀並同意 wowmusic 服務條款 及 訂閱電子報</div>
           </div>
         </div>
       )

@@ -1,60 +1,128 @@
-body {
-  margin: 0;
-  padding: 0;
-}
-.mymusic {
-  font-family: Microsoft JhengHei;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  .header {
-    display: flex;
-    justify-content: space-between;
-    div {
-      &:nth-child(1) {
-        display: flex;
-      }
-    }
-    color: #ffffff;
+@media (min-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
   }
-  .mymusic-wrapper {
-    .banner {
-      background: rgb(77, 77, 77);
-      background: linear-gradient(-180deg, rgba(77, 77, 77, 1) 12%, rgba(74, 74, 74, 1) 40%, rgba(42, 42, 42, 1) 75%);
-      font-size: 70px;
-      padding: 50px 30px 40px;
-      font-weight: 900;
+  .mymusic {
+    font-family: Microsoft JhengHei;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      div {
+        &:nth-child(1) {
+          display: flex;
+        }
+      }
       color: #ffffff;
     }
-    .wrapper__background {
-      padding: 16px 20px 450px;
-      .title {
-        margin: 10px;
-        font-size: 22px;
-        font-weight: bolder;
+    .mymusic-wrapper {
+      .banner {
+        background: rgb(77, 77, 77);
+        background: linear-gradient(-180deg, rgba(77, 77, 77, 1) 12%, rgba(74, 74, 74, 1) 40%, rgba(42, 42, 42, 1) 75%);
+        font-size: 70px;
+        padding: 50px 30px 40px;
+        font-weight: 900;
         color: #ffffff;
       }
-      .items {
-        display: flex;
-        flex-wrap: wrap;
-        .itembox {
+      .wrapper__background {
+        padding: 16px 20px 450px;
+        .title {
           margin: 10px;
+          font-size: 22px;
+          font-weight: bolder;
           color: #ffffff;
-          padding: 16px;
-          background-color: #272727;
-          text-decoration: none;
-          .album-img {
-            img {
-              width: 130px;
-              height: 130px;
+        }
+        .items {
+          display: flex;
+          flex-wrap: wrap;
+          .itembox {
+            margin: 10px;
+            color: #ffffff;
+            padding: 16px;
+            background-color: #272727;
+            text-decoration: none;
+            .album-img {
+              img {
+                width: 130px;
+                height: 130px;
+              }
+            }
+            .headline {
+              margin: 10px 0;
+              font-size: 16px;
+            }
+            .inform {
+              font-size: 12px;
             }
           }
-          .headline {
-            margin: 10px 0;
-            font-size: 16px;
-          }
-          .inform {
-            font-size: 12px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .mymusic {
+    font-family: Microsoft JhengHei;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      div {
+        &:nth-child(1) {
+          display: flex;
+        }
+      }
+      color: #ffffff;
+    }
+    .mymusic-wrapper {
+      .banner {
+        background: rgb(77, 77, 77);
+        background: linear-gradient(-180deg, rgba(77, 77, 77, 1) 12%, rgba(74, 74, 74, 1) 40%, rgba(42, 42, 42, 1) 75%);
+        font-size: 60px;
+        padding: 50px 30px 40px;
+        font-weight: 900;
+        color: #ffffff;
+      }
+      .wrapper__background {
+        padding: 16px 20px 150px;
+        .title {
+          margin: 10px;
+          font-size: 22px;
+          font-weight: bolder;
+          color: #ffffff;
+        }
+        .items {
+          display: flex;
+          flex-wrap: wrap;
+          .itembox {
+            margin: 10px;
+            color: #ffffff;
+            padding: 16px;
+            background-color: #272727;
+            text-decoration: none;
+            border-radius: 10px;
+            .album-img {
+              img {
+                width: 115px;
+                height: 115px;
+              }
+            }
+            .headline {
+              margin: 10px 0;
+              font-size: 14px;
+            }
+            .inform {
+              font-size: 10px;
+            }
           }
         }
       }

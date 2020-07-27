@@ -1,145 +1,272 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-.signin {
-    font-family: Microsoft JhengHei;
-    padding: 0 22%;
-    background: url(https://play.kkbox.com/assets/images/tw_landing01.jpg) no-repeat;
-    background-size: cover;
-    background-position: center center;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .wrapper {
-        margin-top: -80px;
-        padding: 40px 30px 0;
-        width: 360px;
-        box-sizing: border-box;
-        background-color: #fff;
+@media (min-width: 500px) {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .signin {
+        font-family: Microsoft JhengHei;
+        padding: 0 22%;
+        background: url(https://play.kkbox.com/assets/images/tw_landing01.jpg) no-repeat;
+        background-size: cover;
+        background-position: center center;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         display: flex;
-        flex-direction: column;
-        .header {
-            margin: 0 40px;
-            margin-top: 30px;
-            text-align: center;
-            color: #00afd6;
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .cuttingline {
-            width: 100%;
-            margin: 20px 0;
-            border-top: 1px solid rgb(218, 218, 218);
-        }
-        .inform {
-            margin-bottom: 120px;
-            div {
-                margin: 12px 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                input {
-                    width: 260px;
-                    padding: 4px 6px;
-                    box-sizing: border-box;
-                    border: 1px solid #ccc;
-                    border-radius: 3px;
-                    outline: none;
-                    height: 30px;
+        align-items: center;
+        justify-content: flex-end;
+        .wrapper {
+            margin-top: -80px;
+            padding: 40px 30px 0;
+            width: 360px;
+            box-sizing: border-box;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            .header {
+                margin: 0 40px;
+                margin-top: 30px;
+                text-align: center;
+                color: #00afd6;
+                font-size: 36px;
+                font-weight: bold;
+            }
+            .cuttingline {
+                width: 100%;
+                margin: 20px 0;
+                border-top: 1px solid rgb(218, 218, 218);
+            }
+            .inform {
+                margin-bottom: 120px;
+                div {
+                    margin: 12px 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    input {
+                        width: 260px;
+                        padding: 4px 6px;
+                        box-sizing: border-box;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        outline: none;
+                        height: 30px;
+                    }
+                    &:nth-child(3) {
+                        margin: 0 20px;
+                        color: #fff;
+                        background-color: #0fabd1;
+                        border-radius: 3px;
+                        box-sizing: border-box;
+                        border: 1px solid #b5b5b5;
+                        padding: 8px 10px;
+                        white-space: nowrap;
+                        font-size: 12px;
+                        text-align: center;
+                    }
                 }
-                &:nth-child(3) {
-                    margin: 0 20px;
-                    color: #fff;
-                    background-color: #0fabd1;
-                    border-radius: 3px;
-                    box-sizing: border-box;
-                    border: 1px solid #b5b5b5;
-                    padding: 8px 10px;
-                    white-space: nowrap;
-                    font-size: 12px;
-                    text-align: center;
+            }
+            .footer {
+                font-size: 12px;
+                margin: 0 -30px;
+                padding: 15px 0;
+                border-top: 1px solid #eee;
+                background-color: #f6f6f6;
+                text-align: center;
+                a {
+                    text-decoration: none;
+                    color: #17b5da;
                 }
             }
         }
-        .footer {
-            font-size: 12px;
-            margin: 0 -30px;
-            padding: 15px 0;
-            border-top: 1px solid #eee;
-            background-color: #f6f6f6;
-            text-align: center;
-            a {
-                text-decoration: none;
-                color: #17b5da;
+    }
+    .signup {
+        font-family: Microsoft JhengHei;
+        padding: 0 22%;
+        background: url(https://play.kkbox.com/assets/images/tw_landing01.jpg) no-repeat;
+        background-size: cover;
+        background-position: center center;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .wrapper {
+            margin-top: -80px;
+            padding: 55px 30px;
+            width: 360px;
+            box-sizing: border-box;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .head {
+                color: #00afd6;
+                font-size: 30px;
+                font-weight: bold;
+            }
+            .inform {
+                div {
+                    margin: 10px 0;
+                    input {
+                        width: 260px;
+                        padding: 4px 6px;
+                        box-sizing: border-box;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        outline: none;
+                        height: 30px;
+                    }
+                    &:nth-child(6) {
+                        width: 260px;
+                        box-sizing: border-box;
+                        color: #fff;
+                        background-color: #0fabd1;
+                        border-radius: 3px;
+                        border: 1px solid #b5b5b5;
+                        padding: 8px 10px;
+                        white-space: nowrap;
+                        font-size: 12px;
+                        text-align: center;
+                    }
+                }
+            }
+            .footer {
+                margin: 10px 0;
+                width: 260px;
+                font-size: 12px;
+                color: #a1a1a1;
             }
         }
     }
 }
-.signup {
-    font-family: Microsoft JhengHei;
-    padding: 0 22%;
-    background: url(https://play.kkbox.com/assets/images/tw_landing01.jpg) no-repeat;
-    background-size: cover;
-    background-position: center center;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .wrapper {
-        margin-top: -80px;
-        padding: 40px 30px;
-        width: 400px;
-        box-sizing: border-box;
-        background-color: #fff;
+@media (max-width: 500px) {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .signin {
+        font-family: Microsoft JhengHei;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        .head {
-            color: #00afd6;
-            font-size: 30px;
-            font-weight: bold;
-        }
-        .inform {
-            div {
-                margin: 10px 0;
-                input {
-                    width: 260px;
-                    padding: 4px 6px;
-                    box-sizing: border-box;
-                    border: 1px solid #ccc;
-                    border-radius: 3px;
-                    outline: none;
-                    height: 30px;
+        justify-content: center;
+        height: 100vh;
+        .wrapper {
+            box-sizing: border-box;
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            .header {
+                margin: 0 40px;
+                margin-top: 30px;
+                text-align: center;
+                color: #00afd6;
+                font-size: 36px;
+                font-weight: bold;
+            }
+            .cuttingline {
+                width: 90%;
+                margin: 20px auto;
+                border-top: 1px solid rgb(218, 218, 218);
+            }
+            .inform {
+                margin-bottom: 120px;
+                div {
+                    margin: 12px 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    input {
+                        width: 250px;
+                        padding: 4px 6px;
+                        box-sizing: border-box;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        outline: none;
+                        height: 30px;
+                    }
+                    &:nth-child(3) {
+                        margin: 0 26px;
+                        color: #fff;
+                        background-color: #0fabd1;
+                        border-radius: 3px;
+                        box-sizing: border-box;
+                        border: 1px solid #b5b5b5;
+                        padding: 8px 10px;
+                        white-space: nowrap;
+                        font-size: 12px;
+                        text-align: center;
+                    }
                 }
-                &:nth-child(6) {
-                    width: 260px;
-                    box-sizing: border-box;
-                    color: #fff;
-                    background-color: #0fabd1;
-                    border-radius: 3px;
-                    border: 1px solid #b5b5b5;
-                    padding: 8px 10px;
-                    white-space: nowrap;
-                    font-size: 12px;
-                    text-align: center;
+            }
+            .footer {
+                font-size: 12px;
+                padding: 15px 0;
+                border-top: 1px solid #eee;
+                background-color: #f6f6f6;
+                text-align: center;
+                a {
+                    text-decoration: none;
+                    color: #17b5da;
                 }
             }
         }
-        .footer {
-            margin: 10px 0;
-            width: 260px;
-            font-size: 12px;
-            color: #a1a1a1;
+    }
+    .signup {
+        font-family: Microsoft JhengHei;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .wrapper {
+            padding: 30px;
+            box-sizing: border-box;
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .head {
+                color: #00afd6;
+                font-size: 30px;
+                font-weight: bold;
+            }
+            .inform {
+                div {
+                    margin: 10px 0;
+                    input {
+                        width: 260px;
+                        padding: 4px 6px;
+                        box-sizing: border-box;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        outline: none;
+                        height: 30px;
+                    }
+                    &:nth-child(6) {
+                        width: 260px;
+                        box-sizing: border-box;
+                        color: #fff;
+                        background-color: #0fabd1;
+                        border-radius: 3px;
+                        border: 1px solid #b5b5b5;
+                        padding: 8px 10px;
+                        white-space: nowrap;
+                        font-size: 12px;
+                        text-align: center;
+                    }
+                }
+            }
+            .footer {
+                margin: 10px 0;
+                width: 260px;
+                font-size: 12px;
+                color: #a1a1a1;
+            }
         }
     }
 }

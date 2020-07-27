@@ -207,7 +207,7 @@
                     display: none;
                 }
                 .body {
-                    padding: 50px 10px 130px;
+                    padding: 50px 10px 200px;
                     display: flex;
                     flex-direction: column;
                     .list {
@@ -221,6 +221,7 @@
                             display: flex;
                             flex-wrap: wrap;
                             .itembox {
+                                border-radius: 10px;
                                 margin: 10px;
                                 color: #ffffff;
                                 text-decoration: none;
@@ -228,16 +229,16 @@
                                 background-color: #272727;
                                 .album-img {
                                     img {
-                                        width: 120px;
-                                        height: 120px;
+                                        width: 115px;
+                                        height: 115px;
                                     }
                                 }
                                 .headline {
                                     margin: 10px 0;
-                                    font-size: 16px;
+                                    font-size: 14px;
                                 }
                                 .inform {
-                                    font-size: 12px;
+                                    font-size: 10px;
                                 }
                             }
                         }
