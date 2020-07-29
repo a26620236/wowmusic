@@ -42,7 +42,7 @@ class Navbar extends React.Component {
               <i className="fas fa-music"></i>
             </div>
             <div className='mymusic__text'>
-              我的音樂庫
+              收藏
             </div>
           </Link>
         </div>
