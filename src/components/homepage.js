@@ -91,7 +91,7 @@ class Homepage extends React.Component {
     
     for (let i = 0; i < allAlbums.length; i++){
       let arr = <Route path={'/album/' + allAlbums[i].name} key={i}>
-        <Playlist isLogin={isLogin} isAdmin={isAdmin} albumName={allAlbums[i].name} changePlaylist={this.changePlaylist.bind(this)} user={user} favorite={favorite}/>
+        <Playlist isLogin={isLogin} isAdmin={isAdmin} albumName={allAlbums[i].name} changePlaylist={this.changePlaylist.bind(this)} user={user} favorite={favorite} changeFavorite={this.changeFavorite.bind(this)} />
       </Route>
       innerArr.push(arr)
     }
@@ -186,6 +186,23 @@ class Homepage extends React.Component {
     let { songs } = this.state.playlist[0]
     let reset = -(songs.length - 1)
     this.playNext(reset)
+  }
+  changeFavorite() {
+    let favorite = []
+    let { user } = this.props
+    let { uid } = user
+    db.collection('users').doc(uid).collection('favorite').get().then((querySnapshot) => {
+      querySnapshot.forEach(function (doc) {
+        favorite.push(doc.data().album.name)
+      })
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          favorite,
+        }
+        return newState
+      })
+    })
   }
 }
 

@@ -16,6 +16,10 @@ class Playlist extends React.Component {
       data: [],
       myFavorite: false
     }
+    this.add = React.createRef()
+    this.mobile__add = React.createRef()
+    this.remove = React.createRef()
+    this.mobile__remove = React.createRef()
   }
   componentDidMount() {
     let data = []
@@ -41,12 +45,13 @@ class Playlist extends React.Component {
     }
   }
   render() {
-    let { isLogin, isAdmin, user } = this.props
+    let { isLogin, isAdmin, changePlaylist, user } = this.props
     let { data, myFavorite } = this.state
     if (data.length > 0) {
+      let { songs, name, photoUrl } = this.state.data[0]
       return (
         <div className='playlist'>
-          <Header isLogin={isLogin} isAdmin={isAdmin} user={user}/>
+          <Header isLogin={isLogin} isAdmin={isAdmin} user={user} />
           <div className='wrapper'>
             <Album data={data[0]} />
             <div className='wrapper__background'>
@@ -54,9 +59,11 @@ class Playlist extends React.Component {
                 <div className='btns-play' onClick={this.play.bind(this)}>
                   <div className='btns-play-icon'><i className="far fa-play-circle"></i></div>
                 </div>
-                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}>
+                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={myFavorite ? this.removeFavorite.bind(this) : this.addFavorite.bind(this)}>
                   <div className='btns-favorite-icon'><i className="fas fa-heart"></i></div>
                 </div>
+                <div className='alert' ref={this.add}>已加入您的收藏清單</div>
+                <div className='alert' ref={this.remove}>已從您的收藏清單移除</div>
               </div>
               <div className='mobile-btns'>
                 <div className='btns-play' onClick={this.play.bind(this)}>
@@ -64,12 +71,14 @@ class Playlist extends React.Component {
                   <div className='btns-play-text'>播放</div>
                 </div>
                 <div className='btns-middleline'></div>
-                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={this.addFavorite.bind(this)}>
+                <div className={myFavorite ? 'btns-favorite-added' : 'btns-favorite'} onClick={myFavorite ? this.removeFavorite.bind(this) : this.addFavorite.bind(this)}>
                   <div className='btns-favorite-icon'><i className="fas fa-heart"></i></div>
                   <div className='btns-favorite-text'>收藏</div>
                 </div>
+                <div className='alert' ref={this.mobile__add}>已收藏</div>
+                <div className='alert' ref={this.mobile__remove}>已移除</div>
               </div>
-              <SongList data={data[0].songs} />
+              <SongList songs={songs} name={name} photoUrl={photoUrl} data={data[0].songs} changePlaylist={changePlaylist} user={user} />
             </div>
           </div>
         </div>
@@ -95,12 +104,55 @@ class Playlist extends React.Component {
     })
   }
   addFavorite() {
+    let add = this.add.current
+    let remove = this.remove.current
     let { data } = this.state
-    let { user } = this.props
+    let { user, changeFavorite } = this.props
     db.collection('users').doc(user.uid).collection('favorite').doc(data[0].name).set({
       album: data[0]
     }).then(() => {
-      alert('收藏成功')
+      changeFavorite()
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          myFavorite: true
+        }
+        return newState
+      })
+      remove.classList.remove('add-alert')
+      remove.classList.add('alert')
+      add.classList.remove('alert')
+      add.classList.add('add-alert')
+
+      mobile__remove.classList.remove('add-alert')
+      mobile__remove.classList.add('alert')
+      mobile__add.classList.remove('alert')
+      mobile__add.classList.add('add-alert')
+    })
+  }
+  removeFavorite() {
+    let add = this.add.current
+    let remove = this.remove.current
+    let { data } = this.state
+    let { user, changeFavorite } = this.props
+    db.collection('users').doc(user.uid).collection('favorite').doc(data[0].name).delete().then(() => {
+      changeFavorite()
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          myFavorite: false
+        }
+        return newState
+      })
+      add.classList.add('alert')
+      add.classList.remove('add-alert')
+      remove.classList.remove('alert')
+      remove.classList.add('add-alert')
+
+      mobile__add.classList.add('alert')
+      mobile__add.classList.remove('add-alert')
+      mobile__remove.classList.remove('alert')
+      mobile__remove.classList.add('add-alert')
     })
   }
 }
@@ -168,12 +220,13 @@ class SongList extends React.Component {
     super(props)
   }
   render() {
+    let { changePlaylist, user, name, photoUrl } = this.props
     let songs = this.props.data
     if (songs.length > 0) {
       return (
         <div className='list'>
           {songs.map((e, index) => {
-            return <Song data={e} key={index} />
+            return <Song data={e} key={index} index={index} changePlaylist={changePlaylist} user={user} songs={songs} name={name} photoUrl={photoUrl} />
           })}
         </div>
       )
@@ -188,15 +241,41 @@ class SongList extends React.Component {
 class Song extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      mouseover: false,
+    }
+    this.div = React.createRef()
+  }
+  componentDidMount() {
+    let song = this.div.current
+    song.addEventListener("mouseover", () => {
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          mouseover: true
+        }
+        return newState
+      })
+    })
+    song.addEventListener("mouseout", (e) => {
+      this.setState((currentState) => {
+        let newState = {
+          ...currentState,
+          mouseover: false
+        }
+        return newState
+      })
+    })
   }
   render() {
     let song = this.props.data
+    let { mouseover } = this.state
     if (song.name) {
       return (
-        <div className='song'>
+        <div className='song' onClick={this.playSong.bind(this)} ref={this.div}>
           <div className='song-left'>
             <div className='play-btn'>
-              <i className="fas fa-music"></i>
+              <i className={mouseover ? "fas fa-play" : "fas fa-music"}></i>
             </div>
             <div className='song-inform'>
               <div className='song-name'>{song.name}</div>
@@ -218,6 +297,18 @@ class Song extends React.Component {
         <div>isLoading</div>
       )
     }
+  }
+  playSong() {
+    let { changePlaylist, user, index, songs, name, photoUrl } = this.props
+    let { uid } = user
+    db.collection('users').doc(uid).collection('playlist').doc('queue').set({
+      songs,
+      name,
+      playIndex: index,
+      photoUrl,
+    }).then(() => {
+      changePlaylist()
+    })
   }
 }
 export { Playlist, SongList, Song }

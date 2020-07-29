@@ -79,21 +79,55 @@
           color: white;
           display: flex;
           align-items: center;
+          position: relative;
           .btns-play {
             font-size: 40px;
-            color: green;
+            color: #33ab33;
             &:hover {
               cursor: pointer;
+              transform: scale(1.06);
             }
           }
           .btns-favorite {
             margin-left: 20px;
             font-size: 24px;
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.06);
+            }
           }
           .btns-favorite-added {
             margin-left: 20px;
             font-size: 24px;
-            color: green;
+            color: #33ab33;
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.06);
+            }
+          }
+          .alert {
+            display: none;
+          }
+          .add-alert {
+            opacity: 0;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: rgb(17, 17, 240);
+            color: white;
+            animation-name: add;
+            animation-duration: 4s;
+            animation-timing-function: ease-in-out;
+            position: absolute;
+            left: 15vw;
+            @keyframes add {
+              from {
+                opacity: 1;
+              }
+              to {
+                opacity: 0;
+              }
+            }
           }
         }
         .mobile-btns {
@@ -104,6 +138,14 @@
             padding: 10px 40px;
             display: flex;
             justify-content: space-between;
+            &:hover {
+              cursor: pointer;
+              background-color: rgb(255 255 255 / 7%);
+              border-bottom-color: rgb(179, 179, 179);
+              transition-property: background-color;
+              transition-duration: 0.2s;
+              transition-timing-function: linear;
+            }
             .song-left {
               display: flex;
               .play-btn {
@@ -257,6 +299,30 @@
               margin-left: 10px;
             }
           }
+          .alert {
+            display: none;
+          }
+          .add-alert {
+            opacity: 0;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #989898;
+            color: white;
+            animation-name: add;
+            animation-duration: 4s;
+            animation-timing-function: ease-in-out;
+            position: absolute;
+            top: -200px;
+            @keyframes add {
+              from {
+                opacity: 1;
+              }
+              to {
+                opacity: 0;
+              }
+            }
+          }
         }
         .list {
           .song {
@@ -264,6 +330,11 @@
             display: flex;
             justify-content: space-between;
             font-size: 14px;
+            &:hover {
+              cursor: pointer;
+              background-color: rgba(255, 255, 255, 0.043);
+              border-bottom-color: rgb(179, 179, 179);
+            }
             .song-left {
               display: flex;
               .play-btn {
