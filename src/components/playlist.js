@@ -106,6 +106,8 @@ class Playlist extends React.Component {
   addFavorite() {
     let add = this.add.current
     let remove = this.remove.current
+    let mobile__add = this.mobile__add.current
+    let mobile__remove = this.mobile__remove.current
     let { data } = this.state
     let { user, changeFavorite } = this.props
     db.collection('users').doc(user.uid).collection('favorite').doc(data[0].name).set({
@@ -133,6 +135,8 @@ class Playlist extends React.Component {
   removeFavorite() {
     let add = this.add.current
     let remove = this.remove.current
+    let mobile__add = this.mobile__add.current
+    let mobile__remove = this.mobile__remove.current
     let { data } = this.state
     let { user, changeFavorite } = this.props
     db.collection('users').doc(user.uid).collection('favorite').doc(data[0].name).delete().then(() => {

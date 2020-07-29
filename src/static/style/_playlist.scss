@@ -116,8 +116,8 @@
             background-color: rgb(17, 17, 240);
             color: white;
             animation-name: add;
-            animation-duration: 4s;
-            animation-timing-function: ease-in-out;
+            animation-duration: 3s;
+            animation-timing-function: ease-in;
             position: absolute;
             left: 15vw;
             @keyframes add {
@@ -311,7 +311,7 @@
             color: white;
             animation-name: add;
             animation-duration: 4s;
-            animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in;
             position: absolute;
             top: -200px;
             @keyframes add {
