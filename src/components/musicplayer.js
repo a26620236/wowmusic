@@ -12,7 +12,7 @@ class MusicPlayer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      play: true,
+      play: false,
       currentTime: 0,
       playMode: 'normal',
       randomIndex: 0,
@@ -98,7 +98,8 @@ class MusicPlayer extends React.Component {
     });
   }
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
+    let { firstLoad } = this.props
+    if (this.props !== prevProps && !firstLoad) {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
@@ -582,7 +583,7 @@ class MusicPlayer extends React.Component {
     let { playNext } = this.props
     let { playMode } = this.state
     let { songs, playIndex } = this.props.playlist[0]
-    if (playMode = 'random') {
+    if (playMode == 'random') {
       this.setRamdomState()
       return
     }
@@ -601,7 +602,7 @@ class MusicPlayer extends React.Component {
     let { playPrevious } = this.props
     let { playMode } = this.state
     let { playIndex } = this.props.playlist[0]
-    if (playMode = 'random') {
+    if (playMode == 'random') {
       this.setRamdomState()
       return
     }
