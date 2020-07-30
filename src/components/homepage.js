@@ -43,15 +43,19 @@ class Homepage extends React.Component {
       let category = []
       let allAlbums = []
       let favorite = []
+      let arr = []
+      let arr1 = []
       db.collection("albums").where('category', '==', '熱門好歌').get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          data.push(doc.data())
+          arr.push(doc.data())
         });
+        data.push(arr)
         return db.collection("albums").where('category', '==', '古典樂').get()
       }).then((querySnapshot) => {
         querySnapshot.forEach(function (doc) {
-          data.push(doc.data())
+          arr1.push(doc.data())
         });
+        data.push(arr1)
         return db.collection('users').doc(uid).collection('playlist').doc('queue').get()
       }).then((doc) => {
         playlist.push(doc.data())

@@ -17,8 +17,8 @@ class Header extends React.Component {
       return (
         <div className='header'>
           <div className='page-btns'>
-            <div>&#10094;</div>
-            <div>&#10095;</div>
+            <div onClick={this.goBack.bind(this)}>&#10094;</div>
+            <div onClick={this.goNext.bind(this)}>&#10095;</div>
           </div>
           <div className='users'>
             <div>{user.username}</div>
@@ -52,6 +52,14 @@ class Header extends React.Component {
         <div>isLoading</div>
       )
     }
+  }
+  goBack() {
+    let history = window.history
+    history.back()
+  }
+  goNext() {
+    let history = window.history
+    history.go(1)
   }
 }
 

@@ -106,30 +106,40 @@
                             font-weight: bolder;
                             color: #ffffff;
                         }
-                        .items {
+                        .itemlist {
                             display: flex;
                             flex-wrap: wrap;
-                            .itembox {
-                                margin: 10px;
-                                color: #ffffff;
-                                padding: 20px;
-                                background-color: #272727;
-                                border-radius: 10px;
-                                text-decoration: none;
-                                .album-img {
-                                    img {
-                                        width: 150px;
-                                        height: 150px;
+                            .items {
+                                display: flex;
+                                flex-wrap: wrap;
+                                .itembox {
+                                    margin: 10px;
+                                    color: #ffffff;
+                                    padding: 20px;
+                                    background-color: #272727;
+                                    border-radius: 10px;
+                                    text-decoration: none;
+                                    .album-img {
+                                        img {
+                                            width: 150px;
+                                            height: 150px;
+                                        }
                                     }
-                                }
-                                .headline {
-                                    width: 150px;
-                                    margin: 10px 0;
-                                    font-size: 16px;
-                                }
-                                .inform {
-                                    width: 150px;
-                                    font-size: 12px;
+                                    .headline {
+                                        width: 150px;
+                                        margin: 10px 0;
+                                        font-size: 16px;
+                                    }
+                                    .inform {
+                                        width: 150px;
+                                        height: 32px;
+                                        font-size: 12px;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 2;
+                                        -webkit-box-orient: vertical;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    }
                                 }
                             }
                         }
@@ -234,11 +244,17 @@
                                     }
                                 }
                                 .headline {
+                                    width: 115px;
                                     margin: 10px 0;
                                     font-size: 14px;
                                 }
                                 .inform {
+                                    width: 115px;
+                                    height: 20px;
                                     font-size: 10px;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
                                 }
                             }
                         }

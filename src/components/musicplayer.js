@@ -98,15 +98,31 @@ class MusicPlayer extends React.Component {
     });
   }
   componentDidUpdate(prevProps) {
+    let audio = this.audio.current
+    let { playMode } = this.state
     let { firstLoad } = this.props
     if (this.props !== prevProps && !firstLoad) {
-      this.setState((currentState) => {
-        let newState = {
-          ...currentState,
-          play: true
-        }
-        return newState
-      })
+      if (playMode == 'random') {
+        this.setState((currentState) => {
+          let newState = {
+            ...currentState,
+            play: true,
+            playMode: 'normal',
+          }
+          return newState
+        })
+        audio.play()
+      }
+      else {
+        this.setState((currentState) => {
+          let newState = {
+            ...currentState,
+            play: true,
+          }
+          return newState
+        })
+        audio.play()
+      }
     }
   }
   render() {

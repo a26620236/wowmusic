@@ -15,17 +15,28 @@ class Albumlist extends React.Component {
   }
   render() {
     let { data } = this.props
+    let outer = []
+    let inner = []
+    let arr = []
+    let arr1 =[]
     if (data.length > 0) {
+      for (let i=0; i<data.length; i++) {
+        for (let j = 0; j < data[i].length; j++) {
+          arr1 = <div className='items' key={j}>
+            <AlbumCard data={data[i][j]} />
+          </div>
+          inner.push(arr1)
+        }
+        arr = <div className='list' key={i}>
+          <div className='title'>{data[i][0].category}</div>
+          <div className='itemlist'>{inner}</div>
+        </div>
+        outer.push(arr)
+        inner = []
+      }
       return (
         <div>
-          {data.map((e, index) => {
-            return <div className='list' key={index}>
-              <div className='title'>{e.category}</div>
-              <div className='items'>
-                <AlbumCard data={e} />
-              </div>
-            </div>
-          })}
+          {outer}
         </div>
       )
     }
