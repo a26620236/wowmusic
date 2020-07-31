@@ -100,7 +100,10 @@ class MusicPlayer extends React.Component {
   componentDidUpdate(prevProps) {
     let audio = this.audio.current
     let { playMode } = this.state
-    let { firstLoad } = this.props
+    let { firstLoad, changeFavorite, playQueueState } = this.props
+    if (changeFavorite !== prevProps.changeFavorite || playQueueState !== prevProps.playQueueState) {
+      return 
+    }
     if (this.props !== prevProps && !firstLoad) {
       if (playMode == 'random') {
         this.setState((currentState) => {
@@ -270,7 +273,7 @@ class MusicPlayer extends React.Component {
     }
     else {
       let { currentTime, playMode, randomIndex, mobilePlayerState, mobileBarState, play } = this.state
-      let { playlist } = this.props
+      let { playlist, changePlayQueue, playQueueState } = this.props
       let { songs, playIndex, photoUrl } = playlist[0]
 
       if (currentTime === 0) {
@@ -286,6 +289,17 @@ class MusicPlayer extends React.Component {
         let seconds = Math.floor(currentTime % 60)
         if (seconds < 10) seconds = '0' + seconds
         currentTime = Math.floor(currentTime / 60).toString() + ':' + seconds
+      }
+      let playQueue = []
+      if (!playQueueState) {
+        playQueue = <Link to='/musicqueue' onClick={changePlayQueue}>
+          <i className="fas fa-bars"></i>
+        </Link>
+      }
+      else {
+        playQueue = <div onClick={this.goBack.bind(this)}>
+          <i className="fas fa-bars"></i>
+        </div>
       }
       return (
         <div className='musicplayer'>
@@ -336,9 +350,7 @@ class MusicPlayer extends React.Component {
               <div className='now-playing-bar__right'>
                 <div className='container'>
                   <div className='waiting-list'>
-                    <Link to='/musicqueue'>
-                      <i className="fas fa-bars"></i>
-                    </Link>
+                    {playQueue}
                   </div>
                   <div className='volume-bar'>
                     <div className='volume-btn'>
@@ -732,6 +744,12 @@ class MusicPlayer extends React.Component {
       }
       return newState
     })
+  }
+  goBack() {
+    let { changePlayQueue } = this.props
+    changePlayQueue()
+    let history = window.history
+    history.back()
   }
 }
 

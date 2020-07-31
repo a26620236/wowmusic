@@ -130,6 +130,12 @@
                   color: #ffffff;
                 }
               }
+              div {
+                color: #00c300;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
             }
             .volume-bar {
               margin-left: 18px;

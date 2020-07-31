@@ -29,6 +29,8 @@ class Homepage extends React.Component {
       allAlbums: [],
       favorite: [],
       changePlaylist: false,
+      changeFavorite: false,
+      playQueueState: false,
       firstLoad: true,
     }
     this.playNext = this.playNext.bind(this)
@@ -89,7 +91,7 @@ class Homepage extends React.Component {
     }
   }
   render() {
-    let { data, playlist, category, allAlbums, favorite, firstLoad } = this.state
+    let { data, playlist, category, allAlbums, favorite, firstLoad, changeFavorite, playQueueState } = this.state
     let { isLogin, isAdmin, user } = this.props
     let innerArr = []
     let innerArr1 = []
@@ -137,7 +139,7 @@ class Homepage extends React.Component {
             </div>
           </div>
           <div className='footer'>
-            <MusicPlayer playlist={playlist} playNext={() => this.playNext(1)} playPrevious={() => this.playNext(-1)} playLoop={this.playLoop.bind(this)} firstLoad={firstLoad}/>
+            <MusicPlayer playlist={playlist} playNext={() => this.playNext(1)} playPrevious={() => this.playNext(-1)} playLoop={this.playLoop.bind(this)} firstLoad={firstLoad} changeFavorite={changeFavorite} changePlayQueue={this.changePlayQueue.bind(this)} playQueueState={playQueueState}/>
           </div>
         </div>
       )
@@ -205,9 +207,19 @@ class Homepage extends React.Component {
         let newState = {
           ...currentState,
           favorite,
+          changeFavorite: !currentState.changeFavorite
         }
         return newState
       })
+    })
+  }
+  changePlayQueue() {
+    this.setState((currentState) => {
+      let newState = {
+        ...currentState,
+        playQueueState: !currentState.playQueueState
+      }
+      return newState
     })
   }
 }
