@@ -28,6 +28,9 @@ class MusicPlayer extends React.Component {
     this.mobile__volume = React.createRef()
     this.handle__volume = React.createRef()
     this.mobile__handle__volume = React.createRef()
+    this.runningTime = React.createRef()
+    this.mobile__runningTime = React.createRef()
+    this.volume__line = React.createRef()
     this.mouseUp = this.mouseUp.bind(this)
     this.mouseMove = this.mouseMove.bind(this)
     this.mouseDown = this.mouseDown.bind(this)
@@ -169,6 +172,7 @@ class MusicPlayer extends React.Component {
                     <div className='progress-bar'>
                       <div className='container'>
                         <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
+                          <div className='running-time' ref={this.runningTime}></div>
                           <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
                         </div>
                       </div>
@@ -339,6 +343,7 @@ class MusicPlayer extends React.Component {
                     <div className='progress-bar'>
                       <div className='container'>
                         <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
+                          <div className='running-time' ref={this.runningTime}></div>
                           <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
                         </div>
                       </div>
@@ -359,6 +364,7 @@ class MusicPlayer extends React.Component {
                     <div className='progress-bar'>
                       <div className='container'>
                         <div className='volume' onClick={this.volumeMove} ref={this.volume}>
+                          <div className='volume-line' ref={this.volume__line}></div>
                           <div className='handle__volume' onMouseDown={this.mouseDownVolume} ref={this.handle__volume}></div>
                         </div>
                       </div>
@@ -404,6 +410,7 @@ class MusicPlayer extends React.Component {
                     <div className='progress-bar'>
                       <div className='container'>
                         <div className='timeline' onClick={this.mobileMouseMove} ref={this.mobile__timeline}>
+                          <div className='running-time' ref={this.mobile__runningTime}></div>
                           <div className='handle' onMouseDown={this.mobileMouseDown} ref={this.mobile__handle}></div>
                         </div>
                       </div>
@@ -463,6 +470,7 @@ class MusicPlayer extends React.Component {
     }
   }
   positionHandle(position) {
+    let runningTime = this.runningTime.current
     let timeline = this.timeline.current
     let timelineLeft = timeline.getBoundingClientRect()
     let handle = this.handle.current
@@ -471,15 +479,19 @@ class MusicPlayer extends React.Component {
     
     if (handleLeft > 0 && handleLeft <= timelineWidth) {
       handle.style.marginLeft = handleLeft + 'px'
+      runningTime.style.width = handleLeft + 'px'
     }
     if (handleLeft < 0) {
       handle.style.marginLeft = '0px'
+      runningTime.style.width = '0px'
     }
     if (handleLeft > timelineWidth) {
       handle.style.marginLeft = timelineWidth + 'px'
+      runningTime.style.width = timelineWidth + 'px'
     }
   }
   volumeHandle(position) {
+    let volume__line = this.volume__line.current
     let volume = this.volume.current
     let volumeLeft = volume.getBoundingClientRect()
     let handle__volume = this.handle__volume.current
@@ -488,12 +500,15 @@ class MusicPlayer extends React.Component {
     
     if (handle__volumeLeft > 0 && handle__volumeLeft <= volumeWidth) {
       handle__volume.style.marginRight = (volumeWidth - handle__volumeLeft + 12) + 'px'
+      volume__line.style.width = handle__volumeLeft + 'px'
     }
     if (handle__volumeLeft < 0) {
       handle__volume.style.marginRight = volumeWidth + 'px'
+      volume__line.style.width = '0px'
     }
     if (handle__volumeLeft > volumeWidth) {
       handle__volume.style.marginRight = '0px'
+      volume__line.style.width = (volumeWidth + 12) + 'px'
     }
   }
   volumeMove(e) {
@@ -536,6 +551,7 @@ class MusicPlayer extends React.Component {
   }
   // mobile
   mobilePositionHandle(position) {
+    let mobile__runningTime = this.mobile__runningTime.current
     let mobile__timeline = this.mobile__timeline.current
     let mobile__timelineLeft = mobile__timeline.getBoundingClientRect()
     let mobile__handle = this.mobile__handle.current
@@ -544,12 +560,15 @@ class MusicPlayer extends React.Component {
 
     if (mobile__handleLeft > 0 && mobile__handleLeft <= mobile__timelineWidth) {
       mobile__handle.style.marginLeft = mobile__handleLeft + 'px'
+      mobile__runningTime.style.width = mobile__handleLeft + 'px'
     }
     if (mobile__handleLeft < 0) {
       mobile__handle.style.marginLeft = '0px'
+      mobile__runningTime.style.width = '0px'
     }
     if (mobile__handleLeft > mobile__timelineWidth) {
       mobile__handle.style.marginLeft = mobile__timelineWidth + 'px'
+      mobile__runningTime.style.width = mobile__timelineWidth + 'px'
     }
   }
   mobileVolumeHandle(position) {
