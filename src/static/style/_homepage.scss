@@ -227,34 +227,38 @@
                             font-weight: bolder;
                             color: #ffffff;
                         }
-                        .items {
+                        .itemlist {
                             display: flex;
                             flex-wrap: wrap;
-                            .itembox {
-                                border-radius: 10px;
-                                margin: 10px;
-                                color: #ffffff;
-                                text-decoration: none;
-                                padding: 16px;
-                                background-color: #272727;
-                                .album-img {
-                                    img {
-                                        width: 115px;
-                                        height: 115px;
+                            .items {
+                                display: flex;
+                                flex-wrap: wrap;
+                                .itembox {
+                                    border-radius: 10px;
+                                    margin: 10px;
+                                    color: #ffffff;
+                                    text-decoration: none;
+                                    padding: 16px;
+                                    background-color: #272727;
+                                    .album-img {
+                                        img {
+                                            width: 115px;
+                                            height: 115px;
+                                        }
                                     }
-                                }
-                                .headline {
-                                    width: 115px;
-                                    margin: 10px 0;
-                                    font-size: 14px;
-                                }
-                                .inform {
-                                    width: 115px;
-                                    height: 20px;
-                                    font-size: 10px;
-                                    overflow: hidden;
-                                    white-space: nowrap;
-                                    text-overflow: ellipsis;
+                                    .headline {
+                                        width: 115px;
+                                        margin: 10px 0;
+                                        font-size: 14px;
+                                    }
+                                    .inform {
+                                        width: 115px;
+                                        height: 20px;
+                                        font-size: 10px;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                    }
                                 }
                             }
                         }
