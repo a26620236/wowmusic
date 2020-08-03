@@ -52,12 +52,10 @@ class MusicPlayer extends React.Component {
     let audio = this.audio.current
     let timeline = this.timeline.current
     let mobile__timeline = this.mobile__timeline.current
-    let timelineLeft = timeline.getBoundingClientRect()
-    let mobile__timelineLeft = mobile__timeline.getBoundingClientRect()
     audio.addEventListener("timeupdate", () => {
       let ratio = audio.currentTime / audio.duration;
-      let position = (timeline.offsetWidth * ratio) + timelineLeft.left;
-
+      let position = (timeline.offsetWidth * ratio) 
+      console.log(ratio, position)
       this.positionHandle(position);
       this.setState((currentState) => {
         let newState = {
@@ -69,7 +67,7 @@ class MusicPlayer extends React.Component {
     })
     audio.addEventListener("timeupdate", () => {
       let ratio = audio.currentTime / audio.duration;
-      let position = (mobile__timeline.offsetWidth * ratio) + mobile__timelineLeft.left;
+      let position = (mobile__timeline.offsetWidth * ratio)
 
       this.mobilePositionHandle(position);
     });
@@ -472,11 +470,10 @@ class MusicPlayer extends React.Component {
   positionHandle(position) {
     let runningTime = this.runningTime.current
     let timeline = this.timeline.current
-    let timelineLeft = timeline.getBoundingClientRect()
     let handle = this.handle.current
     let timelineWidth = timeline.offsetWidth - handle.offsetWidth
-    let handleLeft = position - timelineLeft.left
-    
+    let handleLeft = position
+    console.log(handleLeft)
     if (handleLeft > 0 && handleLeft <= timelineWidth) {
       handle.style.marginLeft = handleLeft + 'px'
       runningTime.style.width = handleLeft + 'px'
@@ -530,7 +527,6 @@ class MusicPlayer extends React.Component {
     let timeline = this.timeline.current
     let timelineLeft = timeline.getBoundingClientRect()
     
-    this.positionHandle(e.pageX)
     audio.currentTime = ((e.pageX - timelineLeft.left) / timeline.offsetWidth) * audio.duration
   }
   mouseUp(e) {
@@ -553,10 +549,9 @@ class MusicPlayer extends React.Component {
   mobilePositionHandle(position) {
     let mobile__runningTime = this.mobile__runningTime.current
     let mobile__timeline = this.mobile__timeline.current
-    let mobile__timelineLeft = mobile__timeline.getBoundingClientRect()
     let mobile__handle = this.mobile__handle.current
     let mobile__timelineWidth = mobile__timeline.offsetWidth - mobile__handle.offsetWidth
-    let mobile__handleLeft = position - mobile__timelineLeft.left
+    let mobile__handleLeft = position 
 
     if (mobile__handleLeft > 0 && mobile__handleLeft <= mobile__timelineWidth) {
       mobile__handle.style.marginLeft = mobile__handleLeft + 'px'
@@ -607,7 +602,6 @@ class MusicPlayer extends React.Component {
     let mobile__timeline = this.mobile__timeline.current
     let mobile__timelineLeft = mobile__timeline.getBoundingClientRect()
 
-    this.mobilePositionHandle(e.pageX)
     audio.currentTime = ((e.pageX - mobile__timelineLeft.left) / mobile__timeline.offsetWidth) * audio.duration
   }
   mobileMouseUp(e) {

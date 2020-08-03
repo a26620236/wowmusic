@@ -15,7 +15,9 @@ class Navbar extends React.Component {
     return (
       <div className='nav'>
         <div className='logo'>
-          <div className='logo__icon'><i className="fab fa-spotify"></i></div>
+          <div className='logo__icon'>
+            <i className="fas fa-music"></i>
+          </div>
           <div className='logo__text'>WOWMUSIC</div>
         </div>
         <div className='link'>
@@ -39,7 +41,7 @@ class Navbar extends React.Component {
         <div className='link'>
           <Link to='/mymusic'>
             <div className='mymusic__icon'>
-              <i className="fas fa-music"></i>
+              <i className="fas fa-headphones-alt"></i>
             </div>
             <div className='mymusic__text'>
               收藏
