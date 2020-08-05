@@ -37,6 +37,7 @@ class MusicPlayer extends React.Component {
     this.volumeMove = this.volumeMove.bind(this)
     this.mouseUpVolume = this.mouseUpVolume.bind(this)
     this.mouseDownVolume = this.mouseDownVolume.bind(this)
+    this.clickMobilebar = this.clickMobilebar.bind(this)
     //mobile
     this.mobileMouseUp = this.mobileMouseUp.bind(this)
     this.mobileMouseMove = this.mobileMouseMove.bind(this)
@@ -55,8 +56,10 @@ class MusicPlayer extends React.Component {
     audio.addEventListener("timeupdate", () => {
       let ratio = audio.currentTime / audio.duration;
       let position = (timeline.offsetWidth * ratio) 
-      console.log(ratio, position)
+      let mobile__position = (mobile__timeline.offsetWidth * ratio)
+      
       this.positionHandle(position);
+      this.mobilePositionHandle(mobile__position);
       this.setState((currentState) => {
         let newState = {
           ...currentState,
@@ -65,12 +68,6 @@ class MusicPlayer extends React.Component {
         return newState
       })
     })
-    audio.addEventListener("timeupdate", () => {
-      let ratio = audio.currentTime / audio.duration;
-      let position = (mobile__timeline.offsetWidth * ratio)
-
-      this.mobilePositionHandle(position);
-    });
     audio.addEventListener("ended", () => {
       let { songs, playIndex } = this.props.playlist[0]
       let { playLoop } = this.props
@@ -131,16 +128,15 @@ class MusicPlayer extends React.Component {
   }
   render() {
     let audio = this.audio.current
+    let data__mobilebar = {
+      clickMobilebar: this.clickMobilebar
+    }
     if (audio == null) {
       return (
         <div className='musicplayer'> 
           <audio src='' ref={this.audio} />
           <div className='player-container'>
-            <div className='mobile-bar'>
-              <div className='show' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-left"></i></div>
-              <div className='playing'><i className="fas fa-music"></i></div>
-              <div className='hide' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-right"></i></div>
-            </div>
+            <MobileBar data={data__mobilebar} />
             <div className='now-playing-bar'>
               <div className='now-playing-bar__left'>
                 <div className='container'>
@@ -307,11 +303,7 @@ class MusicPlayer extends React.Component {
         <div className='musicplayer'>
           <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={play? true:false} />
           <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
-            <div className='mobile-bar'>
-              <div className='show' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-left"></i></div>
-              <div className='playing'><i className="fas fa-music"></i></div>
-              <div className='hide' onClick={this.clickMobilebar.bind(this)}><i className="fas fa-angle-right"></i></div>
-            </div>
+            <MobileBar data={data__mobilebar} />
             <div className='now-playing-bar'>
               <div className='now-playing-bar__left' onClick={this.clickMobilePlayer.bind(this)}>
                 <div className='container'>
@@ -473,7 +465,7 @@ class MusicPlayer extends React.Component {
     let handle = this.handle.current
     let timelineWidth = timeline.offsetWidth - handle.offsetWidth
     let handleLeft = position
-    console.log(handleLeft)
+    
     if (handleLeft > 0 && handleLeft <= timelineWidth) {
       handle.style.marginLeft = handleLeft + 'px'
       runningTime.style.width = handleLeft + 'px'
@@ -765,5 +757,56 @@ class MusicPlayer extends React.Component {
     history.back()
   }
 }
+class MobileBar extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { clickMobilebar } = this.props.data
+    return (
+      <div className='mobile-bar'>
+        <div className='show' onClick={clickMobilebar}><i className="fas fa-angle-left"></i></div>
+        <div className='playing'><i className="fas fa-music"></i></div>
+        <div className='hide' onClick={clickMobilebar}><i className="fas fa-angle-right"></i></div>
+      </div>
+    )
+  }
+}
+class CenterController extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { play, clickMobilePlayer, clickRamdom, clickPrevious, clickNext, clickLoop, mouseMove, mouseDown, volumeMove, mouseDownVolume } = this.props.data.function
+    let { playState, playMode, currentTime } = this.props.data.state
+    let { timeline, runningTime, handle, volume, volume__line, handle__volume } = this.props.data.ref
+    return (
+      <div className='now-playing-bar__center'>
+        <div className='container'>
+          <div className='player-controls__btns'>
+            <div><i className="fas fa-random"></i></div>
+            <div><i className="fas fa-step-backward"></i></div>
+            <div onClick={play}><i className={!playState ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
+            <div onClick={clickNext}><i className="fas fa-step-forward"></i></div>
+            <div><i className="fas fa-retweet"></i></div>
+          </div>
+          <div className='playback-bar'>
+            <div className='progress-time'>0:00</div>
+            <div className='progress-bar'>
+              <div className='container'>
+                <div className='timeline' onClick={mouseMove} ref={timeline}>
+                  <div className='running-time' ref={runningTime}></div>
+                  <div className='handle' onMouseDown={mouseDown} ref={handle}></div>
+                </div>
+              </div>
+            </div>
+            <div className='song-length'>4:22</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
 
 export default MusicPlayer
