@@ -145,76 +145,83 @@ class MusicPlayer extends React.Component {
         clickMobilebar: this.clickMobilebar
       }
     }
-    let data__player__left__controls = {
+    let data__playing__bar = {
       function: {
         clickMobilePlayer: this.clickMobilePlayer,
-      },
-      state: {
-        playMode,
-        playlist,
-        randomIndex,
-        playQueueState,
-      }
-    }
-    let data__player__center__controls = {
-      function: {
-        play: this.play,
-        clickNext: this.clickNext,
-        clickPrevious: this.clickPrevious,
-        clickRamdom: this.clickRamdom,
-        clickMobilePlayer: this.clickMobilePlayer,
-        clickLoop: this.clickLoop,
-      },
-      state: {
-        playState,
-        playMode,
       },
       childData: {
-        data__progressbar: {
-          ref: {
-            timeline: this.timeline,
-            handle: this.handle,
-            runningTime: this.runningTime,
-            mobile__timeline: this.mobile__timeline,
-            mobile__handle: this.mobile__handle,
-            mobile__runningTime: this.mobile__runningTime
-
-          },
+        left__controller: {
           function: {
-            mouseMove: this.mouseMove,
-            mouseDown: this.mouseDown,
-            mobileMouseMove: this.mobileMouseMove,
-            mobileMouseDown: this.mobileMouseDown,
+            clickMobilePlayer: this.clickMobilePlayer,
           },
           state: {
-            playlist,
             playMode,
-            currentTime,
-            randomIndex
+            playlist,
+            randomIndex,
+            playQueueState,
           }
-        }
-      }
-    }
-    let data__player__right__controls = {
-      function: {
-        changePlayQueue,
-        goBack: this.goBack
-      },
-      childData: {
-        data__volume__controls: {
+        },
+        center__controllers: {
           function: {
-            volumeMove: this.volumeMove,
-            mouseDownVolume: this.mouseDownVolume,
+            play: this.play,
+            clickNext: this.clickNext,
+            clickPrevious: this.clickPrevious,
+            clickRamdom: this.clickRamdom,
+            clickMobilePlayer: this.clickMobilePlayer,
+            clickLoop: this.clickLoop,
           },
-          ref: {
-            volume: this.volume,
-            volume__line: this.volume__line,
-            handle__volume: this.handle__volume,
+          state: {
+            playState,
+            playMode,
+          },
+          childData: {
+            data__progressbar: {
+              ref: {
+                timeline: this.timeline,
+                handle: this.handle,
+                runningTime: this.runningTime,
+                mobile__timeline: this.mobile__timeline,
+                mobile__handle: this.mobile__handle,
+                mobile__runningTime: this.mobile__runningTime
+
+              },
+              function: {
+                mouseMove: this.mouseMove,
+                mouseDown: this.mouseDown,
+                mobileMouseMove: this.mobileMouseMove,
+                mobileMouseDown: this.mobileMouseDown,
+              },
+              state: {
+                playlist,
+                playMode,
+                currentTime,
+                randomIndex
+              }
+            }
           }
-        }
-      },
-      state: {
-        playQueueState,
+        },
+        right__contorllers: {
+          function: {
+            changePlayQueue,
+            goBack: this.goBack
+          },
+          childData: {
+            data__volume__controls: {
+              function: {
+                volumeMove: this.volumeMove,
+                mouseDownVolume: this.mouseDownVolume,
+              },
+              ref: {
+                volume: this.volume,
+                volume__line: this.volume__line,
+                handle__volume: this.handle__volume,
+              }
+            }
+          },
+          state: {
+            playQueueState,
+          }
+        } 
       }
     }
     if (audio == null) {
@@ -223,19 +230,11 @@ class MusicPlayer extends React.Component {
           <audio src='' ref={this.audio}/>
           <div className='player-container'>
             <MobileBar data={data__mobilebar} />
-            <div className='now-playing-bar'>
-              <PlayerLeftController data={data__player__left__controls} device={'web'}/>
-              <PlayerCenterController data={data__player__center__controls} device={'web'}/>
-              <PlayerRightController data={data__player__right__controls} device={'web'}/>
-            </div>
+            <NowPlayingBar data={data__playing__bar} device={'web'}/>
           </div>
           <div className='mobile-player'>
             <img src='' className='background'></img>
-            <div className='now-playing-bar'>
-              <PlayerLeftController data={data__player__left__controls} device={'mobile'}/>
-              <PlayerCenterController data={data__player__center__controls} device={'mobile'}/>
-              <div className='mobile-close-btn' onClick={this.clickMobilePlayer}><i className="fas fa-chevron-down"></i></div>
-            </div>
+            <NowPlayingBar data={data__playing__bar} device={'mobile'}/>
           </div>
         </div>
       )
@@ -243,25 +242,21 @@ class MusicPlayer extends React.Component {
     else {
       let { playlist } = this.props
       let { songs, playIndex, photoUrl } = playlist[0]
+      let isNormalMode = (playMode === 'normal')
+      let isLoopMode = (playMode === 'loop')
+      let playNormal = songs[playIndex].songUrl
+      let playRandom = songs[randomIndex].songUrl
 
       return (
         <div className='musicplayer'>
-          <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={playState? true:false} />
+          <audio src={isNormalMode || isLoopMode ? playNormal : playRandom} ref={this.audio} autoPlay={playState? true:false} />
           <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
             <MobileBar data={data__mobilebar} />
-            <div className='now-playing-bar'>
-              <PlayerLeftController data={data__player__left__controls} device={'web'}/>
-              <PlayerCenterController data={data__player__center__controls} device={'web'}/>
-              <PlayerRightController data={data__player__right__controls} device={'web'}/>
-            </div>
+            <NowPlayingBar data={data__playing__bar} device={'web'}/>
           </div>
           <div className={mobilePlayerState ? 'mobile-player' : 'mobile-player-closed'}>
             <img src={photoUrl} className='background'></img>
-            <div className='now-playing-bar'>
-              <PlayerLeftController data={data__player__left__controls} device={'mobile'}/>
-              <PlayerCenterController data={data__player__center__controls} device={'mobile'}/>
-              <div className='mobile-close-btn' onClick={this.clickMobilePlayer}><i className="fas fa-chevron-down"></i></div>
-            </div>
+            <NowPlayingBar data={data__playing__bar} device={'mobile'}/>
           </div>
         </div>
       )
@@ -594,8 +589,16 @@ class PlayerLeftController extends React.Component {
     let isWeb = (device === 'web')
     let isMobile = (device === 'mobile')
     let hasData = (playlist.length>0)
+    
     if (hasData) {
       let { photoUrl, songs, playIndex } = playlist[0]
+      let isNormalMode = (playMode === 'normal')
+      let isLoopMode = (playMode === 'loop')
+      let song__normal = songs[playIndex].name
+      let song__random = songs[randomIndex].name
+      let singer__normal = songs[playIndex].singer
+      let singer__random = songs[randomIndex].singer
+
       if (isWeb) {
         return (
           <div className='now-playing-bar__left' onClick={clickMobilePlayer}>
@@ -604,8 +607,8 @@ class PlayerLeftController extends React.Component {
                 <img src={photoUrl} />
               </div>
               <div className='song-inform'>
-                <div className='name'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].name : songs[randomIndex].name}</div>
-                <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
+                <div className='name'>{isNormalMode || isLoopMode ? song__normal : song__random}</div>
+                <div className='singer'>{isNormalMode || isLoopMode ? singer__normal : singer__random}</div>
               </div>
               <div className='like-btn'>
                 <i className="far fa-heart"></i>
@@ -622,8 +625,8 @@ class PlayerLeftController extends React.Component {
                 <img src={photoUrl} />
               </div>
               <div className='song-inform'>
-                <div className='name'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].name : songs[randomIndex].name}</div>
-                <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
+                <div className='name'>{isNormalMode || isLoopMode ? song__normal : song__random}</div>
+                <div className='singer'>{isNormalMode || isLoopMode ? singer__normal : singer__random}</div>
               </div>
               <div className='like-btn'>
                 <i className="far fa-heart"></i>
@@ -667,15 +670,17 @@ class PlayerCenterController extends React.Component {
     let { play, clickRamdom, clickPrevious, clickNext, clickLoop } = data.function
     let { playState, playMode } = data.state
     let { data__progressbar } = data.childData
+    let isRandomMode = (playMode === 'random')
+    
     return (
       <div className='now-playing-bar__center'>
         <div className='container'>
           <div className='player-controls__btns'>
-            <div onClick={clickRamdom}><i className={playMode === 'random' ? "fas fa-random green" : "fas fa-random"}></i></div>
+            <div onClick={clickRamdom}><i className={isRandomMode ? "fas fa-random green" : "fas fa-random"}></i></div>
             <div onClick={clickPrevious}><i className="fas fa-step-backward"></i></div>
             <div className='play-btn' onClick={play}><i className={!playState ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
             <div onClick={clickNext}><i className="fas fa-step-forward"></i></div>
-            <div onClick={clickLoop}><i className={playMode === 'loop' ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
+            <div onClick={clickLoop}><i className={isRandomMode ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
           </div>
           <ProgressBar data={data__progressbar} device={device} />
         </div>
@@ -693,7 +698,6 @@ class PlayerRightController extends React.Component {
     let { playQueueState } = data.state
     let { changePlayQueue, goBack } = data.function
     let isWeb = (device === 'web')
-    let isMobile = (device === 'mobile')
     let playQueueIsClosed = !playQueueState
     let playQueue = []
 
@@ -722,7 +726,35 @@ class PlayerRightController extends React.Component {
   }
 } 
 class NowPlayingBar extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { data, device } = this.props
+    let { left__controller, center__controllers, right__contorllers } = data.childData
+    let { clickMobilePlayer } = data.function
+    let isWeb = (device === 'web')
+    let isMobile = (device === 'mobile')
 
+    if (isWeb) {
+      return (
+        <div className='now-playing-bar'>
+          <PlayerLeftController data={left__controller} device={device} />
+          <PlayerCenterController data={center__controllers} device={device} />
+          <PlayerRightController data={right__contorllers} device={device} />
+        </div>
+      )
+    }
+    if (isMobile) {
+      return (
+        <div className='now-playing-bar'>
+          <PlayerLeftController data={left__controller} device={'mobile'} />
+          <PlayerCenterController data={center__controllers} device={'mobile'} />
+          <div className='mobile-close-btn' onClick={clickMobilePlayer}><i className="fas fa-chevron-down"></i></div>
+        </div>
+      )
+    }
+  }
 }
 class ProgressBar extends React.Component {
   constructor(props){
