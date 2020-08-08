@@ -109,6 +109,11 @@ class Homepage extends React.Component {
       innerArr1.push(arr)
     }
     if (isLogin) {
+      let musicdata = {
+        inform: {
+          playlist,
+        }
+      }
       return (
         <div className='homepage'>
           <div className='body'>

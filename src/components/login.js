@@ -54,10 +54,9 @@ class SignIn extends React.Component {
     })
   } 
   onSubmit() {
-    let email = this.state.email
-    let password = this.state.password
-    let changeLoginStatus = this.props.changeLoginStatus
-    let checkIsAdmin = this.props.checkIsAdmin
+    let { email, password } = this.state
+    let { changeLoginStatus, checkIsAdmin } = this.props
+    
     firebase.auth().signInWithEmailAndPassword(email, password).then(
       () => {
         firebase.auth().onAuthStateChanged(function (user) {

@@ -12,7 +12,7 @@ class MusicPlayer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      play: false,
+      playState: false,
       currentTime: 0,
       playMode: 'normal',
       randomIndex: 0,
@@ -37,15 +37,19 @@ class MusicPlayer extends React.Component {
     this.volumeMove = this.volumeMove.bind(this)
     this.mouseUpVolume = this.mouseUpVolume.bind(this)
     this.mouseDownVolume = this.mouseDownVolume.bind(this)
-    this.clickMobilebar = this.clickMobilebar.bind(this)
+    this.play = this.play.bind(this)
+    this.clickNext = this.clickNext.bind(this)
+    this.clickPrevious = this.clickPrevious.bind(this)
+    this.clickRamdom = this.clickRamdom.bind(this)
+    this.clickLoop = this.clickLoop.bind(this)
+    this.goBack = this.goBack.bind(this)
+
     //mobile
+    this.clickMobilePlayer = this.clickMobilePlayer.bind(this)
+    this.clickMobilebar = this.clickMobilebar.bind(this)
     this.mobileMouseUp = this.mobileMouseUp.bind(this)
     this.mobileMouseMove = this.mobileMouseMove.bind(this)
     this.mobileMouseDown = this.mobileMouseDown.bind(this)
-    this.mobileVolumeMove = this.mobileVolumeMove.bind(this)
-    this.mobileMouseUpVolume = this.mobileMouseUpVolume.bind(this)
-    this.mobileMouseDownVolume = this.mobileMouseDownVolume.bind(this)
-    this.play = this.play.bind(this)
     this.setRamdomState = this.setRamdomState.bind(this)
     this.setNormalState = this.setNormalState.bind(this)
   }
@@ -72,24 +76,27 @@ class MusicPlayer extends React.Component {
       let { songs, playIndex } = this.props.playlist[0]
       let { playLoop } = this.props
       let { playMode } = this.state
+      let isNormalState = (playMode === 'normal')
+      let isLoopState = (playMode === 'loop')
+      let isLastSong = (playIndex == (songs.length - 1))
 
-      if (playIndex == (songs.length - 1) && playMode === 'normal') {
+      if (isLastSong && isNormalState) {
         this.setState((currentState) => {
           let newState = {
             ...currentState,
-            play: false
+            playState: false
           }
           return newState
         })
       }
-      if (playIndex < (songs.length - 1) && playMode === 'normal') {
+      if (!isLastSong && isNormalState) {
         this.clickNext()
       }
-      if (playIndex < (songs.length - 1) && playMode === 'loop') {
+      if (!isLastSong && isLoopState) {
         this.clickNext()
         return
       }
-      if (playIndex == (songs.length - 1) && playMode === 'loop') {
+      if (isLastSong && isLoopState) {
         playLoop()
         return
       }
@@ -107,7 +114,7 @@ class MusicPlayer extends React.Component {
         this.setState((currentState) => {
           let newState = {
             ...currentState,
-            play: true,
+            playState: true,
             playMode: 'normal',
           }
           return newState
@@ -118,7 +125,7 @@ class MusicPlayer extends React.Component {
         this.setState((currentState) => {
           let newState = {
             ...currentState,
-            play: true,
+            playState: true,
           }
           return newState
         })
@@ -128,309 +135,132 @@ class MusicPlayer extends React.Component {
   }
   render() {
     let audio = this.audio.current
+    let { currentTime, playMode, randomIndex, mobilePlayerState, mobileBarState, playState } = this.state
+    let { playlist, changePlayQueue, playQueueState } = this.props
+
+    currentTime = this.changeCurrentTimeFormat(currentTime)
+
     let data__mobilebar = {
-      clickMobilebar: this.clickMobilebar
+      function: {
+        clickMobilebar: this.clickMobilebar
+      }
+    }
+    let data__player__left__controls = {
+      function: {
+        clickMobilePlayer: this.clickMobilePlayer,
+      },
+      state: {
+        playMode,
+        playlist,
+        randomIndex,
+        playQueueState,
+      }
+    }
+    let data__player__center__controls = {
+      function: {
+        play: this.play,
+        clickNext: this.clickNext,
+        clickPrevious: this.clickPrevious,
+        clickRamdom: this.clickRamdom,
+        clickMobilePlayer: this.clickMobilePlayer,
+        clickLoop: this.clickLoop,
+      },
+      state: {
+        playState,
+        playMode,
+      },
+      childData: {
+        data__progressbar: {
+          ref: {
+            timeline: this.timeline,
+            handle: this.handle,
+            runningTime: this.runningTime,
+            mobile__timeline: this.mobile__timeline,
+            mobile__handle: this.mobile__handle,
+            mobile__runningTime: this.mobile__runningTime
+
+          },
+          function: {
+            mouseMove: this.mouseMove,
+            mouseDown: this.mouseDown,
+            mobileMouseMove: this.mobileMouseMove,
+            mobileMouseDown: this.mobileMouseDown,
+          },
+          state: {
+            playlist,
+            playMode,
+            currentTime,
+            randomIndex
+          }
+        }
+      }
+    }
+    let data__player__right__controls = {
+      function: {
+        changePlayQueue,
+        goBack: this.goBack
+      },
+      childData: {
+        data__volume__controls: {
+          function: {
+            volumeMove: this.volumeMove,
+            mouseDownVolume: this.mouseDownVolume,
+          },
+          ref: {
+            volume: this.volume,
+            volume__line: this.volume__line,
+            handle__volume: this.handle__volume,
+          }
+        }
+      },
+      state: {
+        playQueueState,
+      }
     }
     if (audio == null) {
       return (
-        <div className='musicplayer'> 
-          <audio src='' ref={this.audio} />
+        <div className='musicplayer'>
+          <audio src='' ref={this.audio}/>
           <div className='player-container'>
             <MobileBar data={data__mobilebar} />
             <div className='now-playing-bar'>
-              <div className='now-playing-bar__left'>
-                <div className='container'>
-                  <div className='album'>
-                    <img src="https://i.scdn.co/image/ab67616d000048513d0ffcf6ee624625158fa352" />
-                  </div>
-                  <div className='song-inform'>
-                    <div className='name'>太陽</div>
-                    <div className='singer'>邱振哲</div>
-                  </div>
-                  <div className='like-btn'>
-                    <i className="far fa-heart"></i>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__center'>
-                <div className='container'>
-                  <div className='player-controls__btns'>
-                    <div><i className="fas fa-random"></i></div>
-                    <div><i className="fas fa-step-backward"></i></div>
-                    <div onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                    <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
-                    <div><i className="fas fa-retweet"></i></div>
-                  </div>
-                  <div className='playback-bar'>
-                    <div className='progress-time'>0:00</div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
-                          <div className='running-time' ref={this.runningTime}></div>
-                          <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='song-length'>4:22</div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__right'>
-                <div className='container'>
-                  <div className='waiting-list'>
-                    <Link to='/musicqueue'>
-                      <i className="fas fa-bars"></i>
-                    </Link>
-                  </div>
-                  <div className='volume-bar'>
-                    <div className='volume-btn'>
-                      <i className="fas fa-volume-up"></i>
-                    </div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='volume' onClick={this.volumeMove} ref={this.volume}>
-                          <div className='handle__volume' onMouseDown={this.mouseDownVolume} ref={this.handle__volume}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <PlayerLeftController data={data__player__left__controls} device={'web'}/>
+              <PlayerCenterController data={data__player__center__controls} device={'web'}/>
+              <PlayerRightController data={data__player__right__controls} device={'web'}/>
             </div>
-          </div> 
+          </div>
           <div className='mobile-player'>
             <img src='' className='background'></img>
             <div className='now-playing-bar'>
-              <div className='now-playing-bar__left'>
-                <div className='container'>
-                  <div className='album'>
-                    <img src='' />
-                  </div>
-                  <div className='song-inform'>
-                    <div className='name'></div>
-                    <div className='singer'></div>
-                  </div>
-                  <div className='like-btn'>
-                    <i className="far fa-heart"></i>
-                    <div className='waiting-list' onClick={this.clickMobilePlayer.bind(this)}>
-                      <Link to='/musicqueue'>
-                        <i className="fas fa-bars"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__center'>
-                <div className='container'>
-                  <div className='player-controls__btns'>
-                    <div onClick={this.clickRamdom.bind(this)}><i className="fas fa-random"></i></div>
-                    <div onClick={this.clickPrevious.bind(this)}><i className="fas fa-step-backward"></i></div>
-                    <div className='play-btn' onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                    <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
-                    <div onClick={this.clickLoop.bind(this)}><i className="fas fa-retweet"></i></div>
-                  </div>
-                  <div className='playback-bar'>
-                    <div className='progress-time'></div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='timeline' onClick={this.mobileMouseMove} ref={this.mobile__timeline}>
-                          <div className='handle' onMouseDown={this.mobileMouseDown} ref={this.mobile__handle}></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='song-length'></div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__right'>
-                <div className='container'>
-                  <div className='waiting-list'>
-                    <Link to='/musicqueue'>
-                      <i className="fas fa-bars"></i>
-                    </Link>
-                  </div>
-                  <div className='volume-bar'>
-                    <div className='volume-btn'>
-                      <i className="fas fa-volume-up"></i>
-                    </div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='volume' onClick={this.mobileVolumeMove} ref={this.mobile__volume}>
-                          <div className='handle__volume' onMouseDown={this.mobileMouseDownVolume} ref={this.mobile__handle__volume}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='mobile-close-btn' onClick={this.clickMobilePlayer.bind(this)}><i className="fas fa-chevron-down"></i></div>
+              <PlayerLeftController data={data__player__left__controls} device={'mobile'}/>
+              <PlayerCenterController data={data__player__center__controls} device={'mobile'}/>
+              <div className='mobile-close-btn' onClick={this.clickMobilePlayer}><i className="fas fa-chevron-down"></i></div>
             </div>
           </div>
         </div>
       )
     }
     else {
-      let { currentTime, playMode, randomIndex, mobilePlayerState, mobileBarState, play } = this.state
-      let { playlist, changePlayQueue, playQueueState } = this.props
+      let { playlist } = this.props
       let { songs, playIndex, photoUrl } = playlist[0]
 
-      if (currentTime === 0) {
-        currentTime = '0:00'
-      }
-      else if (currentTime < 10) {
-        currentTime = '0:0' + currentTime
-      }
-      else if (currentTime >= 10 && currentTime < 60) {
-        currentTime = '0:' + currentTime
-      }
-      else {
-        let seconds = Math.floor(currentTime % 60)
-        if (seconds < 10) seconds = '0' + seconds
-        currentTime = Math.floor(currentTime / 60).toString() + ':' + seconds
-      }
-      let playQueue = []
-      if (!playQueueState) {
-        playQueue = <Link to='/musicqueue' onClick={changePlayQueue}>
-          <i className="fas fa-bars"></i>
-        </Link>
-      }
-      else {
-        playQueue = <div onClick={this.goBack.bind(this)}>
-          <i className="fas fa-bars"></i>
-        </div>
-      }
       return (
         <div className='musicplayer'>
-          <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={play? true:false} />
+          <audio src={playMode === 'normal' || playMode === 'loop' ? songs[playIndex].songUrl : songs[randomIndex].songUrl} ref={this.audio} autoPlay={playState? true:false} />
           <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
             <MobileBar data={data__mobilebar} />
             <div className='now-playing-bar'>
-              <div className='now-playing-bar__left' onClick={this.clickMobilePlayer.bind(this)}>
-                <div className='container'>
-                  <div className='album'>
-                    <img src={photoUrl} />
-                  </div>
-                  <div className='song-inform'>
-                    <div className='name'>{playMode === 'normal' || playMode === 'loop'? songs[playIndex].name : songs[randomIndex].name}</div>
-                    <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
-                  </div>
-                  <div className='like-btn'>
-                    <i className="far fa-heart"></i>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__center'>
-                <div className='container'>
-                  <div className='player-controls__btns'>
-                    <div onClick={this.clickRamdom.bind(this)}><i className={playMode === 'random' ? "fas fa-random green" : "fas fa-random"}></i></div>
-                    <div onClick={this.clickPrevious.bind(this)}><i className="fas fa-step-backward"></i></div>
-                    <div className='play-btn' onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                    <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
-                    <div onClick={this.clickLoop.bind(this)}><i className={playMode === 'loop' ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
-                  </div>
-                  <div className='playback-bar'>
-                    <div className='progress-time'>{currentTime}</div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='timeline' onClick={this.mouseMove} ref={this.timeline}>
-                          <div className='running-time' ref={this.runningTime}></div>
-                          <div className='handle' onMouseDown={this.mouseDown} ref={this.handle}></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='song-length'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].length : songs[randomIndex].length}</div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__right'>
-                <div className='container'>
-                  <div className='waiting-list'>
-                    {playQueue}
-                  </div>
-                  <div className='volume-bar'>
-                    <div className='volume-btn'>
-                      <i className="fas fa-volume-up"></i>
-                    </div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='volume' onClick={this.volumeMove} ref={this.volume}>
-                          <div className='volume-line' ref={this.volume__line}></div>
-                          <div className='handle__volume' onMouseDown={this.mouseDownVolume} ref={this.handle__volume}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <PlayerLeftController data={data__player__left__controls} device={'web'}/>
+              <PlayerCenterController data={data__player__center__controls} device={'web'}/>
+              <PlayerRightController data={data__player__right__controls} device={'web'}/>
             </div>
           </div>
           <div className={mobilePlayerState ? 'mobile-player' : 'mobile-player-closed'}>
             <img src={photoUrl} className='background'></img>
             <div className='now-playing-bar'>
-              <div className='now-playing-bar__left'>
-                <div className='container'>
-                  <div className='album'>
-                    <img src={photoUrl} />
-                  </div>
-                  <div className='song-inform'>
-                    <div className='name'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].name : songs[randomIndex].name}</div>
-                    <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
-                  </div>
-                  <div className='like-btn'>
-                    <i className="far fa-heart"></i>
-                    <div className='waiting-list' onClick={this.clickMobilePlayer.bind(this)}>
-                      <Link to='/musicqueue'>
-                        <i className="fas fa-bars"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__center'>
-                <div className='container'>
-                  <div className='player-controls__btns'>
-                    <div onClick={this.clickRamdom.bind(this)}><i className={playMode === 'random' ? "fas fa-random green" : "fas fa-random"}></i></div>
-                    <div onClick={this.clickPrevious.bind(this)}><i className="fas fa-step-backward"></i></div>
-                    <div className='play-btn' onClick={this.play}><i className={!this.state.play ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
-                    <div onClick={this.clickNext.bind(this)}><i className="fas fa-step-forward"></i></div>
-                    <div onClick={this.clickLoop.bind(this)}><i className={playMode === 'loop' ? "fas fa-retweet green" : "fas fa-retweet"}></i></div>
-                  </div>
-                  <div className='playback-bar'>
-                    <div className='progress-time'>{currentTime}</div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='timeline' onClick={this.mobileMouseMove} ref={this.mobile__timeline}>
-                          <div className='running-time' ref={this.mobile__runningTime}></div>
-                          <div className='handle' onMouseDown={this.mobileMouseDown} ref={this.mobile__handle}></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='song-length'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].length : songs[randomIndex].length}</div>
-                  </div>
-                </div>
-              </div>
-              <div className='now-playing-bar__right'>
-                <div className='container'>
-                  <div className='waiting-list' onClick={this.clickMobilePlayer.bind(this)}>
-                    <Link to='/musicqueue'>
-                      <i className="fas fa-bars"></i>
-                    </Link>
-                  </div>
-                  <div className='volume-bar'>
-                    <div className='volume-btn'>
-                      <i className="fas fa-volume-up"></i>
-                    </div>
-                    <div className='progress-bar'>
-                      <div className='container'>
-                        <div className='volume' onClick={this.mobileVolumeMove} ref={this.mobile__volume}>
-                          <div className='handle__volume' onMouseDown={this.mobileMouseDownVolume} ref={this.mobile__handle__volume}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='mobile-close-btn' onClick={this.clickMobilePlayer.bind(this)}><i className="fas fa-chevron-down"></i></div>
+              <PlayerLeftController data={data__player__left__controls} device={'mobile'}/>
+              <PlayerCenterController data={data__player__center__controls} device={'mobile'}/>
+              <div className='mobile-close-btn' onClick={this.clickMobilePlayer}><i className="fas fa-chevron-down"></i></div>
             </div>
           </div>
         </div>
@@ -439,11 +269,11 @@ class MusicPlayer extends React.Component {
   }
   play() {
     let audio = this.audio.current
-    if (this.state.play) {
+    if (this.state.playState) {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
-          play: false
+          playState: false
         }
         return newState
       })
@@ -452,7 +282,7 @@ class MusicPlayer extends React.Component {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
-          play: true
+          playState: true
         }
         return newState
       })
@@ -558,37 +388,6 @@ class MusicPlayer extends React.Component {
       mobile__runningTime.style.width = mobile__timelineWidth + 'px'
     }
   }
-  mobileVolumeHandle(position) {
-    let mobile__volume = this.mobile__volume.current
-    let mobile__volumeLeft = mobile__volume.getBoundingClientRect()
-    let mobile__handle__volume = this.mobile__handle__volume.current
-    let volumeWidth = mobile__volume.offsetWidth - mobile__handle__volume.offsetWidth
-    let mobile__handle__volumeLeft = position - mobile__volumeLeft.left
-
-    if (mobile__handle__volumeLeft > 0 && mobile__handle__volumeLeft <= volumeWidth) {
-      mobile__handle__volume.style.marginRight = (volumeWidth - mobile__handle__volumeLeft + 12) + 'px'
-    }
-    if (mobile__handle__volumeLeft < 0) {
-      mobile__handle__volume.style.marginRight = volumeWidth + 'px'
-    }
-    if (mobile__handle__volumeLeft > volumeWidth) {
-      mobile__handle__volume.style.marginRight = '0px'
-    }
-  }
-  mobileVolumeMove(e) {
-    let audio = this.audio.current
-    let mobile__volume = this.mobile__volume.current
-    let mobile__volumeLeft = mobile__volume.getBoundingClientRect()
-
-    this.mobileVolumeHandle(e.pageX)
-    let sound = ((e.pageX - mobile__volumeLeft.left) / mobile__volume.offsetWidth).toFixed(1)
-    if (sound <= 1) {
-      audio.volume = sound
-    }
-    else {
-      audio.volume = 1
-    }
-  }
   mobileMouseMove(e) {
     let audio = this.audio.current
     let mobile__timeline = this.mobile__timeline.current
@@ -604,14 +403,6 @@ class MusicPlayer extends React.Component {
     window.addEventListener('mousemove', this.mobileMouseMove);
     window.addEventListener('mouseup', this.mobileMouseUp);
   };
-  mobileMouseUpVolume(e) {
-    window.removeEventListener('mousemove', this.mobileVolumeMove);
-    window.removeEventListener('mouseup', this.mobileMouseUpVolume);
-  }
-  mobileMouseDownVolume(e) {
-    window.addEventListener('mousemove', this.mobileVolumeMove);
-    window.addEventListener('mouseup', this.mobileMouseUpVolume);
-  }
   clickNext() {
     let { playNext } = this.props
     let { playMode } = this.state
@@ -625,7 +416,7 @@ class MusicPlayer extends React.Component {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
-          play: true
+          playState: true
         }
         return newState
       })
@@ -644,7 +435,7 @@ class MusicPlayer extends React.Component {
       this.setState((currentState) => {
         let newState = {
           ...currentState,
-          play: true
+          playState: true
         }
         return newState
       })
@@ -717,7 +508,7 @@ class MusicPlayer extends React.Component {
       let newState = {
         ...currentState,
         randomIndex: setIndex,
-        play: true,
+        playState: true,
       }
       return newState
     })
@@ -756,13 +547,33 @@ class MusicPlayer extends React.Component {
     let history = window.history
     history.back()
   }
+  changeCurrentTimeFormat(currentTime) {
+    if (currentTime === 0) {
+      currentTime = '0:00'
+      return currentTime
+    }
+    else if (currentTime < 10) {
+      currentTime = '0:0' + currentTime
+      return currentTime
+    }
+    else if (currentTime >= 10 && currentTime < 60) {
+      currentTime = '0:' + currentTime
+      return currentTime
+    }
+    else {
+      let seconds = Math.floor(currentTime % 60)
+      if (seconds < 10) seconds = '0' + seconds
+      currentTime = Math.floor(currentTime / 60).toString() + ':' + seconds
+      return currentTime
+    }
+  }
 }
 class MobileBar extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    let { clickMobilebar } = this.props.data
+    let { clickMobilebar } = this.props.data.function
     return (
       <div className='mobile-bar'>
         <div className='show' onClick={clickMobilebar}><i className="fas fa-angle-left"></i></div>
@@ -772,41 +583,250 @@ class MobileBar extends React.Component {
     )
   }
 }
-class CenterController extends React.Component {
+class PlayerLeftController extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    let { play, clickMobilePlayer, clickRamdom, clickPrevious, clickNext, clickLoop, mouseMove, mouseDown, volumeMove, mouseDownVolume } = this.props.data.function
-    let { playState, playMode, currentTime } = this.props.data.state
-    let { timeline, runningTime, handle, volume, volume__line, handle__volume } = this.props.data.ref
+    let { data, device } = this.props
+    let { clickMobilePlayer } = data.function
+    let { playMode, playlist, randomIndex } = data.state
+    let isWeb = (device === 'web')
+    let isMobile = (device === 'mobile')
+    let hasData = (playlist.length>0)
+    if (hasData) {
+      let { photoUrl, songs, playIndex } = playlist[0]
+      if (isWeb) {
+        return (
+          <div className='now-playing-bar__left' onClick={clickMobilePlayer}>
+            <div className='container'>
+              <div className='album'>
+                <img src={photoUrl} />
+              </div>
+              <div className='song-inform'>
+                <div className='name'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].name : songs[randomIndex].name}</div>
+                <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
+              </div>
+              <div className='like-btn'>
+                <i className="far fa-heart"></i>
+              </div>
+            </div>
+          </div>
+        )
+      }
+      if (isMobile) {
+        return (
+          <div className='now-playing-bar__left'>
+            <div className='container'>
+              <div className='album'>
+                <img src={photoUrl} />
+              </div>
+              <div className='song-inform'>
+                <div className='name'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].name : songs[randomIndex].name}</div>
+                <div className='singer'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].singer : songs[randomIndex].singer}</div>
+              </div>
+              <div className='like-btn'>
+                <i className="far fa-heart"></i>
+                <div className='waiting-list' onClick={clickMobilePlayer}>
+                  <Link to='/musicqueue'>
+                    <i className="fas fa-bars"></i>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      } 
+    }
+    else {
+      return (
+        <div className='now-playing-bar__left'>
+          <div className='container'>
+            <div className='album'>
+              <img src="https://i.scdn.co/image/ab67616d000048513d0ffcf6ee624625158fa352" />
+            </div>
+            <div className='song-inform'>
+              <div className='name'>太陽</div>
+              <div className='singer'>邱振哲</div>
+            </div>
+            <div className='like-btn'>
+              <i className="far fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
+} 
+class PlayerCenterController extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { data, device } = this.props
+    let { play, clickRamdom, clickPrevious, clickNext, clickLoop } = data.function
+    let { playState, playMode } = data.state
+    let { data__progressbar } = data.childData
     return (
       <div className='now-playing-bar__center'>
         <div className='container'>
           <div className='player-controls__btns'>
-            <div><i className="fas fa-random"></i></div>
-            <div><i className="fas fa-step-backward"></i></div>
-            <div onClick={play}><i className={!playState ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
+            <div onClick={clickRamdom}><i className={playMode === 'random' ? "fas fa-random green" : "fas fa-random"}></i></div>
+            <div onClick={clickPrevious}><i className="fas fa-step-backward"></i></div>
+            <div className='play-btn' onClick={play}><i className={!playState ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
             <div onClick={clickNext}><i className="fas fa-step-forward"></i></div>
-            <div><i className="fas fa-retweet"></i></div>
+            <div onClick={clickLoop}><i className={playMode === 'loop' ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
           </div>
-          <div className='playback-bar'>
-            <div className='progress-time'>0:00</div>
-            <div className='progress-bar'>
-              <div className='container'>
-                <div className='timeline' onClick={mouseMove} ref={timeline}>
-                  <div className='running-time' ref={runningTime}></div>
-                  <div className='handle' onMouseDown={mouseDown} ref={handle}></div>
-                </div>
+          <ProgressBar data={data__progressbar} device={device} />
+        </div>
+      </div>
+    )
+  }
+}
+class PlayerRightController extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { data, device } = this.props
+    let { data__volume__controls } = data.childData
+    let { playQueueState } = data.state
+    let { changePlayQueue, goBack } = data.function
+    let isWeb = (device === 'web')
+    let isMobile = (device === 'mobile')
+    let playQueueIsClosed = !playQueueState
+    let playQueue = []
+
+    if (playQueueIsClosed && isWeb) {
+      playQueue = <Link to='/musicqueue' onClick={changePlayQueue}>
+        <i className="fas fa-bars"></i>
+      </Link>
+    }
+    else {
+      playQueue = <div onClick={goBack}>
+        <i className="fas fa-bars"></i>
+      </div>
+    }
+    if (isWeb) {
+      return (
+        <div className='now-playing-bar__right'>
+          <div className='container'>
+            <div className='waiting-list'>
+              {playQueue}
+            </div>
+            <PlayerVolumeController data={data__volume__controls} />
+          </div>
+        </div>
+      )
+    }
+  }
+} 
+class NowPlayingBar extends React.Component {
+
+}
+class ProgressBar extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  render() {
+    let { data } = this.props
+    let { timeline, handle, runningTime, mobile__timeline, mobile__handle, mobile__runningTime } = data.ref
+    let { mouseMove, mouseDown, mobileMouseDown, mobileMouseMove } = data.function
+    let { playMode, playlist, currentTime, randomIndex } = data.state
+    let { device } = this.props
+    let isWeb = (device === 'web')
+    let isMobile = (device === 'mobile')
+    let hasData = playlist.length > 0
+    if (isWeb && hasData) {
+      let { songs, playIndex } = playlist[0]
+      return (
+        <div className='playback-bar'>
+          <div className='progress-time'>{currentTime}</div>
+          <div className='progress-bar'>
+            <div className='container'>
+              <div className='timeline' onClick={mouseMove} ref={timeline}>
+                <div className='running-time' ref={runningTime}></div>
+                <div className='handle' onMouseDown={mouseDown} ref={handle}></div>
               </div>
             </div>
-            <div className='song-length'>4:22</div>
+          </div>
+          <div className='song-length'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].length : songs[randomIndex].length}</div>
+        </div>
+      )
+    }
+    if (isMobile && hasData) {
+      let { songs, playIndex } = playlist[0]
+      return (
+        <div className='playback-bar'>
+          <div className='progress-time'>{currentTime}</div>
+          <div className='progress-bar'>
+            <div className='container'>
+              <div className='timeline' onClick={mobileMouseMove} ref={mobile__timeline}>
+                <div className='running-time' ref={mobile__runningTime}></div>
+                <div className='handle' onMouseDown={mobileMouseDown} ref={mobile__handle}></div>
+              </div>
+            </div>
+          </div>
+          <div className='song-length'>{playMode === 'normal' || playMode === 'loop' ? songs[playIndex].length : songs[randomIndex].length}</div>
+        </div>
+      )
+    }
+    if (isWeb) {
+      return (
+        <div className='playback-bar'>
+          <div className='progress-time'>0:00</div>
+          <div className='progress-bar'>
+            <div className='container'>
+              <div className='timeline' onClick={mouseMove} ref={timeline}>
+                <div className='running-time' ref={runningTime}></div>
+                <div className='handle' onMouseDown={mouseDown} ref={handle}></div>
+              </div>
+            </div>
+          </div>
+          <div className='song-length'>4:22</div>
+        </div>
+      )
+    }
+    if (isMobile) {
+      return (
+        <div className='playback-bar'>
+          <div className='progress-time'>0:00</div>
+          <div className='progress-bar'>
+            <div className='container'>
+              <div className='timeline' onClick={mobileMouseMove} ref={mobile__timeline}>
+                <div className='running-time' ref={mobile__runningTime}></div>
+                <div className='handle' onMouseDown={mobileMouseDown} ref={mobile__handle}></div>
+              </div>
+            </div>
+          </div>
+          <div className='song-length'>4:22</div>
+        </div>
+      )
+    }
+  }
+}
+class PlayerVolumeController extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { volumeMove, mouseDownVolume } = this.props.data.function
+    let { volume, volume__line, handle__volume } = this.props.data.ref
+    return (
+      <div className='volume-bar'>
+        <div className='volume-btn'>
+          <i className="fas fa-volume-up"></i>
+        </div>
+        <div className='progress-bar'>
+          <div className='container'>
+            <div className='volume' onClick={volumeMove} ref={volume}>
+              <div className='volume-line' ref={volume__line}></div>
+              <div className='handle__volume' onMouseDown={mouseDownVolume} ref={handle__volume}></div>
+            </div>
           </div>
         </div>
       </div>
     )
   }
 }
-
-
 export default MusicPlayer
