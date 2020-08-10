@@ -543,7 +543,7 @@ class MusicPlayer extends React.Component {
     history.back()
   }
   changeCurrentTimeFormat(currentTime) {
-    if (currentTime === 0) {
+    if (currentTime === 0 || currentTime === null || currentTime === '' || currentTime === true || currentTime === false) {
       currentTime = '0:00'
       return currentTime
     }
@@ -861,4 +861,6 @@ class PlayerVolumeController extends React.Component {
     )
   }
 }
-export default MusicPlayer
+const timeFormat = MusicPlayer.prototype.changeCurrentTimeFormat
+export { timeFormat, MobileBar, MusicPlayer as default }
+
