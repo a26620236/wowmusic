@@ -6,9 +6,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import HeaderSearch from './header-search'
+import HeaderSearch from './headerSearch'
 import CategoryList from './categoryList'
-import MusicPlayer from './musicplayer'
+import MusicPlayer from './musicPlayer'
 import { db, firebase } from '../static/js/firebase'
 
 class Search extends React.Component {

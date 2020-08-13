@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Header from './header-normal'
+import Header from './headerNormal'
 import AlbumCard from './albumCard'
 import { db, firebase, storage } from '../static/js/firebase'
 

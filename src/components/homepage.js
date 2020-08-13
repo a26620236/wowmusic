@@ -8,9 +8,9 @@ import {
   Redirect
 } from "react-router-dom"
 import Navbar from './navbar'
-import Header from './header-normal'
+import Header from './headerNormal'
 import AlbumList from './albumList'
-import MusicPlayer from './musicplayer'
+import MusicPlayer from './musicPlayer'
 import Search from './search'
 import MyMusic from './mymusic'
 import { Playlist } from './playlist'
