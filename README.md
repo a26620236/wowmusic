@@ -30,7 +30,7 @@ Test User: test@gmail.com Password: 123456
 ### Add albums to favorite 
 ![](https://i.imgur.com/sWdhhjV.gif)
 ### Designed different layouts for better mobile experience
-![](https://i.imgur.com/h5F4A04.gif)
+![](https://i.imgur.com/Gv5wqt4.gif)
 ## Plan for Next Version
 - Allow user to add song to favorite
 - Optimize admin page layout
