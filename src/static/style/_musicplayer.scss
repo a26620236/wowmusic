@@ -84,7 +84,7 @@
                 }
               }
               .green {
-                color: #1DB954;
+                color: #1db954;
               }
             }
             .playback-bar {
@@ -109,7 +109,7 @@
                     position: relative;
                     .running-time {
                       height: 100%;
-                      background-color: #1DB954;
+                      background-color: #1db954;
                     }
                     .handle {
                       width: 12px;
@@ -129,7 +129,15 @@
           color: #b3b3b3;
           .container {
             display: flex;
+            .lyric {
+              color: #b3b3b3;
+              &:hover {
+                color: #ffffff;
+                cursor: pointer;
+              }
+            }
             .waiting-list {
+              margin-left: 18px;
               a {
                 text-decoration: none;
                 color: #b3b3b3;
@@ -174,16 +182,16 @@
                     .volume-line {
                       height: 100%;
                       width: 84px;
-                      background-color: #1DB954;
+                      background-color: #1db954;
                     }
                     .handle__volume {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    position: absolute;
-                    right: -6px;
-                    background-color: #b3b3b3;
-                  }
+                      width: 12px;
+                      height: 12px;
+                      border-radius: 50%;
+                      position: absolute;
+                      right: -6px;
+                      background-color: #b3b3b3;
+                    }
                   }
                 }
               }
@@ -311,7 +319,7 @@
                 }
               }
               .green {
-                color: #1DB954;
+                color: #1db954;
               }
             }
             .playback-bar {
@@ -544,7 +552,7 @@
                 }
               }
               .green {
-                color: #1DB954;
+                color: #1db954;
               }
             }
             .playback-bar {
@@ -577,7 +585,7 @@
                     position: relative;
                     .running-time {
                       height: 100%;
-                      background-color: #1DB954;
+                      background-color: #1db954;
                     }
                     .handle {
                       width: 12px;

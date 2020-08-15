@@ -7,6 +7,7 @@ import {
   Link
 } from "react-router-dom";
 import { db, firebase, storage } from '../static/js/firebase'
+import Lyricplayer from './lyricsPlayer'
 
 class MusicPlayer extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class MusicPlayer extends React.Component {
     this.clickRamdom = this.clickRamdom.bind(this)
     this.clickLoop = this.clickLoop.bind(this)
     this.goBack = this.goBack.bind(this)
+    this.clickLyric = this.clickLyric.bind(this)
 
     //mobile
     this.clickMobilePlayer = this.clickMobilePlayer.bind(this)
@@ -250,6 +252,7 @@ class MusicPlayer extends React.Component {
       return (
         <div className='musicplayer'>
           <audio src={isNormalMode || isLoopMode ? playNormal : playRandom} ref={this.audio} autoPlay={playState? true:false} />
+          {/* <Lyricplayer clickLyric={this.clickLyric}/> */}
           <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
             <MobileBar data={data__mobilebar} />
             <NowPlayingBar data={data__playing__bar} device={'web'}/>
@@ -562,6 +565,11 @@ class MusicPlayer extends React.Component {
       return currentTime
     }
   }
+  clickLyric(e) {
+    let audio = this.audio.current
+    let value = e.target.getAttribute('time')
+    audio.currentTime = value
+  }
 }
 class MobileBar extends React.Component {
   constructor(props) {
@@ -671,6 +679,7 @@ class PlayerCenterController extends React.Component {
     let { playState, playMode } = data.state
     let { data__progressbar } = data.childData
     let isRandomMode = (playMode === 'random')
+    let isLoopMode = (playMode === 'loop')
     
     return (
       <div className='now-playing-bar__center'>
@@ -680,7 +689,7 @@ class PlayerCenterController extends React.Component {
             <div onClick={clickPrevious}><i className="fas fa-step-backward"></i></div>
             <div className='play-btn' onClick={play}><i className={!playState ? "far fa-play-circle" : "far fa-pause-circle"}></i></div>
             <div onClick={clickNext}><i className="fas fa-step-forward"></i></div>
-            <div onClick={clickLoop}><i className={isRandomMode ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
+            <div onClick={clickLoop}><i className={isLoopMode ? "fas fa-retweet green" : "fas fa-retweet"} ></i></div>
           </div>
           <ProgressBar data={data__progressbar} device={device} />
         </div>
@@ -704,7 +713,7 @@ class PlayerRightController extends React.Component {
     if (playQueueIsClosed && isWeb) {
       playQueue = <Link to='/musicqueue' onClick={changePlayQueue}>
         <i className="fas fa-bars"></i>
-      </Link>
+      </Link>  
     }
     else {
       playQueue = <div onClick={goBack}>
@@ -715,6 +724,9 @@ class PlayerRightController extends React.Component {
       return (
         <div className='now-playing-bar__right'>
           <div className='container'>
+            {/* <div className='lyric'>
+              <i class="fas fa-music"></i>
+            </div> */}
             <div className='waiting-list'>
               {playQueue}
             </div>

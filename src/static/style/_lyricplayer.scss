@@ -1,0 +1,32 @@
+@media (min-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  .lyricplayer {
+    height: 91vh;
+    font-family: Microsoft JhengHei;
+    width: 100%;
+    overflow-y: hidden;
+    transition-duration: 600ms;/*滚动速度*/
+    .lyric {
+      div {
+        padding: 8px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        &:hover {
+          background-color: #5C5C5C;
+          cursor: pointer;
+        }
+      }
+      .highlight {
+        background-color: #5C5C5C;
+      }
+    }
+  }
+}
