@@ -20,7 +20,7 @@ class HeaderSearch extends React.Component {
           <div className='page-btns'>
             <div onClick={this.goBack.bind(this)}>&#10094;</div>
             <div onClick={this.goNext.bind(this)}>&#10095;</div>
-            <input placeholder='搜尋藝人或歌曲' />
+            {/* <input placeholder='搜尋藝人或歌曲' /> */}
           </div>
           <div className='users'>
             <div>{user.username}</div>

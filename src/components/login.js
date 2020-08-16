@@ -13,8 +13,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email:'',
-      password:''
+      email:'test@gmail.com',
+      password:'123456'
     }
   }
   render() {
@@ -27,8 +27,8 @@ class SignIn extends React.Component {
             <div className='fb-login'></div>
             <div className='cuttingline'></div>
             <div className='inform'>
-              <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} /></div>
-              <div><input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)} /></div>
+              <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} value='test@gmail.com'/></div>
+              <div><input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)} value='123456'/></div>
               <div onClick={this.onSubmit.bind(this)}>登入</div>
             </div>
             <div className='footer'><Link to='/signup'>還沒有 wowmusic 帳號 ?</Link></div>

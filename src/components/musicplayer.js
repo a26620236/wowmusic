@@ -619,7 +619,7 @@ class PlayerLeftController extends React.Component {
                 <div className='singer'>{isNormalMode || isLoopMode ? singer__normal : singer__random}</div>
               </div>
               <div className='like-btn'>
-                <i className="far fa-heart"></i>
+                {/* <i className="far fa-heart"></i> */}
               </div>
             </div>
           </div>
@@ -637,7 +637,7 @@ class PlayerLeftController extends React.Component {
                 <div className='singer'>{isNormalMode || isLoopMode ? singer__normal : singer__random}</div>
               </div>
               <div className='like-btn'>
-                <i className="far fa-heart"></i>
+                {/* <i className="far fa-heart"></i> */}
                 <div className='waiting-list' onClick={clickMobilePlayer}>
                   <Link to='/musicqueue'>
                     <i className="fas fa-bars"></i>
@@ -661,7 +661,7 @@ class PlayerLeftController extends React.Component {
               <div className='singer'>邱振哲</div>
             </div>
             <div className='like-btn'>
-              <i className="far fa-heart"></i>
+              {/* <i className="far fa-heart"></i> */}
             </div>
           </div>
         </div>

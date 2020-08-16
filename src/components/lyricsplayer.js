@@ -26,7 +26,7 @@ class Lyricplayer extends React.Component {
     let { clickLyric } = this.props
     let {　ms } = this.state
     let arr = []
-    for (let i in ms) {//遍历ms数组，把歌词加入列表
+    for (let i in ms) {//把歌詞加入列表
       let innerText = <div key={i} time={ms[i].t} onClick={clickLyric}>{ms[i].c}</div>
       arr.push(innerText)
     }
@@ -121,18 +121,18 @@ class Lyricplayer extends React.Component {
     let oLRC = {
       ti: "", //歌曲名
       ar: "", //演唱者
-      al: "", //专辑名
-      by: "", //歌词制作人
-      offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
-      ms: [] //歌词数组{t:时间,c:歌词}
+      al: "", //專輯名
+      by: "", //歌詞制作人
+      offset: 0, //時間補償值，單位毫秒，用於調整歌詞整體位置
+      ms: [] //歌詞陣列{t:時間,c:歌詞}
     };
     let lrc = this.lyric__content.current.innerText
     if (lrc.length == 0) return;
-    let lrcs = lrc.split('*');//用回车拆分成数组
-    for (let i in lrcs) {//遍历歌词数组
-      lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前后空格
-      let t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"));//取[]间的内容
-      let s = t.split(":");//分离:前后文字
+    let lrcs = lrc.split('*');//用 * 拆分成数组
+    for (let i in lrcs) {//歌詞
+      lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前後空格
+      let t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"));//取[]間的内容
+      let s = t.split(":");//分離:前后文字
       if (isNaN(parseInt(s[0]))) { //不是数值
         for (let i in oLRC) {
           if (i != "ms" && i == s[0].toLowerCase()) {
@@ -143,24 +143,24 @@ class Lyricplayer extends React.Component {
         let arr = lrcs[i].match(/\[(\d+:.+?)\]/g);//提取时间字段，可能有多个
         let start = 0;
         for (let k in arr) {
-          start += arr[k].length; //计算歌词位置
+          start += arr[k].length; //計算歌詞位置
         }
-        let content = lrcs[i].substring(start);//获取歌词内容
+        let content = lrcs[i].substring(start);//獲取歌詞內容
         for (let k in arr) {
-          let t = arr[k].substring(1, arr[k].length - 1);//取[]间的内容
-          let s = t.split(":");//分离:前后文字
-          oLRC.ms.push({//对象{t:时间,c:歌词}加入ms数组
+          let t = arr[k].substring(1, arr[k].length - 1);//取[]間的内容
+          let s = t.split(":");//分離:前後文字
+          oLRC.ms.push({//將{t:时间,c:歌词}加入ms数组
             t: (parseFloat(s[0]) * 60 + parseFloat(s[1])).toFixed(3),
             c: content
           });
         }
       }
     }
-    oLRC.ms.sort(function (a, b) {//按时间顺序排序
+    oLRC.ms.sort(function (a, b) {//按時間順序排序
       return a.t - b.t;
     });
     /*
-    for(let i in oLRC){ //查看解析结果
+    for(let i in oLRC){ //查看解析結果
         console.log(i,":",oLRC[i]);
     }*/
     this.setState((currentState) => {
