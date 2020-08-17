@@ -4,7 +4,7 @@ A digital music service accessing to millions of songs. With WOWMUSIC , it’s 
 ![](https://i.imgur.com/mZbxjuZ.png)
 ## Demo
 https://wowmusic.zonghan-wu.com
-Test User: test@gmail.com Password: 123456
+User: test@gmail.com Password: 123456
 ## Technologies
 - Front-End Fundamental
     - HTML / CSS / JavaScript
@@ -13,6 +13,7 @@ Test User: test@gmail.com Password: 123456
 - Front-End Frameworks
     - React
     - React Router
+    - Redux
 - Firebase
     - Database
     - Storage
