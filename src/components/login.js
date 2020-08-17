@@ -8,6 +8,8 @@ import {
   Redirect
 } from "react-router-dom";
 import { db, firebase } from '../static/js/firebase'
+import { changeLoginStatus, checkIsAdmin, getUser } from '../actions/auth'
+import { connect } from 'react-redux';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -17,8 +19,18 @@ class SignIn extends React.Component {
       password:'123456'
     }
   }
+  componentDidMount() {
+    let { changeLoginStatus, checkIsAdmin, getUser } = this.props
+    let hasUser = JSON.parse(localStorage.getItem('user'))
+    if (hasUser) {
+      changeLoginStatus()
+      checkIsAdmin()
+      getUser()
+    }
+  }
   render() {
     let { isLogin } = this.props
+    let { email, password } = this.state
     if (!isLogin) {
       return (
         <div className='signin'>
@@ -27,8 +39,8 @@ class SignIn extends React.Component {
             <div className='fb-login'></div>
             <div className='cuttingline'></div>
             <div className='inform'>
-              <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} value='test@gmail.com'/></div>
-              <div><input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)} value='123456'/></div>
+              <div><input data-field='email' placeholder='使用wowmusic帳號登入' onChange={this.handleInput.bind(this)} value={email}/></div>
+              <div><input data-field='password' placeholder='密碼' type='password' onChange={this.handleInput.bind(this)} value={password}/></div>
               <div onClick={this.onSubmit.bind(this)}>登入</div>
             </div>
             <div className='footer'><Link to='/signup'>還沒有 wowmusic 帳號 ?</Link></div>
@@ -55,7 +67,7 @@ class SignIn extends React.Component {
   } 
   onSubmit() {
     let { email, password } = this.state
-    let { changeLoginStatus, checkIsAdmin } = this.props
+    let { changeLoginStatus, checkIsAdmin, getUser } = this.props
     
     firebase.auth().signInWithEmailAndPassword(email, password).then(
       () => {
@@ -71,8 +83,10 @@ class SignIn extends React.Component {
                     uid: user.uid,
                   }
                   localStorage.setItem('user', JSON.stringify(User))
+                  getUser()
                   checkIsAdmin()
                   changeLoginStatus()
+                  
                 }
                 else {
                   let User = {
@@ -82,6 +96,7 @@ class SignIn extends React.Component {
                   }
                   localStorage.setItem('user', JSON.stringify(User))
                   changeLoginStatus()
+                  getUser()
                 }
               })
             })
@@ -161,7 +176,7 @@ class SignUp extends React.Component {
   }
   onSubmit() {
     let { email, password, name, username, isAdmin } = this.state
-    let { changeLoginStatus, data } = this.props
+    let { changeLoginStatus, getUser, data } = this.props
     let { songs, photoUrl } = data[0]
     let album = data[0].name
     firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
@@ -192,6 +207,7 @@ class SignUp extends React.Component {
             uid: user.uid,
           }
           localStorage.setItem('user', JSON.stringify(User))
+          getUser()
           changeLoginStatus()
         })
         .catch(function (error) {
@@ -208,5 +224,19 @@ class SignUp extends React.Component {
     });
   }
 }
-
-export {SignUp, SignIn}
+const mapDispatchToProps = dispatch => {
+  return {
+    changeLoginStatus: () => dispatch(changeLoginStatus()),
+    checkIsAdmin: () => dispatch(checkIsAdmin()),
+    getUser: () => dispatch(getUser())
+  }
+}
+const mapStateToProps = state => {
+  return {
+    isLogin: state.auth.isLogin,
+    isAdmin: state.auth.isAdmin
+  }
+}
+const ConnectedSignIn = connect(mapStateToProps,mapDispatchToProps)(SignIn)
+const ConnectedSignUp = connect(mapStateToProps,mapDispatchToProps)(SignUp)
+export { ConnectedSignUp, ConnectedSignIn }

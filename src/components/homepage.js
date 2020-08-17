@@ -18,6 +18,7 @@ import Admin from './admin'
 import MusicQueue from './musicQueue'
 import Category from './category'
 import { db, firebase } from '../static/js/firebase'
+import { connect } from 'react-redux';
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -228,5 +229,12 @@ class Homepage extends React.Component {
     })
   }
 }
+const mapStateToProps = state => {
+  return {
+    isLogin: state.auth.isLogin,
+    isAdmin: state.auth.isAdmin,
+    user: state.auth.user
+  }
+}
 
-export { Homepage }
+export default connect(mapStateToProps)(Homepage)
