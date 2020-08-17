@@ -3,7 +3,7 @@ A digital music service accessing to millions of songs. With WOWMUSIC , it’s 
 
 ![](https://i.imgur.com/mZbxjuZ.png)
 ## Demo
-https://wowmusic.zonghan-wu.com
+https://wowmusic.zonghan-wu.com  
 User: test@gmail.com Password: 123456
 ## Technologies
 - Front-End Fundamental
