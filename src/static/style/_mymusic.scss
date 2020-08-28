@@ -71,6 +71,30 @@
       }
     }
   }
+  .isloading {
+    height: 900px;
+    background-color: black;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      div {
+        &:nth-child(1) {
+          display: flex;
+        }
+      }
+      color: #ffffff;
+    }
+    .mymusic-wrapper {
+      .banner {
+        background: rgb(77, 77, 77);
+        background: linear-gradient(-180deg, rgba(77, 77, 77, 1) 12%, rgba(74, 74, 74, 1) 40%, rgba(42, 42, 42, 1) 75%);
+        font-size: 70px;
+        padding: 50px 30px 40px;
+        font-weight: 900;
+        color: #ffffff;
+      }
+    }
+  }
 }
 @media (max-width: 500px) {
   body {

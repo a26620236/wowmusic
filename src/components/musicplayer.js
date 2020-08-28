@@ -252,7 +252,8 @@ class MusicPlayer extends React.Component {
       return (
         <div className='musicplayer'>
           <audio src={isNormalMode || isLoopMode ? playNormal : playRandom} ref={this.audio} autoPlay={playState? true:false} />
-          {/* <Lyricplayer clickLyric={this.clickLyric}/> */}
+          {/* <Lyricplayer clickLyric={this.clickLyric}/> 
+          可以用 scrollTop 操作 或者改變 scroll css */}
           <div className={mobileBarState ? 'player-container' : 'player-container-closed'}>
             <MobileBar data={data__mobilebar} />
             <NowPlayingBar data={data__playing__bar} device={'web'}/>

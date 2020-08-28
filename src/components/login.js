@@ -23,9 +23,10 @@ class SignIn extends React.Component {
     let { changeLoginStatus, checkIsAdmin, getUser } = this.props
     let hasUser = JSON.parse(localStorage.getItem('user'))
     if (hasUser) {
+      getUser()
       changeLoginStatus()
       checkIsAdmin()
-      getUser()
+      
     }
   }
   render() {
@@ -86,7 +87,6 @@ class SignIn extends React.Component {
                   getUser()
                   checkIsAdmin()
                   changeLoginStatus()
-                  
                 }
                 else {
                   let User = {
@@ -95,8 +95,8 @@ class SignIn extends React.Component {
                     uid: user.uid
                   }
                   localStorage.setItem('user', JSON.stringify(User))
-                  changeLoginStatus()
                   getUser()
+                  changeLoginStatus()
                 }
               })
             })

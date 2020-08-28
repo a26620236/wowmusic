@@ -71,6 +71,20 @@
       }
     }
   }
+  .isloading {
+    height: 900px;
+    background-color: black;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      div {
+        &:nth-child(1) {
+          display: flex;
+        }
+      }
+      color: #ffffff;
+    }
+  }
 }
 @media (max-width: 500px) {
   body {

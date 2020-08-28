@@ -42,7 +42,7 @@ class Albumlist extends React.Component {
     }
     else {
       return (
-        <div>isLoading</div>
+        <div className='isLoading'></div>
       )
     }
   }

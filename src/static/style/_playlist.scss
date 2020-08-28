@@ -176,6 +176,10 @@
       }
     }
   }
+  .isloading {
+    height: 100vh;
+    background-color: black;
+  }
 }
 @media (max-width: 500px) {
   body {

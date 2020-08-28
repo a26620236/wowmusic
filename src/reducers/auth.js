@@ -11,6 +11,7 @@ const initialState = {
 }
 
 export function auth(state=initialState, action) {
+  console.log(state,action)
   switch (action.type) {
     case USER__ISLOGIN:
       return ({

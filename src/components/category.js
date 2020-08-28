@@ -58,7 +58,9 @@ class Category extends React.Component {
     }
     else {
       return (
-        <div>isLoading</div>
+        <div className='isloading'>
+          <Header isLogin={isLogin} isAdmin={isAdmin} user={user} />
+        </div>
       )
     }
   }

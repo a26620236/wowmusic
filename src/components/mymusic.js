@@ -58,7 +58,12 @@ class MyMusic extends React.Component {
     }
     else {
       return (
-        <div>isLoading</div>
+        <div className='isloading'>
+          <Header isLogin={isLogin} isAdmin={isAdmin} user={user} />
+          <div className='mymusic-wrapper'>
+            <div className='banner'>我的收藏</div>
+          </div>
+        </div>
       )
     }
   }

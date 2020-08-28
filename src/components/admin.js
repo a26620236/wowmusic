@@ -35,7 +35,7 @@ class Admin extends React.Component {
             <div className='wrapper'>
               <div className='album-inform'>
                 <div className='inputbox'>
-                  歌單名稱:
+                  歌單:
                   <input data-field='playlist__name' onChange={this.handleInput.bind(this)}></input>
                 </div>
                 <div className='inputbox'>
@@ -47,8 +47,8 @@ class Admin extends React.Component {
                   <input data-field='playlist__desc' onChange={this.handleInput.bind(this)}></input>
                 </div>
                 <div className='inputbox'>
-                  封面相片:
-                  <input type='file' data-field='photo__file' onChange={this.handleInputFile.bind(this)}></input>
+                  相片:
+                  <input type='file' data-field='photo__file' accept="image/png, image/jpeg" onChange={this.handleInputFile.bind(this)}></input>
                 </div>
                 <div className='submit' onClick={this.addAlbum.bind(this)}>送出</div>
               </div>
@@ -59,28 +59,28 @@ class Admin extends React.Component {
           <div className='list-header'>新增歌曲</div>
           <div className='list-body'>
             <div className='inputbox'>
-              歌單名稱:
+              歌單:
               <input data-field='select__playlist' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
-              歌曲一:
+              歌曲:
               <input data-field='song__name' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
-              演唱者:
+              演唱:
               <input data-field='song__singer' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
-              專輯名稱:
+              專輯:
               <input data-field='song__album' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
-              歌曲長度:
+              歌長:
               <input data-field='song__length' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
               檔案:
-              <input type='file' data-field='song__file' onChange={this.handleInputFile.bind(this)} ></input>
+              <input type='file' data-field='song__file' accept="audio/*" onChange={this.handleInputFile.bind(this)} ></input>
             </div>
             <div className='submit' onClick={this.addSong.bind(this)}>送出</div>
           </div>
@@ -89,12 +89,12 @@ class Admin extends React.Component {
           <div className='list-header'>新增分類</div>
           <div className='list-body'>
             <div className='inputbox'>
-              分類名稱:
+              分類:
               <input data-field='select__category' onChange={this.handleInput.bind(this)}></input>
             </div>
             <div className='inputbox'>
-              封面照片:
-              <input type='file' data-field='category__file' onChange={this.handleInputFile.bind(this)} ></input>
+              照片:
+              <input type='file' data-field='category__file' accept="image/png, image/jpeg" onChange={this.handleInputFile.bind(this)} ></input>
             </div>
             <div className='submit' onClick={this.addCategory.bind(this)}>送出</div>
           </div>

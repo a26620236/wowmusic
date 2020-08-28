@@ -172,4 +172,7 @@ class Lyricplayer extends React.Component {
     })
   }
 }
+
 export default Lyricplayer
+
+

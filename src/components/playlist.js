@@ -86,7 +86,7 @@ class Playlist extends React.Component {
     }
     else {
       return (
-        <div>isLoading</div>
+        <div className='isloading'></div>
       )
     }
   }
